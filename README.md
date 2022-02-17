@@ -3,7 +3,7 @@
 Ini adalah repository untuk proyek e-office.
 
 Team:
-- Braina Tirta Mulya
+- Braina Mulya Tritama
 - Naufal Adriansyah
 
 Februari, 2022
