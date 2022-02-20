@@ -21,6 +21,7 @@ class AuthController extends Controller {
 
     if (!$validator->fails()) {
       $user = User::create([
+        'id' => $r->nipp,
         'name' => $r->name,
         'password' => Hash::make($r->password),
         'email' => $r->email,
@@ -44,20 +45,18 @@ class AuthController extends Controller {
   public function login(Request $r) {
     $data = [];
 
-    if (!Auth::attempt($r->only('username', 'password'))) {
+    if (!Auth::attempt($r->only('email', 'password'))) {
       $data = Response::pretty(401, 'Failed', 'Unauthorized');
     }
     
-    $user = User::where('username', $r->username)->firstOrFail();
+    $user = User::where('email', $r->email)->firstOrFail();
     $token = $user->createToken('auth_token')->plainTextToken;
-    
-    $data = Response::pretty(200, 'Success', 'Data has been created', [
+
+    return Response::pretty(200, 'Success', 'Data has been created', [
       'user' => $user,
       'access_token' => $token,
       'token_type' => 'Bearer'
     ]);
-
-    return $data;
   }
 
   public function logout() {
