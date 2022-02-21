@@ -11,8 +11,6 @@ class MailController extends Controller {
   public function create(Request $r) {
     $data = [];
 
-    // dd($r);
-
     $validator = Validator::make($r->all(), [
       'subject' => "string|required|min:3|max:255",
       'description' => 'string|required|min:3'
@@ -44,7 +42,7 @@ class MailController extends Controller {
   public function readAll(Request $r) {
     $mails = Mail::where('created_by', auth()->user()->id)
       ->where('is_active', true)
-      ::all();
+      ->get();
 
     return Response::pretty(200, 'Success', 'Data available', $mails);
   }
@@ -72,9 +70,9 @@ class MailController extends Controller {
     $mail->is_active = false;
     
     if ($mail->save()) {
-      return Response::pretty(200, 'Success', 'Data has been updated', $mail);
+      return Response::pretty(200, 'Success', 'Data has been updated', null);
     } else {
-      return Response::pretty(500, 'Failed', 'Data available', $mail);
+      return Response::pretty(500, 'Failed', 'Data available', null);
     }
   }
 }
