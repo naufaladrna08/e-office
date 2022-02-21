@@ -18,12 +18,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
   return auth()->user();
 });
 
-/* Mail CRUD */
 Route::middleware('auth:sanctum')->post('/mail/create', [App\Http\Controllers\MailController::class, 'create']);
-Route::middleware('auth:sanctum')->get('/mail/read', [App\Http\Controllers\MailController::class, 'read']);
+Route::middleware('auth:sanctum')->get('/mail/read/{id}', [App\Http\Controllers\MailController::class, 'read']);
 Route::middleware('auth:sanctum')->get('/mail/read-all', [App\Http\Controllers\MailController::class, 'readAll']);
 Route::middleware('auth:sanctum')->post('/mail/update', [App\Http\Controllers\MailController::class, 'update']);
 Route::middleware('auth:sanctum')->post('/mail/delete', [App\Http\Controllers\MailController::class, 'delete']);
+
+Route::middleware('auth:sanctum')->post('/news/create', [App\Http\Controllers\NewsController::class, 'create']);
+Route::middleware('auth:sanctum')->get('/news/read/{id}', [App\Http\Controllers\NewsController::class, 'read']);
+Route::middleware('auth:sanctum')->get('/news/list', [App\Http\Controllers\NewsController::class, 'readAll']);
+Route::middleware('auth:sanctum')->post('/news/update', [App\Http\Controllers\NewsController::class, 'update']);
+Route::middleware('auth:sanctum')->post('/news/delete', [App\Http\Controllers\NewsController::class, 'delete']);
 
 Route::post('/register', [App\Http\Controllers\API\AuthController::class, 'register']);
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
