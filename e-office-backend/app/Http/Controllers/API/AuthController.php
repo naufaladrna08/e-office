@@ -45,23 +45,25 @@ class AuthController extends Controller {
   public function login(Request $r) {
     $data = [];
 
-    if (!Auth::attempt($r->only('email', 'password'))) {
+    if (!Auth::attempt($r->only('username', 'password'))) {
       $data = Response::pretty(401, 'Failed', 'Unauthorized');
     }
     
-    $user = User::where('email', $r->email)->firstOrFail();
+    $user = User::where('username', $r->username)->firstOrFail();
     $token = $user->createToken('auth_token')->plainTextToken;
 
-    return Response::pretty(200, 'Success', 'Data has been created', [
+    return Response::pretty(200, 'Success', 'Logged in', [
       'user' => $user,
       'access_token' => $token,
       'token_type' => 'Bearer'
     ]);
   }
 
-  public function logout() {
-    auth()->user()->tokens()->delete();
+  public function logout(Request $r) {
+    if ($r->user()) {
+      $r->user()->tokens()->delete();
+    }
 
-    return Response::pretty(200, 'Success', 'You logged out');
+    return Response::pretty(200, 'Success', 'You are logged out');
   }
 }
