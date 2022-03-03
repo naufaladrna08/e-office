@@ -1,96 +1,75 @@
 <template>
-  <div class="home col-5 mx-auto py-5 mt-5">
-    <h1 class="text-center">Register</h1>
-    <div class="card">
-      <div class="card-body">
-        <div class="form-group">
-          <label for="name">Name:</label>
-          <input
-            type="text"
-            v-model="form.name"
-            class="form-control"
-            id="name"
-          />
-          <span class="text-danger" v-if="errors.name">
-            {{ errors.name[0] }}
-          </span>
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-12 col-md-6 offset-md-3">
+          <div class="card shadow sm">
+            <div class="card-body">
+              <h1 class="text-center">Register</h1>
+              <form action="javascript:void(0)" @submit="register" class="row" method="post">
+                <div class="form-group col-12">
+                  <label for="name" class="font-weight-bold">Name</label>
+                  <input type="text" name="name" v-model="user.name" id="name" placeholder="Enter name" class="form-control my-2">
+                </div>
+                <div class="form-group col-12">
+                  <label for="email" class="font-weight-bold">Email</label>
+                  <input type="text" name="email" v-model="user.email" id="email" placeholder="Enter Email" class="form-control my-2">
+                </div>
+                <div class="form-group col-12">
+                  <label for="username" class="font-weight-bold">Username</label>
+                  <input type="text" name="username" v-model="user.username" id="username" placeholder="Enter Username" class="form-control my-2">
+                </div>
+                <div class="form-group col-12">
+                  <label for="password" class="font-weight-bold">Password</label>
+                  <input type="password" name="password" v-model="user.password" id="password" placeholder="Enter Password" class="form-control my-2">
+                </div>
+                <div class="form-group col-12">
+                  <label for="password_confirmation" class="font-weight-bold">Confirm Password</label>
+                  <input type="password_confirmation" name="password_confirmation" v-model="user.password_confirmation" id="password_confirmation" placeholder="Enter Password" class="form-control my-2">
+                </div>
+                <div class="col-12 mb-2">
+                  <button type="submit" :disabled="processing" class="btn btn-primary btn-block">
+                    {{ processing ? "Please wait" : "Register" }}
+                  </button>
+                </div>
+                <div class="col-12 text-center">
+                  <label>Already have an account? <router-link :to="{name:'login'}">Login Now!</router-link></label>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="email">Email address:</label>
-          <input
-            type="email"
-            v-model="form.email"
-            class="form-control"
-            id="email"
-          />
-          <span class="text-danger" v-if="errors.email">
-            {{ errors.email[0] }}
-          </span>
-        </div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input
-            type="password"
-            v-model="form.password"
-            class="form-control"
-            id="password"
-          />
-          <span class="text-danger" v-if="errors.password">
-            {{ errors.password[0] }}
-          </span>
-        </div>
-        <div class="form-group">
-          <label for="password_confirmation">Confirm Password:</label>
-          <input
-            type="password"
-            v-model="form.password_confirmation"
-            class="form-control"
-            id="password_confirmation"
-          />
-          <span class="text-danger" v-if="errors.password_confirmation">
-            {{ errors.password_confirmation[0] }}
-          </span>
-        </div>
-        <button
-          type="submit"
-          @click.prevent="register"
-          class="btn btn-primary btn-block"
-        >
-          Register
-        </button>
       </div>
-    </div>
   </div>
 </template>
 
 <script>
-/* eslint-disable */
-import User from "../apis/User"
+import { mapActions } from 'vuex'
+import axios from 'axios'
 
 export default {
+  name: "RegisterView",
   data() {
     return {
-      form: {
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: ""
+      user: {
+        name: '',
+        username: '',
+        password: '',
+        confirm_password: ''
       },
-      errors: []
-    };
+      processing: false
+    }
   },
-  methods: {
-    register() {
-      User.register(this.form)
-        .then(() => {
-          this.$router.push({ name: "Login" });
-        })
-        .catch(error => {
-          if (error.response.status === 422) {
-            this.errors = error.response.data.errors;
-          }
-        });
+  methods:{
+    ...mapActions({
+      signIn: "auth/login"
+    }),
+    async register(){
+      await axios.post('/register', this.user).then(() => {
+        this.signIn()
+      }).catch(({response: {data}}) => {
+        alert(data.message)
+      })
     }
   }
-};
+}
 </script>

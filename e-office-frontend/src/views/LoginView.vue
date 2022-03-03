@@ -1,67 +1,69 @@
 <template>
-  <div class="home col-5 mx-auto py-5 mt-5">
-    <h1 class="text-center">Login</h1>
-    <div class="card">
-      <div class="card-body">
-        <div class="form-group my-2">
-          <label for="username">Username:</label>
-          <input
-            type="text"
-            v-model="form.username"
-            class="form-control"
-            id="username"
-          />
-          <span class="text-danger" v-if="errors.username">
-            {{ errors.username[0] }}
-          </span>
+  <section class="container my-4">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="my-4">
+              <h3> Selamat Datang </h3>
+              <p class="lead">
+                E-OFFICE DPC SPPI II PTP
+              </p>
+            </div>
+            <form action="javascript:void(0)" class="row" method="post">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
+                <input type="text" v-model="auth.username" name="username" id="username" class="form-control" aria-label="Username" aria-describedby="basic-addon1" placeholder="Username">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-solid fa-lock"></i></span>
+                <input type="text" v-model="auth.password" name="password" id="password" class="form-control" aria-label="password" aria-describedby="basic-addon1" placeholder="***">
+              </div>
+              <div class="col-12 mt-4">
+                <button type="submit" :disabled="processing" @click="login" class="btn btn-primary btn-block">
+                  {{ processing ? "Please wait" : "Login" }}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="form-group my-2">
-          <label for="password">Password:</label>
-          <input
-            type="password"
-            v-model="form.password"
-            class="form-control"
-            id="password"
-          />
-          <span class="text-danger" v-if="errors.password">
-            {{ errors.password[0] }}
-          </span>
-        </div>
-        <button @click.prevent="login" class="btn btn-primary btn-block">
-          Login
-        </button>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
+
 <script>
-/* eslint-disable */
-import User from "../apis/User";
+import axios from 'axios'
+import { mapActions } from 'vuex'
+
 export default {
+  name: 'LoginView',
   data() {
     return {
-      form: {
-        email: "",
-        password: ""
+      auth: {
+        username: '',
+        password: ''
       },
-      errors: []
-    };
+      processing: false
+    }
   },
   methods: {
-    login() {
-      User.login(this.form)
-        .then(() => {
-          this.$root.$emit("login", true);
-          localStorage.setItem("auth", "true");
-          this.$router.push({ name: "Dashboard" });
-        })
-        .catch(error => {
-          if (error.response.status === 422) {
-            this.errors = error.response.data.errors;
-          }
-        });
+    ...mapActions({
+      signIn: 'auth/login'
+    }),
+    async login() {
+      this.processing = true
+
+      await axios.get('/sanctum/csrf-cookie')
+      await axios.post('/login', this.auth).then(() => {
+        this.signIn()
+      }).catch(({response: {data}}) => {
+        alert(data.message)
+      }).finally(() => {
+        this.processing = false
+      })
     }
   }
-};
+}
 </script>

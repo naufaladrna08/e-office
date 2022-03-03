@@ -12,18 +12,7 @@
 
 <script>
 /* eslint-disable */
-import User from "../apis/User"
-
 export default {
-  data() {
-    return {
-      user: null
-    };
-  },
-  mounted() {
-    User.auth().then(response => {
-      this.user = response.data;
-    });
-  }
+
 };
 </script>
