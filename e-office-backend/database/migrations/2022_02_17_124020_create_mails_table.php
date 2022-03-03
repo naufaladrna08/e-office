@@ -18,6 +18,7 @@ return new class extends Migration {
       $table->string('description');
       $table->boolean('is_active');
       $table->integer('created_by');
+      $table->boolean('is_approved');
       $table->timestamps();
     });
   }

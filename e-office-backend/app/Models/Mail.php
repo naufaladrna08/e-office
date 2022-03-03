@@ -14,6 +14,7 @@ class Mail extends Model {
     'subject',
     'description',
     'is_active',
+    'is_approved',
     'created_by'
   ];
 
