@@ -1,46 +1,42 @@
 <template>
-    <div class="container h-100">
-      <div class="row h-100 align-items-center">
-        <div class="col-12 col-md-6 offset-md-3">
-          <div class="card shadow sm">
-            <div class="card-body">
-              <h1 class="text-center">Register</h1>
-              <form action="javascript:void(0)" @submit="register" class="row" method="post">
-                <div class="form-group col-12">
-                  <label for="name" class="font-weight-bold">Name</label>
-                  <input type="text" name="name" v-model="user.name" id="name" placeholder="Enter name" class="form-control my-2">
-                </div>
-                <div class="form-group col-12">
-                  <label for="email" class="font-weight-bold">Email</label>
-                  <input type="text" name="email" v-model="user.email" id="email" placeholder="Enter Email" class="form-control my-2">
-                </div>
-                <div class="form-group col-12">
-                  <label for="username" class="font-weight-bold">Username</label>
-                  <input type="text" name="username" v-model="user.username" id="username" placeholder="Enter Username" class="form-control my-2">
-                </div>
-                <div class="form-group col-12">
-                  <label for="password" class="font-weight-bold">Password</label>
-                  <input type="password" name="password" v-model="user.password" id="password" placeholder="Enter Password" class="form-control my-2">
-                </div>
-                <div class="form-group col-12">
-                  <label for="password_confirmation" class="font-weight-bold">Confirm Password</label>
-                  <input type="password_confirmation" name="password_confirmation" v-model="user.password_confirmation" id="password_confirmation" placeholder="Enter Password" class="form-control my-2">
-                </div>
-                <div class="col-12 mb-2">
-                  <button type="submit" :disabled="processing" class="btn btn-primary btn-block">
-                    {{ processing ? "Please wait" : "Register" }}
-                  </button>
-                </div>
-                <div class="col-12 text-center">
-                  <label>Already have an account? <router-link :to="{name:'login'}">Login Now!</router-link></label>
-                </div>
-              </form>
-            </div>
+  <div id="root" class="container my-4">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="text-center">Register</h1>
+
+        <form action="javascript:void(0)" @submit="register" class="row" method="post">
+          <div class="form-group col-12">
+            <label for="name"> Name: </label>
+            <input type="text" name="name" v-model="user.name" id="name" placeholder="johndoe" class="form-control my-2">
           </div>
-        </div>
+          <div class="form-group col-12">
+            <label for="username"> Username: </label>
+            <input type="text" name="username" v-model="user.username" id="username" placeholder="John Doe" class="form-control my-2">
+          </div>
+          <div class="form-group col-12">
+            <label for="nipp"> NIPP: </label>
+            <input type="text" name="nipp" v-model="user.nipp" id="nipp" placeholder="1213141516" class="form-control my-2">
+          </div>
+          <div class="form-group col-12">
+            <label for="email"> Email: </label>
+            <input type="email" name="email" v-model="user.email" id="email" placeholder="johndoe@mail.com" class="form-control my-2">
+          </div>
+          <div class="form-group col-12">
+            <label for="password"> Password: </label>
+            <input type="password" name="password" v-model="user.password" id="password" placeholder="****" class="form-control my-2">
+          </div>
+          <div class="form-group col-12">
+            <button class="btn btn-primary btn-block w-100 mt-2" type="submit"> Register </button>
+          </div>
+        </form>
       </div>
+    </div>
   </div>
 </template>
+
+<style scoped>
+
+</style>
 
 <script>
 import { mapActions } from 'vuex'
@@ -54,18 +50,19 @@ export default {
         name: '',
         username: '',
         password: '',
-        confirm_password: ''
+        nipp: '',
+        email: ''
       },
       processing: false
     }
   },
   methods:{
     ...mapActions({
-      signIn: "auth/login"
+      signIn: "auth/signIn"
     }),
     async register(){
       await axios.post('/register', this.user).then(() => {
-        this.signIn()
+        this.signIn(this.user)
       }).catch(({response: {data}}) => {
         alert(data.message)
       })
