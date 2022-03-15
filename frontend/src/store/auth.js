@@ -37,11 +37,12 @@ export default {
 
       return dispatch('me', response.data.access_token)
     },
-
-    async signOut({ dispatch }) {
-      await axios.post('/logout')
-
-      return dispatch('me')
+    signOut({ commit }) {
+      axios.post('/logout')
+      
+      commit('SET_AUTHENTICATED', false)
+      commit('SET_USER', null)
+      commit('SET_TOKEN', null)
     },
     me({commit}, token) {
       commit('SET_TOKEN', token)
