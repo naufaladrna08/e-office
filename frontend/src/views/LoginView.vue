@@ -30,7 +30,10 @@
                   <span class="input-group-text" id="basic-addon1"><i class="fa fa-solid fa-lock"></i></span>
                   <input type="password" v-model="auth.password" name="password" id="password" class="form-control" aria-label="password" aria-describedby="basic-addon1" placeholder="***">
                 </div>
-                <div class="col-12 mt-4">
+                <div class="col-12 my-2">
+                  <b class="text-danger"> {{ message }} </b>
+                </div>
+                <div class="col-12">
                   <button type="submit" :disabled="processing" @click="login" class="btn btn-primary btn-block">
                     {{ processing ? "Please wait" : "Login" }}
                   </button>
@@ -93,7 +96,7 @@
 </style>
 
 <script>
-import axios from '@/axios'
+import axios from 'axios'
 import { mapActions } from 'vuex'
 
 export default {
@@ -110,21 +113,26 @@ export default {
         "middle_left": require("../assets/particles/middle-left-login.svg"),
         "computer": require("../assets/particles/computer-login.svg"),
         "logo": require("../assets/logo.svg")
-      }
+      },
+      message: null
     }
   },
   methods: {
     ...mapActions({
-      signIn: 'auth/login'
+      signIn: 'auth/signIn'
     }),
     async login() {
       this.processing = true
 
-      axios.get('/sanctum/csrf-cookie').then(res => {
-        console.log(res)
-        axios.post('/api/login',this.auth).then(({data})=>{
-          this.signIn()
-          console.log(data)
+      axios.get('/csrf-cookie').then(() => {
+        axios.post('/validate-login', this.auth).then((resp) => {
+          if (resp.data.code == 200) {
+            this.signIn(this.auth)
+          } else if (resp.data.code == 404) {
+            this.message = "Data user tidak ditemukan"
+          } else {
+            this.message = "Internal Server Error"
+          }
         }).catch(({response: {data}})=>{
           alert(data.message)
         }).finally(()=>{
