@@ -50,6 +50,8 @@ export default {
       return axios.get('/user').then((response) => {
         commit('SET_AUTHENTICATED', true)
         commit('SET_USER', response.data)
+
+        router.push('/dashboard')
       }).catch(() => {
         commit('SET_AUTHENTICATED', false)
         commit('SET_USER', null)
