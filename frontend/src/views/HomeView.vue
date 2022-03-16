@@ -10,7 +10,7 @@
       <div class="my-4 text-white" id="greetings">
         <h1 class="font-weight-300"> Selamat Datang Di <br> E-Office DPC SPPI BERSATU </h1>
         <p class="lead">
-          PT. Pelabuhan Tanjung Priok
+          PT Pelabuhan Tanjung Priok
         </p>
 
         <a href="/login" class="btn btn-white my-4"> Login </a>
