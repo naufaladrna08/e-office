@@ -24,7 +24,7 @@
               <form action="javascript:void(0)" class="row" method="post">
                 <div class="input-group mb-3">
                   <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
-                  <input type="text" v-model="auth.username" name="username" id="username" class="form-control" aria-label="Username" aria-describedby="basic-addon1" placeholder="Username">
+                  <input type="text" v-model="auth.username" name="username" id="username" class="form-control" aria-label="Username or NIPP" aria-describedby="basic-addon1" placeholder="Username">
                 </div>
                 <div class="input-group mb-3">
                   <span class="input-group-text" id="basic-addon1"><i class="fa fa-solid fa-lock"></i></span>

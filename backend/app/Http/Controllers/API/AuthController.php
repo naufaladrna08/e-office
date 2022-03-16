@@ -44,13 +44,20 @@ class AuthController extends Controller {
 
   public function login(Request $r) {
     $data = [];
+    $credentials = null;
 
-    if (!Auth::attempt($r->only('username', 'password'))) {
+    if (is_numeric($r->username)) {
+      $credentials = $r->only('id', 'password');
+      $user = User::where('id', $r->username)->first();
+    } else {
+      $credentials = $r->only('username', 'password');
+      $user = User::where('username', $r->username)->first();
+    }
+
+    if (!Auth::attempt($credentials)) {
       $data = Response::pretty(401, 'Failed', 'Unauthorized');
     }
     
-    $user = User::where('username', $r->username)->first();
-
     if ($user) {
       $token = $user->createToken('auth_token')->plainTextToken;
       
@@ -68,12 +75,19 @@ class AuthController extends Controller {
 
   public function validate_login(Request $r) {
     $data = [];
+    $credentials = null;
 
-    if (!Auth::attempt($r->only('username', 'password'))) {
+    if (is_numeric($r->username)) {
+      $credentials = $r->only('id', 'password');
+      $user = User::where('id', $r->username)->first();
+    } else {
+      $credentials = $r->only('username', 'password');
+      $user = User::where('username', $r->username)->first();
+    }
+
+    if (!Auth::attempt($credentials)) {
       $data = Response::pretty(401, 'Failed', 'Unauthorized');
     }
-    
-    $user = User::where('username', $r->username)->first();
 
     if ($user) {
       $data = response()->json([
