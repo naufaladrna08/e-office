@@ -55,7 +55,7 @@ class AuthController extends Controller {
     }
 
     if (!Auth::attempt($credentials)) {
-      $data = Response::pretty(401, 'Failed', 'Unauthorized');
+      return Response::pretty(404, 'Failed', 'Data tidak ditemukan', null);
     }
     
     if ($user) {
@@ -86,7 +86,7 @@ class AuthController extends Controller {
     }
 
     if (!Auth::attempt($credentials)) {
-      $data = Response::pretty(401, 'Failed', 'Unauthorized');
+      return Response::pretty(404, 'Failed', 'Data tidak ditemukan', null);
     }
 
     if ($user) {
