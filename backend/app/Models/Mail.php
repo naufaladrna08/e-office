@@ -11,10 +11,12 @@ class Mail extends Model {
 
   protected $fillable = [
     'uid',
+    'mail_number',
     'subject',
     'description',
     'is_active',
-    'is_approved',
+    'status',
+    'type',
     'created_by'
   ];
 

@@ -14,11 +14,13 @@ return new class extends Migration {
     Schema::create('mails', function (Blueprint $table) {
       $table->id();
       $table->integer('uid');
+      $table->char('mail_number', 50);
       $table->string('subject');
       $table->string('description');
       $table->boolean('is_active');
       $table->integer('created_by');
-      $table->boolean('is_approved');
+      $table->char('status', 50);
+      $table->char('type', 50);
       $table->timestamps();
     });
   }
