@@ -67,9 +67,9 @@
               </a>
 
               <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-primary"> Kirim </button>
-                <button type="button" class="btn btn-outline-primary"> Kembalikan </button>
-                <button type="button" class="btn btn-outline-primary"> Disposisi </button>
+                <button type="button" class="btn btn-white"> Kirim </button>
+                <button type="button" class="btn btn-outline-white"> Kembalikan </button>
+                <button type="button" class="btn btn-outline-white"> Disposisi </button>
               </div>
             </nav>
             <div class="media-body">
@@ -138,8 +138,8 @@
             </div>
           </div>
 
-          <div class="media mt-4" id="mail">
-            <nav class="radius-16 px-2 py-3">
+          <div class="media bg-lightblue mt-4" id="mail">
+            <!-- <nav class="radius-16 px-2 py-3">
               <div class="row">
                 <div class="col-4">
                   
@@ -154,70 +154,38 @@
                 </div>
                 
               </div>
-            </nav>
+            </nav> -->
+            <div class="nvihre p-4">
+              <button class="btn btn-primary"> Filter </button>
+              <button class="btn btn-warning"> Reset Filter </button>
+            </div>
             <div class="media-body">
-              <ul class="list-group list-group-striped">
-                <li class="d-flex flex-row p-2">
-                  <img src="https://github.com/mdo.png" class="my-4 mx-2 img-circle" alt="User" width="48" height="48">
-
-                  <div class="list-body flex-grow-1 px-2">
-                    <h5> Tomi Pandu </h5>
-                    <p class="lead">
-                      Surat Permohonan Cuti <br>
-                      <small>UM.338/3/18/PI.II-13</small>
-                    </p>
-                  </div>
-
-                  <p class="lead align-self-center" id="time">
-                    1 Okt 2021
-                  </p>
-                </li>
-                <li class="d-flex flex-row p-2">
-                  <img src="https://github.com/mdo.png" class="my-4 mx-2 img-circle" alt="User" width="48" height="48">
-
-                  <div class="list-body flex-grow-1 px-2">
-                    <h5> Tomi Pandu </h5>
-                    <p class="lead">
-                      Surat Permohonan Cuti <br>
-                      <small>UM.338/3/18/PI.II-13</small>
-                    </p>
-                  </div>
-
-                  <p class="lead align-self-center" id="time">
-                    1 Okt 2021
-                  </p>
-                </li> 
-                <li class="d-flex flex-row p-2">
-                  <img src="https://github.com/mdo.png" class="my-4 mx-2 img-circle" alt="User" width="48" height="48">
-
-                  <div class="list-body flex-grow-1 px-2">
-                    <h5> Tomi Pandu </h5>
-                    <p class="lead">
-                      Surat Permohonan Cuti <br>
-                      <small>UM.338/3/18/PI.II-13</small>
-                    </p>
-                  </div>
-
-                  <p class="lead align-self-center" id="time">
-                    1 Okt 2021
-                  </p>
-                </li>
-                <li class="d-flex flex-row p-2">
-                  <img src="https://github.com/mdo.png" class="my-4 mx-2 img-circle" alt="User" width="48" height="48">
-
-                  <div class="list-body flex-grow-1 px-2">
-                    <h5> Tomi Pandu </h5>
-                    <p class="lead">
-                      Surat Permohonan Cuti <br>
-                      <small>UM.338/3/18/PI.II-13</small>
-                    </p>
-                  </div>
-
-                  <p class="lead align-self-center" id="time">
-                    1 Okt 2021
-                  </p>
-                </li> 
-              </ul>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th> No </th>
+                    <th> No. Surat </th>
+                    <th> Kepada </th>
+                    <th> Perihal </th>
+                    <th> Tanggal </th>
+                    <th> Jenis Surat </th>
+                    <th> Status </th>
+                    <th> Keterangan </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td> 1 </td>
+                    <td> UM.338/3/18/PI.II-13 </td>
+                    <td> SM PERENCANAAN STRATEGIS </td>
+                    <td> PEMBENTUKAN TIM PENYUSUNAN RENCANA JANGA - </td>
+                    <td> 20-1-21 </td>
+                    <td> Surat Keputusan Direksi </td>
+                    <td> KIRIM </td>
+                    <td> - </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -254,24 +222,28 @@
   background-color: #528A8C;
 }
 
-.btn-primary {
+.bg-lightblue {
+  background: #F4F7FC;
+}
+
+.btn-white {
   color: #222;
   background: #fff;
   border: 2px solid white;
 }
 
-.btn-primary:hover {
+.btn-white:hover {
   color: #222;
   background: #fff;
   border: 2px solid white;
 }
 
-.btn-outline-primary {
+.btn-outline-white {
   color: #fff;
   border: 2px solid white;
 }
 
-.btn-outline-primary:hover {
+.btn-outline-white:hover {
   color: #222;
   background: #fff;
   border: 2px solid white;
@@ -279,11 +251,9 @@
 
 ul.list-group.list-group-striped li:nth-of-type(odd){
   background: white;
-  border-radius: 16px;
 }
 ul.list-group.list-group-striped li:nth-of-type(even){
   background: #ebebeb;
-  border-radius: 16px;
 }
 ul.list-group.list-group-hover li:hover{
   background: red;
@@ -291,6 +261,11 @@ ul.list-group.list-group-hover li:hover{
 
 .radius-16 {
   border-radius: 16px 16px 0 0;
+}
+
+.nvihre .btn {
+  border-radius: 12px;
+  margin-right: 4px;
 }
 </style>
 
