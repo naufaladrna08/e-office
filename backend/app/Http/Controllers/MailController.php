@@ -13,16 +13,20 @@ class MailController extends Controller {
 
     $validator = Validator::make($r->all(), [
       'subject' => "string|required|min:3|max:255",
-      'description' => 'string|required|min:3'
+      'description' => 'string|required|min:3',
+      'type' => 'string|required|min:3'
     ]);
 
     if (!$validator->fails()) {
       $mail = Mail::create([
+        'mail_number' => 'UM.338/3/18/PI.II-13',
         'uid' => $r->send_to,
         'subject' => $r->subject,
         'description' => $r->description,
         'created_by' => auth()->user()->id,
-        'is_active' => true
+        'is_active' => true,
+        'status' => MAIL::TERKIRIM,
+        'type' => $r->type
       ]);
     } else {
       return response()->json($validator->errors()); 
