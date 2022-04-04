@@ -20,6 +20,10 @@ class Mail extends Model {
     'created_by'
   ];
 
+  /* Status */
+  const TERKIRIM = 'TERKIRIM';
+  const DISPOSISI = 'DISPOSISI';
+
   public function getSender() {
     $user = User::where('id', 'created_by')->get();
   }
