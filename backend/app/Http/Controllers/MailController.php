@@ -19,7 +19,7 @@ class MailController extends Controller {
 
     if (!$validator->fails()) {
       $mail = Mail::create([
-        'mail_number' => 'UM.338/3/18/PI.II-13',
+        'mail_number' => $r->mail_number,
         'uid' => $r->send_to,
         'subject' => $r->subject,
         'description' => $r->description,
@@ -46,9 +46,16 @@ class MailController extends Controller {
   public function readAll(Request $r) {
     $mails = Mail::where('created_by', auth()->user()->id)
       ->where('is_active', true)
-      ->get();
+      ->get()
+      ->toArray();
 
-    return Response::pretty(200, 'Success', 'Data available', $mails);
+    if (!empty($mails)) {
+      $data = Response::pretty(200, 'Success', 'Data available', $mails);
+    } else {
+      $data = Response::pretty(404, 'Failed', 'Data not available', null);
+    }
+
+    return $data;
   }
 
   public function update(Request $r) {
@@ -78,5 +85,9 @@ class MailController extends Controller {
     } else {
       return Response::pretty(500, 'Failed', 'Data available', null);
     }
+  }
+
+  public function inbox() {
+
   }
 }
