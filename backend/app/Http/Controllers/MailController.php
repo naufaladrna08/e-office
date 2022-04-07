@@ -58,6 +58,21 @@ class MailController extends Controller {
     return $data;
   }
 
+  public function readInbox(Request $r) {
+    $mails = Mail::where('uid', auth()->user()->id)
+      ->where('is_active', true)
+      ->get()
+      ->toArray();
+
+    if (!empty($mails)) {
+      $data = Response::pretty(200, 'Success', 'Data available', $mails);
+    } else {
+      $data = Response::pretty(404, 'Failed', 'Data not available', null);
+    }
+
+    return $data;
+  }
+
   public function update(Request $r) {
     $mail = Mail::where('id', $r->id)
       ->where('is_active', true)
