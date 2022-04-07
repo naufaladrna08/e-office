@@ -24,6 +24,9 @@ Route::group(['prefix' => 'mail', 'middleware' => 'auth:sanctum'], function() {
   Route::get ('read-all', [App\Http\Controllers\MailController::class, 'readAll']);
   Route::post('update', [App\Http\Controllers\MailController::class, 'update']);
   Route::post('delete', [App\Http\Controllers\MailController::class, 'delete']);
+  
+  Route::get('sent', [App\Http\Controllers\MailController::class, 'readAll']);
+  Route::get('inbox', [App\Http\Controllers\MailController::class, 'inbox']);
 });
 
 Route::group(['prefix' => 'news', 'middleware' => 'auth:sanctum'], function() {
