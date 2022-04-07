@@ -37,6 +37,11 @@ Route::group(['prefix' => 'news', 'middleware' => 'auth:sanctum'], function() {
   Route::post('delete', [App\Http\Controllers\NewsController::class, 'delete']);
 });
 
+Route::group(['prefix' => 'aspiration'], function() {
+  Route::post('create', [App\Http\Controllers\AspirationController::class, 'create']);
+  Route::get ('list', [App\Http\Controllers\AspirationController::class, 'readAll']);
+});
+
 Route::post('/register', [App\Http\Controllers\API\AuthController::class, 'register']);
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
 Route::post('/validate-login', [App\Http\Controllers\API\AuthController::class, 'validate_login']);
