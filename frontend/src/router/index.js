@@ -48,7 +48,6 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   document.title = `E-Office - ${to.name}`
-  console.log(store.state.auth.authenticated)
   
   if (to.meta.middleware == "guest"){
     if (store.state.auth.authenticated) {
