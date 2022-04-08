@@ -129,7 +129,7 @@ export default {
           if (resp.data.code == 200) {
             this.signIn(this.auth)
           } else if (resp.data.code == 404) {
-            this.message = "Data user tidak ditemukan"
+            this.message = "Username / ID atau Password anda salah. Silahkan coba lagi"
           } else {
             this.message = "Internal Server Error"
           }

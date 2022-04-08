@@ -9,8 +9,43 @@ use Auth;
 use Validator;
 use App\Models\User;
 use App\Classes\Response;
+use App\Http\Resources\UserResource;
 
 class AuthController extends Controller {
+  public function index(Request $r) {
+    /*
+     * field: field to sort
+     * order: ascending or descending
+     * page: page number
+     */
+
+    $sortField = [
+      'id',
+      'name',
+      'username',
+      'email',
+      'created_at'
+    ];
+
+    $orderField = ['asc', 'desc'];
+    
+    if ($r->order == null || $r->field == null || 
+        !in_array($r->field, $sortField) || !in_array($r->order, $orderField)) {
+      $r->order = 'asc';
+      $r->field = 'name';
+    }
+
+    $query = User::orderBy($r->field, $r->order);
+    
+    if (!is_null($r->search)) {
+      $query = $query
+        ->where('name', 'like', '%'.$r->search.'%')
+        ->orWhere('username', 'like', '%'.$r->search.'%');
+    }
+
+    return UserResource::collection($query->paginate(10));
+  }
+
   public function register(Request $r) {
     $validator = Validator::make($r->all(), [
       'name' => 'required|string|max:255|min:3',
@@ -76,6 +111,7 @@ class AuthController extends Controller {
   public function validate_login(Request $r) {
     $data = [];
     $credentials = null;
+    \DB::enableQueryLog();
 
     if (is_numeric($r->username)) {
       $credentials = $r->only('id', 'password');
@@ -85,11 +121,7 @@ class AuthController extends Controller {
       $user = User::where('username', $r->username)->first();
     }
 
-    if (!Auth::attempt($credentials)) {
-      return Response::pretty(404, 'Failed', 'Data tidak ditemukan', null);
-    }
-
-    if ($user) {
+    if ($user && Auth::attempt($credentials)) {
       $data = response()->json([
         'code' => 200
       ]);
