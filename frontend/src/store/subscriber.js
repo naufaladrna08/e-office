@@ -7,10 +7,14 @@ store.subscribe((mutation) => {
       axios.defaults.headers = {
         'Authorization': `Bearer ${mutation.payload}`
       }
+
+      localStorage.setItem('token', mutation.payload)
     } else {
       axios.defaults.headers = {
         'Authorization': null
       }
+
+      localStorage.setItem('token', null)
     }
   } 
 })

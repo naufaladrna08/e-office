@@ -14,14 +14,10 @@ require('@/store/subscriber')
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
 axios.defaults.withCredentials = true
 
-if (store.state.auth.authenticated) {
-  axios.defaults.headers = {
-    'Authorization': `Bearer ${localStorage.token}`
-  }
-}
+store.dispatch('auth/me', localStorage.getItem('token')).then(() => {
+  const app = createApp(App)
 
-const app = createApp(App)
-
-app.use(router)
-app.use(store)
-app.mount('#app')
+  app.use(router)
+  app.use(store)
+  app.mount('#app')
+})

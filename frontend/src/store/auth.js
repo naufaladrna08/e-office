@@ -44,8 +44,14 @@ export default {
       commit('SET_USER', null)
       commit('SET_TOKEN', null)
     },
-    me({commit}, token) {
-      commit('SET_TOKEN', token)
+    me({commit, state}, token) {
+      if (token) {
+        commit('SET_TOKEN', token)
+      }
+      
+      if (!state.token) {
+        return
+      }
 
       return axios.get('/user').then((response) => {
         commit('SET_AUTHENTICATED', true)
