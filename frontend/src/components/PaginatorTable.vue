@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <nav aria-label="Page navigation example">
+  <div style="margin-top: 2.5em">
+    <nav aria-label="Page navigation">
       <div class="text-lead my-3">
         Showing {{ total }} of {{ pagination.total }}
       </div>
