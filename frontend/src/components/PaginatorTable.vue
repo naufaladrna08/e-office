@@ -1,6 +1,9 @@
 <template>
   <div>
     <nav aria-label="Page navigation example">
+      <div class="text-lead my-3">
+        Showing {{ total }} of {{ pagination.total }}
+      </div>
       <ul class="pagination">
         <li class="page-item" 
           :class="{'disabled' : pagination.current_page === 1}"
@@ -41,9 +44,6 @@
         >
           <a class="page-link" href="#"> Last </a>
         </li>
-        <span class="px-2 mt-2">
-          Showing {{ total }} of {{ pagination.total }}
-        </span>
       </ul>
     </nav>
   </div>  
