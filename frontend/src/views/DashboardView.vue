@@ -139,37 +139,11 @@
 
           <div class="media bg-lightblue mt-4" id="mail">
             <div class="media-body p-2">
-<!--          
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th> No </th>
-                    <th> No. Surat </th>
-                    <th> Kepada </th>
-                    <th> Perihal </th>
-                    <th> Tanggal </th>
-                    <th> Jenis Surat </th>
-                    <th> Status </th>
-                    <th> Keterangan </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td> 1 </td>
-                    <td> UM.338/3/18/PI.II-13 </td>
-                    <td> SM PERENCANAAN STRATEGIS </td>
-                    <td> PEMBENTUKAN TIM PENYUSUNAN RENCANA JANGA - </td>
-                    <td> 20-1-21 </td>
-                    <td> Surat Keputusan Direksi </td>
-                    <td> KIRIM </td>
-                    <td> - </td>
-                  </tr>
-                </tbody>
-              </table> -->
-              <DatatablesComponent 
-                tclass="table table-hover p-2" 
+              <DataTables 
+                tclass="table table-hover w-100 p-2" 
                 url="profile/list"
-                :columns="arr" 
+                :columns="arr"
+                id="overview-table"
               />
             </div>
           </div>
@@ -181,7 +155,7 @@
 
 <script>
 import store from '../store'
-import DatatablesComponent from '../components/DatatablesComponent.vue'
+import DataTables from '../components/DataTables.vue'
 import { mapActions } from 'vuex'
 
 export default {
@@ -190,16 +164,19 @@ export default {
     return {
       user: store.state.auth.user,
       arr: [
-        'id',
-        'name',
-        'username',
-        'email', 
-        'created_at'
+        'no',
+        'no_surat',
+        'kepada',
+        'perihal', 
+        'tanggal',
+        'jenis_surat',
+        'status',
+        'keterangan'
       ]
     }
   },
   components: {
-    DatatablesComponent
+    DataTables
   },
   methods: {
     ...mapActions({
@@ -285,5 +262,10 @@ ul.list-group.list-group-hover li:hover{
 .nvihre .btn {
   border-radius: 12px;
   margin-right: 4px;
+}
+
+#overview-table {
+  overflow: auto;
+  white-space: nowrap;
 }
 </style>
