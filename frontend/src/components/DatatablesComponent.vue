@@ -1,0 +1,142 @@
+<template>
+  <div id="datatable">
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <div class="input-group">
+          <input 
+            v-model="search"
+            class="form-control"
+            placeholder="Search..."
+            type="text"
+          />
+          
+          <div class="input-group-append">
+            <button 
+              class="btn btn-primary"
+              type="button"
+              @click.prevent="handleSearch"
+            >
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"> Show </span>
+          </div>
+
+          <select
+            class="form-control"
+            v-model="perPage"
+            @change="handlePerPage"
+            id="pageOptions"
+          >
+            <option
+              v-for="page in pageOptions"
+              :key="page"
+              :value="page"
+            >
+              {{ page }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <table v-bind:class="tclass">
+      <thead>
+        <tr>
+          <th v-for="column in columns" :key="column.name" @click="sortByColumn(column)"> 
+            {{ column.toUpperCase() }} 
+            
+            <span v-if="column === sortField">
+              <i v-if="sortOrder === 'asc'" class="fa fa-arrow-up"></i> 
+              <i v-else class="fa fa-arrow-down"></i> 
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-if="tableData.length == 0">
+          <div class="text-center m-4">
+            No records found
+          </div>
+        </tr>
+        <tr v-for="data in tableData" :key="data.data">
+          <td v-for="col in data" :key="col.name"> {{ col }} </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  name: 'DatatablesComponent',
+  props: {
+    columns: { type: Array, required: true },
+    tclass: { type: String, required: true },
+    url: { type: String, required: true }
+  },
+  data() {
+    return {
+      tableData: [],
+      sortField: this.columns[1],
+      sortOrder: "asc",
+      search: null,
+      pageOptions: [5, 10, 20, 50],
+      perPage: 5
+    }
+  },
+  created() {
+    this.fetchData()
+  },
+  methods: {
+    async fetchData() {
+      try {
+        const params = {
+          field: this.sortField,
+          order: this.sortOrder,
+          search: this.search,
+          per_page: this.perPage
+        }
+
+        const {data} = await axios.get(this.url, {params})
+        this.tableData = data.data
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    sortByColumn(col) {
+      if (col === this.sortField) {
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
+      } else {
+        this.sortField = col
+      }
+
+      this.fetchData()
+    },
+    handleSearch() {
+      this.fetchData()
+    },
+    handlePerPage(e) {
+      this.perPage = e.target.value
+      this.fetchData()
+    }
+  }
+}
+</script>
+
+<style scoped>
+thead tr th {
+  cursor: pointer;
+}
+
+.btn {
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+</style>

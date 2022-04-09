@@ -29,7 +29,7 @@
           </li>
           <li>
             <a href="#" class="nav-link py-3 border-bottom" title="Orders" data-bs-toggle="tooltip" data-bs-placement="right">
-              <i class="fa fa-sign-out" style="width: 24px; height: 24px"></i>
+              <i class="fa fa-sign-out" style="width: 24px; height: 24px" @click="logout"></i>
             </a>
           </li>
         </ul>
@@ -42,7 +42,7 @@
             <li><a class="dropdown-item" href="#">Settings</a></li>
             <li><a class="dropdown-item" href="#">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);" @click="logout">Sign out</a></li>
           </ul>
         </div>
       </div>
@@ -58,8 +58,7 @@
         </nav>
 
         <div class="container px-4 py-5 my-4">
-          <h1> Overview </h1>
-          
+          <h1> Overview </h1>          
           <div class="media" id="overview">
             <nav class="bg-green radius-16 px-2 py-3">
               <a href="">
@@ -139,27 +138,8 @@
           </div>
 
           <div class="media bg-lightblue mt-4" id="mail">
-            <!-- <nav class="radius-16 px-2 py-3">
-              <div class="row">
-                <div class="col-4">
-                  
-                  <form class="d-flex">
-                    <a href="">
-                      <b class="btn text-primary lead mx-2"><i class="fa fa-filter"></i></b>
-                    </a>
-
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                  </form>
-                </div>
-                
-              </div>
-            </nav> -->
-            <div class="nvihre p-4">
-              <button class="btn btn-primary"> Filter </button>
-              <button class="btn btn-warning"> Reset Filter </button>
-            </div>
-            <div class="media-body">
+            <div class="media-body p-2">
+<!--          
               <table class="table">
                 <thead>
                   <tr>
@@ -185,7 +165,12 @@
                     <td> - </td>
                   </tr>
                 </tbody>
-              </table>
+              </table> -->
+              <DatatablesComponent 
+                tclass="table table-hover p-2" 
+                url="profile/list"
+                :columns="arr" 
+              />
             </div>
           </div>
         </div>
@@ -193,6 +178,40 @@
     </div>
   </div>
 </template>
+
+<script>
+import store from '../store'
+import DatatablesComponent from '../components/DatatablesComponent.vue'
+import { mapActions } from 'vuex'
+
+export default {
+  name: 'DashboardView',
+  data() {
+    return {
+      user: store.state.auth.user,
+      arr: [
+        'id',
+        'name',
+        'username',
+        'email', 
+        'created_at'
+      ]
+    }
+  },
+  components: {
+    DatatablesComponent
+  },
+  methods: {
+    ...mapActions({
+      signOut: "auth/signOut"
+    }),
+    async logout() {
+      this.signOut()
+      this.$router.push('/login')
+    }
+  }
+};
+</script>
 
 <style scoped>
 .sidebar {
@@ -268,26 +287,3 @@ ul.list-group.list-group-hover li:hover{
   margin-right: 4px;
 }
 </style>
-
-<script>
-import store from '../store'
-import { mapActions } from 'vuex'
-
-export default {
-  name: 'DashboardView',
-  data() {
-    return {
-      user: store.state.auth.user
-    }
-  },
-  methods: {
-    ...mapActions({
-      signOut: "auth/signOut"
-    }),
-    async logout() {
-      this.signOut()
-      this.$router.push('/login')
-    }
-  }
-};
-</script>
