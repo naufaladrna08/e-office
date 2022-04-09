@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Mail;
 use App\Classes\Response;
 use Validator;
-
+use App\Http\Resources\SentResource;
 class MailController extends Controller {
   public function create(Request $r) {
     $data = [];
@@ -44,18 +44,35 @@ class MailController extends Controller {
   }
 
   public function readAll(Request $r) {
-    $mails = Mail::where('created_by', auth()->user()->id)
-      ->where('is_active', true)
-      ->get()
-      ->toArray();
+    $sortField = [
+      'no_surat' => 'mail_number',
+      'kepada' => 'uid',
+      'perihal' => 'title',
+      'tanggal' => 'created_at',
+      'jenis_surat' => 'type',
+      'status' => 'status',
+      'keterangan' => 'description'
+    ];
 
-    if (!empty($mails)) {
-      $data = Response::pretty(200, 'Success', 'Data available', $mails);
-    } else {
-      $data = Response::pretty(404, 'Failed', 'Data not available', null);
+    $orderField = ['asc', 'desc'];
+    
+    if ($r->order == null || $r->field == null || 
+        !in_array($r->field, array_values($sortField)) || !in_array($r->order, $orderField)) {
+      $r->order = 'asc';
+      $r->field = 'mail_number';
     }
 
-    return $data;
+    $query = Mail::where('created_by', auth()->user()->id)
+      ->where('is_active', true)
+      ->orderBy($r->field, $r->order);
+
+    if (!is_null($r->search)) {
+      $query = $query
+        ->where('mail_number', 'like', '%'.$r->search.'%')
+        ->orWhere('title', 'like', '%'.$r->search.'%');
+    }
+
+    return SentResource::collection($query->paginate(10));
   }
 
   public function readInbox(Request $r) {
