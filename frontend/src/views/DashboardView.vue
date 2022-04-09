@@ -141,7 +141,7 @@
             <div class="media-body p-2">
               <DataTables 
                 tclass="table table-hover w-100 p-2" 
-                url="profile/list"
+                url="mail/read-all"
                 :columns="arr"
                 id="overview-table"
               />
@@ -164,7 +164,6 @@ export default {
     return {
       user: store.state.auth.user,
       arr: [
-        'no',
         'no_surat',
         'kepada',
         'perihal', 
