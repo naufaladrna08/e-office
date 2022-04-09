@@ -69,17 +69,28 @@
         </tr>
       </tbody>
     </table>
+
+    <PaginatorTable 
+      v-if="tableData.length > 0"
+      :pagination="pagination"
+      :total="tableData.length"
+      @pageChanged="handlePageChange"
+    /> 
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import PaginatorTable from './PaginatorTable.vue'
 
 export default {
   name: 'DatatablesComponent',
+  components: {
+    PaginatorTable
+  },
   props: {
     columns: { type: Array, required: true },
-    tclass: { type: String, required: true },
+    tclass: { type: Number, required: true },
     url: { type: String, required: true }
   },
   data() {
@@ -89,7 +100,10 @@ export default {
       sortOrder: "asc",
       search: null,
       pageOptions: [5, 10, 20, 50],
-      perPage: 5
+      perPage: 5,
+      pagination: { to: 1, from: 1  },
+      page: 1,
+      total: 1
     }
   },
   created() {
@@ -102,11 +116,13 @@ export default {
           field: this.sortField,
           order: this.sortOrder,
           search: this.search,
-          per_page: this.perPage
+          per_page: this.perPage,
+          page: this.page
         }
 
         const {data} = await axios.get(this.url, {params})
         this.tableData = data.data
+        this.pagination = data.meta
       } catch (e) {
         console.log(e)
       }
@@ -121,11 +137,18 @@ export default {
       this.fetchData()
     },
     handleSearch() {
+      this.sortField = this.columns[0]
+      this.sortOrder = "asc"
+      this.page = 1
       this.fetchData()
     },
     handlePerPage(e) {
       this.perPage = e.target.value
       this.fetchData()
+    },
+    handlePageChange(number) {
+      this.page = number
+      this.fetchData()      
     }
   }
 }
