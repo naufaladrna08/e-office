@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Auth\AuthenticationException;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,11 @@ Route::group(['prefix' => 'aspiration'], function() {
   Route::post('create', [App\Http\Controllers\AspirationController::class, 'create']);
   Route::get ('list', [App\Http\Controllers\AspirationController::class, 'readAll']);
 });
+
+Route::group(['prefix' => 'profile', 'middleware' => 'auth:sanctum'], function() {
+  Route::get('list', [App\Http\Controllers\API\AuthController::class, 'index']);
+});
+
 
 Route::post('/register', [App\Http\Controllers\API\AuthController::class, 'register']);
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
