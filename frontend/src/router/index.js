@@ -37,6 +37,14 @@ const routes = [
     meta: {
       middleware: "auth",
     }
+  },
+  {
+    path: '/inbox',
+    name: 'Inbox',
+    component: InboxView,
+    meta: {
+      middleware: "auth",
+    }
   }
 ]
 
