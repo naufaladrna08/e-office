@@ -18,9 +18,9 @@
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link py-3 border-bottom" title="Orders" data-bs-toggle="tooltip" data-bs-placement="right">
+            <router-link to="/inbox" class="nav-link py-3 border-bottom" title="Inbox" data-bs-toggle="tooltip" data-bs-placement="right">
               <i class="fa fa-inbox" style="width: 24px; height: 24px"></i>
-            </a>
+            </router-link>
           </li>
           <li>
             <a href="#" class="nav-link py-3 border-bottom" title="Orders" data-bs-toggle="tooltip" data-bs-placement="right">
