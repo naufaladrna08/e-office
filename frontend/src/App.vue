@@ -49,6 +49,7 @@
 
 <script>
 import store from './store'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -57,6 +58,15 @@ export default {
   data() {
     return {
       user: store.state.auth.user,
+    }
+  },
+  methods: {
+    ...mapActions({
+      signOut: "auth/signOut"
+    }),
+    async logout() {
+      this.signOut()
+      this.$router.push('/login')
     }
   }
 }

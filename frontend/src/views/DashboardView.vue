@@ -111,7 +111,6 @@
 <script>
 import store from '../store'
 import DataTables from '../components/DataTables.vue'
-import { mapActions } from 'vuex'
 
 export default {
   name: 'DashboardView',
@@ -131,15 +130,6 @@ export default {
   },
   components: {
     DataTables
-  },
-  methods: {
-    ...mapActions({
-      signOut: "auth/signOut"
-    }),
-    async logout() {
-      this.signOut()
-      this.$router.push('/login')
-    }
   }
 };
 </script>
