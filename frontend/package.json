@@ -10,6 +10,8 @@
   "dependencies": {
     "@ckeditor/ckeditor5-basic-styles": "^33.0.0",
     "@ckeditor/ckeditor5-build-classic": "^33.0.0",
+    "@ckeditor/ckeditor5-dev-utils": "^30.1.0",
+    "@ckeditor/ckeditor5-dev-webpack-plugin": "^30.1.0",
     "@ckeditor/ckeditor5-essentials": "^33.0.0",
     "@ckeditor/ckeditor5-heading": "^34.0.0",
     "@ckeditor/ckeditor5-link": "^33.0.0",
