@@ -33,7 +33,6 @@ import BoldPlugin from '@ckeditor/ckeditor5-basic-styles/src/bold'
 import ItalicPlugin from '@ckeditor/ckeditor5-basic-styles/src/italic'
 import LinkPlugin from '@ckeditor/ckeditor5-link/src/link'
 import ParagraphPlugin from '@ckeditor/ckeditor5-paragraph/src/paragraph'
-import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment.js';
 
 /* Tables */
 import Table from '@ckeditor/ckeditor5-table/src/table'
@@ -57,7 +56,6 @@ export default {
           ItalicPlugin,
           LinkPlugin,
           ParagraphPlugin,
-          Alignment
         ],
         toolbar: {
           items: [
@@ -68,7 +66,6 @@ export default {
             'undo',
             'redo',
             'insertTable',
-            '|', 'alignment:left', 'alignment:right', 'alignment:center', 'alignment:justify'
           ]
         },
         table: {
