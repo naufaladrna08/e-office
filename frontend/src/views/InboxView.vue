@@ -12,12 +12,12 @@
           />
         </div>
         <div class="form-group my-2">
-          <ckeditor 
+          <!-- <ckeditor 
             :editor="editor" 
             v-model="editorData" 
             :config="editorConfig" 
             class="form-control"
-          />
+          /> -->
         </div>
 
         <button class="btn btn-primary float-right mt-4"> Kirim </button>
@@ -27,35 +27,35 @@
 </template>
 
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import EssentialsPlugin from '@ckeditor/ckeditor5-essentials/src/essentials'
-import BoldPlugin from '@ckeditor/ckeditor5-basic-styles/src/bold'
-import ItalicPlugin from '@ckeditor/ckeditor5-basic-styles/src/italic'
-import LinkPlugin from '@ckeditor/ckeditor5-link/src/link'
-import ParagraphPlugin from '@ckeditor/ckeditor5-paragraph/src/paragraph'
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+// import EssentialsPlugin from '@ckeditor/ckeditor5-essentials/src/essentials'
+// import BoldPlugin from '@ckeditor/ckeditor5-basic-styles/src/bold'
+// import ItalicPlugin from '@ckeditor/ckeditor5-basic-styles/src/italic'
+// import LinkPlugin from '@ckeditor/ckeditor5-link/src/link'
+// import ParagraphPlugin from '@ckeditor/ckeditor5-paragraph/src/paragraph'
 
-/* Tables */
-import Table from '@ckeditor/ckeditor5-table/src/table'
-import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar'
-import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties'
-import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperties'
+// /* Tables */
+// import Table from '@ckeditor/ckeditor5-table/src/table'
+// import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar'
+// import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties'
+// import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperties'
 
 export default {
   name: 'InboxView',
   data() {
     return {
-      editor: ClassicEditor,
+      // editor: ClassicEditor,
       editorConfig: {
         plugins: [
-          Table,
-          TableToolbar,
-          TableProperties, 
-          TableCellProperties, 
-          EssentialsPlugin,
-          BoldPlugin,
-          ItalicPlugin,
-          LinkPlugin,
-          ParagraphPlugin,
+          // Table,
+          // TableToolbar,
+          // TableProperties, 
+          // TableCellProperties, 
+          // EssentialsPlugin,
+          // BoldPlugin,
+          // ItalicPlugin,
+          // LinkPlugin,
+          // ParagraphPlugin,
         ],
         toolbar: {
           items: [
@@ -86,10 +86,10 @@ export default {
   },
   methods: {
     onReady(editor)  {
-      editor.ui.getEditableElement().parentElement.insertBefore(
-        editor.ui.view.toolbar.element,
-        editor.ui.getEditableElement()
-      );
+      // editor.ui.getEditableElement().parentElement.insertBefore(
+      //   editor.ui.view.toolbar.element,
+      //   editor.ui.getEditableElement()
+      // );
     },
     send() {
       console.log(this.editorData)
