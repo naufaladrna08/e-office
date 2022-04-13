@@ -2,10 +2,6 @@
   <div>
     <div v-if="user != null">
       <div class="sidebar d-flex flex-column flex-shrink-0 bg-light" style="width: 4.5rem;">
-        <a href="/" class="d-block p-3 link-dark text-decoration-none" title="Icon-only" data-bs-toggle="tooltip" data-bs-placement="right">
-          <svg class="bi" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-          <span class="visually-hidden">Icon-only</span>
-        </a>
         <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
           <li class="nav-item">
             <a href="#" class="nav-link active py-3 border-bottom" aria-current="page" title="Home" data-bs-toggle="tooltip" data-bs-placement="right">
