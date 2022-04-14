@@ -49,9 +49,9 @@ const routes = [
   }
 ]
 
-// const history = createWebHistory()
+const history = createWebHistory()
 const router = createRouter({
-  // history,
+  history,
   routes
 })
 
