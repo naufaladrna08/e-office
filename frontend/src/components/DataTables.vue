@@ -60,9 +60,9 @@
       </thead>
       <tbody>
         <tr v-if="tableData.length == 0">
-          <div class="text-center m-4">
+          <td colspan="100%" class="text-center m-4 w-100">
             No records found
-          </div>
+          </td>
         </tr>
         <tr v-for="data in tableData" :key="data.data">
           <td v-for="col in data" :key="col"> {{ col }} </td>
