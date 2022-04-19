@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="user != null">
+    <div v-if="user">
       <div class="sidebar d-flex flex-column flex-shrink-0 bg-light" style="width: 4.5rem;">
         <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
           <li class="nav-item">
@@ -57,7 +57,7 @@ export default {
   },
   data() {
     return {
-      user: store.state.auth.user,
+      user: store.state.auth.authenticated,
     }
   },
   methods: {
@@ -68,7 +68,12 @@ export default {
       this.signOut()
       this.$router.push('/login')
     }
-  }
+  },
+  watch:{
+    $route() {
+      this.user = store.state.auth.authenticated
+    }
+  } 
 }
 </script>
 
