@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-3">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1"> Show </span>
@@ -133,14 +133,14 @@ export default {
         this.tableData = data.data 
         this.pagination = data.meta
 
-        if (this.number) {
-          this.columnList.unshift('no')
-          console.log(this.columnList)
+        // if (this.number) {
+        //   this.columnList.unshift('no')
+        //   console.log(this.columnList)
           
-          data.data.forEach((i) => {
-            console.log(i)
-          })
-        }
+        //   data.data.forEach((i) => {
+        //     console.log(i)
+        //   })
+        // }
         
       } catch (e) {
         console.log(e)
