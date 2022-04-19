@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container text-center my-4">
+    <div class="container text-center">
       <form @submit.prevent="send">
         <b class="my-4"> BUAT SURAT </b>
 
