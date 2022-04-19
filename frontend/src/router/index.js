@@ -4,6 +4,8 @@ import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import InboxView from '../views/InboxView.vue'
+import UserView from '../views/UserView.vue'
+import ArchiveView from '../views/ArchiveView.vue'
 import store from '../store'
 
 const routes = [
@@ -43,6 +45,22 @@ const routes = [
     path: '/inbox',
     name: 'Inbox',
     component: InboxView,
+    meta: {
+      middleware: "auth",
+    }
+  },
+  {
+    path: '/user',
+    name: 'User',
+    component: UserView,
+    meta: {
+      middleware: "auth",
+    }
+  },
+  {
+    path: '/archive',
+    name: 'Archive',
+    component: ArchiveView,
     meta: {
       middleware: "auth",
     }
