@@ -16,7 +16,7 @@ class SentResource extends JsonResource {
     return [
       'no_surat' => $this->mail_number,
       'kepada' => $this->uid,
-      'perihal' => $this->subject,
+      'perihal' => $this->perihal,
       'tanggal' => Carbon::parse($this->created_at)->toDayDateTimeString(),
       'jenis_surat' => $this->type,
       'status' => $this->status,
