@@ -7,6 +7,8 @@ use App\Models\Mail;
 use App\Classes\Response;
 use Validator;
 use App\Http\Resources\SentResource;
+use Illuminate\Support\Facades\DB;
+
 class MailController extends Controller {
   public function create(Request $r) {
     $data = [];
@@ -47,7 +49,7 @@ class MailController extends Controller {
     $sortField = [
       'no_surat' => 'mail_number',
       'kepada' => 'uid',
-      'perihal' => 'title',
+      'perihal' => 'perihal',
       'tanggal' => 'created_at',
       'jenis_surat' => 'type',
       'status' => 'status',
@@ -62,14 +64,29 @@ class MailController extends Controller {
       $r->field = 'mail_number';
     }
 
-    $query = Mail::where('created_by', auth()->user()->id)
+    $query = DB::table('mails')
+      ->select(
+        'mails.mail_number', 
+        'mails.uid', 
+        DB::raw('mails.subject AS perihal'),
+        'mails.created_at',
+        'mails.type',
+        'mails.status',
+        DB::raw("(case when mails.status = 'TERKIRIM' THEN CONCAT('Surat telah diterima oleh ', users.name) ELSE 'NO COMMENT' END) AS description")
+      )
+      ->where('created_by', auth()->user()->id)
       ->where('is_active', true)
+      ->leftJoin('users', 'users.id', '=', 'mails.uid')
       ->orderBy($r->field, $r->order);
+
+    // $query = Mail::where('created_by', auth()->user()->id)
+    //   ->where('is_active', true)
+      // ->orderBy($r->field, $r->order);
 
     if (!is_null($r->search)) {
       $query = $query
         ->where('mail_number', 'like', '%'.$r->search.'%')
-        ->orWhere('title', 'like', '%'.$r->search.'%');
+        ->orWhere('subject', 'like', '%'.$r->search.'%');
     }
 
     return SentResource::collection($query->paginate(10));
