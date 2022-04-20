@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
 import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/style.scss'
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 require('@/store/subscriber')
 
@@ -19,5 +20,6 @@ store.dispatch('auth/me', localStorage.getItem('token')).then(() => {
 
   app.use(router)
   app.use(store)
+  app.use(CKEditor)
   app.mount('#app')
 })
