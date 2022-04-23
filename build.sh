@@ -15,7 +15,7 @@ cd ./frontend && npm update
 
 echo "Updating API URL"
 
-sed -i 's/http:\/\/127.0.0.1:8000\/api/http:\/\/api.dpcsspibersatuptp.online\/api/g' ./src/main.js
+sed -i 's/http:\/\/127.0.0.1:8000\/api/http:\/\/api.dpcsppibersatuptp.online\/api/g' ./src/main.js
 
 echo "Running npm run build"
 
