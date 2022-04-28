@@ -18,13 +18,15 @@
               <i class="fa fa-inbox"></i>
               Inbox 
             </h5>
-            <DataTables 
-              tclass="table table-hover table-bordered w-100 p-2" 
-              url="mail/inbox"
-              :columns="arr"
-              useNumber="true"
-              id="inbox-table"
-            />
+            <div class="media-body border p-2">
+              <DataTables 
+                tclass="table table-hover table-bordered w-100 p-2" 
+                url="mail/inbox"
+                :columns="arr"
+                useNumber="true"
+                id="inbox-table"
+              />
+            </div>
           </div>
 
           <div class="media mt-4" id="mail">
@@ -33,7 +35,7 @@
               Sent 
             </h5>
             
-            <div class="media-body bg-lightblue p-2">
+            <div class="media-body bg-lightblue border p-2">
               <DataTables 
                 tclass="table table-hover table-bordered w-100 p-2" 
                 url="mail/read-all"
