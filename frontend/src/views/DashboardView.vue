@@ -14,85 +14,26 @@
         <div class="container px-4 py-5 my-4">
           <h1> Overview </h1>          
           <div class="media" id="overview">
-            <nav class="bg-green radius-16 px-2 py-3">
-              <a href="">
-                <b class="btn text-white lead mx-2"><i class="fa fa-filter"></i></b>
-              </a>
-
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-white"> Kirim </button>
-                <button type="button" class="btn btn-outline-white"> Kembalikan </button>
-                <button type="button" class="btn btn-outline-white"> Disposisi </button>
-              </div>
-            </nav>
-            <div class="media-body">
-              <ul class="list-group list-group-striped">
-                <li class="d-flex flex-row p-2">
-                  <img src="https://github.com/mdo.png" class="my-4 mx-2 img-circle" alt="User" width="48" height="48">
-
-                  <div class="list-body flex-grow-1 px-2">
-                    <h5> Tomi Pandu </h5>
-                    <p class="lead">
-                      Surat Permohonan Cuti <br>
-                      <small>UM.338/3/18/PI.II-13</small>
-                    </p>
-                  </div>
-
-                  <p class="lead align-self-center" id="time">
-                    1 Okt 2021
-                  </p>
-                </li>
-                <li class="d-flex flex-row p-2">
-                  <img src="https://github.com/mdo.png" class="my-4 mx-2 img-circle" alt="User" width="48" height="48">
-
-                  <div class="list-body flex-grow-1 px-2">
-                    <h5> Tomi Pandu </h5>
-                    <p class="lead">
-                      Surat Permohonan Cuti <br>
-                      <small>UM.338/3/18/PI.II-13</small>
-                    </p>
-                  </div>
-
-                  <p class="lead align-self-center" id="time">
-                    1 Okt 2021
-                  </p>
-                </li> 
-                <li class="d-flex flex-row p-2">
-                  <img src="https://github.com/mdo.png" class="my-4 mx-2 img-circle" alt="User" width="48" height="48">
-
-                  <div class="list-body flex-grow-1 px-2">
-                    <h5> Tomi Pandu </h5>
-                    <p class="lead">
-                      Surat Permohonan Cuti <br>
-                      <small>UM.338/3/18/PI.II-13</small>
-                    </p>
-                  </div>
-
-                  <p class="lead align-self-center" id="time">
-                    1 Okt 2021
-                  </p>
-                </li>
-                <li class="d-flex flex-row p-2">
-                  <img src="https://github.com/mdo.png" class="my-4 mx-2 img-circle" alt="User" width="48" height="48">
-
-                  <div class="list-body flex-grow-1 px-2">
-                    <h5> Tomi Pandu </h5>
-                    <p class="lead">
-                      Surat Permohonan Cuti <br>
-                      <small>UM.338/3/18/PI.II-13</small>
-                    </p>
-                  </div>
-
-                  <p class="lead align-self-center" id="time">
-                    1 Okt 2021
-                  </p>
-                </li> 
-              </ul>
-            </div>
+            <h5 class="py-2"> 
+              <i class="fa fa-inbox"></i>
+              Inbox 
+            </h5>
+            <DataTables 
+              tclass="table table-hover table-bordered w-100 p-2" 
+              url="mail/inbox"
+              :columns="arr"
+              useNumber="true"
+              id="inbox-table"
+            />
           </div>
 
-          <div class="media bg-lightblue mt-4" id="mail">
-            <div class="media-body p-2">
+          <div class="media mt-4" id="mail">
+            <h5 class="py-2"> 
+              <i class="fa fa-paper-plane"></i>
+              Sent 
+            </h5>
+            
+            <div class="media-body bg-lightblue p-2">
               <DataTables 
                 tclass="table table-hover table-bordered w-100 p-2" 
                 url="mail/read-all"

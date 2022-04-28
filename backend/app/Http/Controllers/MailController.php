@@ -76,6 +76,7 @@ class MailController extends Controller {
       )
       ->where('created_by', auth()->user()->id)
       ->where('is_active', true)
+      ->where('uid', '<>', auth()->user()->id)
       ->leftJoin('users', 'users.id', '=', 'mails.uid')
       ->orderBy($r->field, $r->order);
 
@@ -93,18 +94,46 @@ class MailController extends Controller {
   }
 
   public function readInbox(Request $r) {
-    $mails = Mail::where('uid', auth()->user()->id)
-      ->where('is_active', true)
-      ->get()
-      ->toArray();
+    $sortField = [
+      'no_surat' => 'mail_number',
+      'kepada' => 'uid',
+      'perihal' => 'perihal',
+      'tanggal' => 'created_at',
+      'jenis_surat' => 'type',
+      'status' => 'status',
+      'keterangan' => 'description'
+    ];
 
-    if (!empty($mails)) {
-      $data = Response::pretty(200, 'Success', 'Data available', $mails);
-    } else {
-      $data = Response::pretty(404, 'Failed', 'Data not available', null);
+    $orderField = ['asc', 'desc'];
+    
+    if ($r->order == null || $r->field == null || 
+        !in_array($r->field, array_values($sortField)) || !in_array($r->order, $orderField)) {
+      $r->order = 'asc';
+      $r->field = 'mail_number';
     }
 
-    return $data;
+    $query = DB::table('mails')
+      ->select(
+        'mails.mail_number', 
+        'mails.uid', 
+        DB::raw('mails.subject AS perihal'),
+        'mails.created_at',
+        'mails.type',
+        'mails.status',
+        DB::raw("(case when mails.status = 'TERKIRIM' THEN CONCAT('Surat telah diterima oleh ', users.name) ELSE 'NO COMMENT' END) AS description")
+      )
+      ->where('uid', auth()->user()->id)
+      ->where('is_active', true)
+      ->leftJoin('users', 'users.id', '=', 'mails.uid')
+      ->orderBy($r->field, $r->order);
+
+    if (!is_null($r->search)) {
+      $query = $query
+        ->where('mail_number', 'like', '%'.$r->search.'%')
+        ->orWhere('subject', 'like', '%'.$r->search.'%');
+    }
+
+    return SentResource::collection($query->paginate(10));
   }
 
   public function update(Request $r) {
@@ -134,9 +163,5 @@ class MailController extends Controller {
     } else {
       return Response::pretty(500, 'Failed', 'Data available', null);
     }
-  }
-
-  public function inbox() {
-
   }
 }
