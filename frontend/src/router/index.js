@@ -82,6 +82,12 @@ router.beforeEach(async (to, from, next) => {
     }
 
     next()
+  } else if (to.meta.middleware == "admin") {
+    if (store.state.auth.user.roles[0].name == "admin") {
+      next()
+    }
+
+    next('/dashboard')
   } else {
     if (store.state.auth.authenticated) {
       next()
