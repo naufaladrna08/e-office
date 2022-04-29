@@ -6,6 +6,7 @@ import DashboardView from '../views/DashboardView.vue'
 import InboxView from '../views/InboxView.vue'
 import UserView from '../views/UserView.vue'
 import ArchiveView from '../views/ArchiveView.vue'
+import AdminView from '../views/AdminView.vue'
 import store from '../store'
 
 const routes = [
@@ -63,6 +64,14 @@ const routes = [
     component: ArchiveView,
     meta: {
       middleware: "auth",
+    }
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: AdminView,
+    meta: {
+      middleware: "admin",
     }
   }
 ]
