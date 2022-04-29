@@ -16,10 +16,12 @@ use Illuminate\Auth\AuthenticationException;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+  $request->user()->getRoleNames();
+  
   return $request->user();
 });
 
-Route::group(['prefix' => 'mail', 'middleware' => 'auth:sanctum'], function() {
+Route::group(['prefix' => 'mail', 'middleware' => ['auth:sanctum']], function() {
   Route::post('create', [App\Http\Controllers\MailController::class, 'create']);
   Route::get ('read/{id}', [App\Http\Controllers\MailController::class, 'read']);
   Route::get ('read-all', [App\Http\Controllers\MailController::class, 'readAll']);
@@ -30,7 +32,7 @@ Route::group(['prefix' => 'mail', 'middleware' => 'auth:sanctum'], function() {
   Route::get('inbox', [App\Http\Controllers\MailController::class, 'readInbox']);
 });
 
-Route::group(['prefix' => 'news', 'middleware' => 'auth:sanctum'], function() {
+Route::group(['prefix' => 'news', 'middleware' => ['auth:sanctum']], function() {
   Route::post('create', [App\Http\Controllers\NewsController::class, 'create']);
   Route::get ('read/{id}', [App\Http\Controllers\NewsController::class, 'read']);
   Route::get ('list', [App\Http\Controllers\NewsController::class, 'readAll']);
