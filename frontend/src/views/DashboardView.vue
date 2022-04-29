@@ -155,4 +155,9 @@ ul.list-group.list-group-hover li:hover{
   overflow: auto;
   white-space: nowrap;
 }
+
+#inbox-table {
+  overflow: auto;
+  white-space: nowrap;
+}
 </style>
