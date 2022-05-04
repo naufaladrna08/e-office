@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container py-4">
+    <div class="container">
       <div id="greetings">
         <div class="card mb-4 w-100">
           <div class="card-body">
@@ -13,7 +13,7 @@
       </div>
 
       <!-- Edit website settings -->
-      <div class="row">
+      <div class="row my-2">
         <div class="col-md-6">
           <div class="card w-100">
             <div class="card-body">
@@ -45,10 +45,19 @@
                 Be updated and read or write some news today. You can perform CRUD on News content.   
               </p>
 
-              <a href="#" class="btn btn-primary mt-4"> 
+              <a href="/news/list" class="btn btn-primary mt-4"> 
                 <i class="fa fa-edit"></i>
                 Go to page 
               </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row my-2">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h6> Ad </h6>
             </div>
           </div>
         </div>

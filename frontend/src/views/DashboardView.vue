@@ -2,16 +2,7 @@
   <div class="root">
     <div class="main">
       <div class="dashboard">
-        <nav class="navbar navbar-light bg-light fixed-top">
-          <div class="container px-2">
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
-        </nav>
-
-        <div class="container px-4 py-5 my-4">
+        <div class="container ">
           <h1> Overview </h1>          
           <div class="media" id="overview">
             <h5 class="py-2"> 

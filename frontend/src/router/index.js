@@ -72,6 +72,7 @@ const routes = [
     component: AdminView,
     meta: {
       middleware: "admin",
+      breadcrumb: { text: 'Admin'}
     }
   }
 ]

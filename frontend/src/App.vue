@@ -42,6 +42,19 @@
           </ul>
         </div>
       </div>
+
+      <nav class="navbar navbar-light bg-light">
+        <div class="container px-2">
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
+
+      <div class="container">
+        <BreadcrumbGlobal :crumbs="crumbs" @selected="selected" />
+      </div>
     </div>
     <router-view />
   </div>
@@ -50,15 +63,18 @@
 <script>
 import store from './store'
 import { mapActions } from 'vuex'
+import BreadcrumbGlobal from './components/BreadcrumbGlobal.vue'
 
 export default {
   name: 'App',
   components: {
+    BreadcrumbGlobal
   },
   data() {
     return {
       user: store.state.auth.authenticated,
-      currentRoute: 'dashboard'
+      currentRoute: 'dashboard',
+      crumbs: []
     }
   },
   methods: {
@@ -74,6 +90,7 @@ export default {
     $route() {
       this.user = store.state.auth.authenticated
       this.currentRoute = this.$route.name
+      this.crumbs[1] = this.$route.name
     }
   }
 }
