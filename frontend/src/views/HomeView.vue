@@ -1,7 +1,7 @@
 <template>
   <div id="root-page">
     <div class="custom-shape-divider-top-1646529674">
-      <img v-bind:src="images.wave">
+      <img class="w-100" v-bind:src="images.wave">
     </div>
     
     <div class="container main text-center">
@@ -145,7 +145,7 @@
 <style scoped>
   .main {
     position: relative;
-    margin-top: 4em;
+    margin-top: 4em;;
   }
 
   .text-align-left {
@@ -156,6 +156,7 @@
     height: 165vh;
     background-image: url('~@/assets/particles/wave-news-landing.svg');
     background-repeat: no-repeat;
+    background-size: 100%;
     padding: 12em 0;
   }
 
@@ -184,7 +185,7 @@
   .custom-shape-divider-top-1646529674 svg {
     position: relative;
     display: block;
-    width: calc(126% + 1.3px);
+    width: calc(284% + 1.3px);;
     height: 175px;
   }
 
@@ -202,20 +203,12 @@
   .custom-shape-divider-top-2 svg {
     position: relative;
     display: block;
-    width: calc(126% + 1.3px);
+    width: calc(284% + 1.3px);
     height: 175px;
   }
 
   .custom-shape-divider-top-2 .shape-fill {
     fill: #FFFFFF;
-  }
-
-  /** For mobile devices **/
-  @media (max-width: 767px) {
-    .custom-shape-divider-top-2 svg {
-      width: calc(138% + 1.3px);
-      height: 175px;
-    }
   }
 
   .btn-white {
@@ -232,6 +225,7 @@
 
   #root-page {
     background-image: url('~@/assets/background.svg');
+    background-size: 100%;
   }
 
   footer {
@@ -248,6 +242,10 @@
 
   footer .copy {
     text-align: right;
+  }
+  
+  .btn {
+    border-radius: 5rem;
   }
 </style>
 
