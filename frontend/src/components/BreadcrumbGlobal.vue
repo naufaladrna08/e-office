@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav aria-label="breadcrumb fixed-top">
-      <ol class="breadcrumb d-flex py-4">
+      <ol class="breadcrumb mt-4">
         <!-- Route title -->
         <li class="breadcrumb-item">
           <div class="d-flex" style="vertical-align:middle">
