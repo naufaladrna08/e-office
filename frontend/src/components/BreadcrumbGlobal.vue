@@ -1,22 +1,29 @@
 <template>
   <div>
     <nav aria-label="breadcrumb fixed-top">
-      <ol class="breadcrumb py-4">
+      <ol class="breadcrumb d-flex py-4">
+        <!-- Route title -->
+        <li class="breadcrumb-item">
+          <div class="d-flex" style="vertical-align:middle">
+            <p class="lead" style="margin-right: .6em; "> {{ $route.name }} | </p> 
+            <a href="/dashboard/" class="mt-1" :class="{ disabled: isLast(ci) }" @click="selected(crumb)">
+              <i class="fa fa-home"></i> 
+            </a>
+          </div>
+        </li>
+
+        <!-- Breadcrumb -->
         <li
           v-for="(crumb, ci) in crumbs"
           :key="ci"
-          class="breadcrumb-item"
+          class="breadcrumb-item my-1"
         >
-          <template v-if="ci < 1">
-            <a href="/dashboard/" :class="{ disabled: isLast(ci) }" @click="selected(crumb)">
-              <i class="fa fa-home"></i>
-            </a>
-          </template>
-          <template v-else>
+          
+          <div class="d-flex">
             <a :href="'/' + crumb.toLowerCase()" :class="{ disabled: isLast(ci) }" @click="selected(crumb)">
               {{ crumb }}
             </a>
-          </template>
+          </div>
         </li>
       </ol>
     </nav>
@@ -32,6 +39,9 @@ export default {
       required: true
     }
   },
+  mounted: function() {
+    console.log(this.crumbs)
+  },
   methods: {
     isLast(id) {
       return id === this.crumbs.length - 1
@@ -42,3 +52,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+a {
+  color: #0d6efd !important;
+}
+</style>

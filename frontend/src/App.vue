@@ -90,7 +90,7 @@ export default {
     $route() {
       this.user = store.state.auth.authenticated
       this.currentRoute = this.$route.name
-      this.crumbs[1] = this.$route.name
+      this.crumbs[0] = this.$route.name
     }
   }
 }
