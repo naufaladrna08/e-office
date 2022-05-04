@@ -60,7 +60,10 @@ class AuthController extends Controller {
         'name' => $r->name,
         'password' => Hash::make($r->password),
         'email' => $r->email,
-        'username' => $r->username
+        'username' => $r->username,
+        'code_divisi' => 'JST-CRTD',
+        'code_jabatan' => 'KRYWN',
+        'last_action' => 'REGISTERED'
       ]);
 
       $token = $user->createToken('auth_token')->plainTextToken;

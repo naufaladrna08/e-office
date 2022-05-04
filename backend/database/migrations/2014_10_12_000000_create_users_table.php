@@ -18,6 +18,9 @@ return new class extends Migration {
       $table->string('username')->unique();
       $table->timestamp('email_verified_at')->nullable();
       $table->string('password');
+      $table->string('code_divisi', 8);
+      $table->string('code_jabatan', 8);
+      $table->string('last_action');
       $table->rememberToken();
       $table->timestamps();
     });
