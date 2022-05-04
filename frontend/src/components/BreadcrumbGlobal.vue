@@ -8,12 +8,12 @@
           class="breadcrumb-item"
         >
           <template v-if="ci < 1">
-            <a href="#" :class="{ disabled: isLast(ci) }" @click="selected(crumb)">
+            <a href="/dashboard/" :class="{ disabled: isLast(ci) }" @click="selected(crumb)">
               <i class="fa fa-home"></i>
             </a>
           </template>
           <template v-else>
-            <a href="#" :class="{ disabled: isLast(ci) }" @click="selected(crumb)">
+            <a :href="'/' + crumb.toLowerCase()" :class="{ disabled: isLast(ci) }" @click="selected(crumb)">
               {{ crumb }}
             </a>
           </template>
