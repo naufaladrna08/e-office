@@ -2,7 +2,7 @@
   <div class="root">
     <div class="main">
       <div class="dashboard">
-        <div class="container ">
+        <div class="container">
           <h1> Overview </h1>          
           <div class="media" id="overview">
             <h5 class="py-2"> 
@@ -84,8 +84,6 @@ export default {
   display: flex;
   flex-wrap: nowrap;
   height: -webkit-fill-available;
-  max-height: 100vh;
-  overflow-x: auto;
 }
 
 .dashboard {
