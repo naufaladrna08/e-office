@@ -183,7 +183,7 @@ import Editor from '@ckeditor/ckeditor5-build-decoupled-document'
 import axios from 'axios'
 
 export default {
-  name: 'InboxView',
+  name: 'NewMessageView',
   data() {
     return {
       editor: Editor,

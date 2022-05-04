@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import DashboardView from '../views/DashboardView.vue'
-import InboxView from '../views/InboxView.vue'
+import NewMessageView from '../views/Mail/NewMessageView.vue'
 import UserView from '../views/UserView.vue'
 import ArchiveView from '../views/ArchiveView.vue'
 import AdminView from '../views/AdminView.vue'
@@ -43,9 +43,9 @@ const routes = [
     }
   },
   {
-    path: '/inbox',
-    name: 'Inbox',
-    component: InboxView,
+    path: '/mail/new',
+    name: 'New Message',
+    component: NewMessageView,
     meta: {
       middleware: "auth",
     }

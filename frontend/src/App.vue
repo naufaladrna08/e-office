@@ -14,7 +14,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/inbox" class="nav-link py-3 border-bottom" :class="currentRoute === 'Inbox' ? 'active' : ''" title="Inbox">
+            <router-link to="/mail/new" class="nav-link py-3 border-bottom" :class="currentRoute === 'Create Mail' ? 'active' : ''" title="Create Mail">
               <i class="fa fa-inbox" style="width: 24px; height: 24px"></i>
             </router-link>
           </li>
