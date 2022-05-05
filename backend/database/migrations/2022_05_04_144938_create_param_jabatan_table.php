@@ -13,8 +13,8 @@ return new class extends Migration {
   public function up() {
     Schema::create('param_jabatan', function (Blueprint $table) {
       $table->id();
-      $table->string('code_divisi', 8);
-      $table->string('nama_divisi', 255);
+      $table->string('code_jabatan', 8);
+      $table->string('nama_jabatan', 255);
       $table->timestamps();
     });
   }
