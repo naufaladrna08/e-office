@@ -7,6 +7,7 @@ import NewMessageView from '../views/Mail/NewMessageView.vue'
 import UserView from '../views/UserView.vue'
 import ArchiveView from '../views/ArchiveView.vue'
 import AdminView from '../views/AdminView.vue'
+import ParameterView from '../views/ParameterView.vue'
 import store from '../store'
 
 const routes = [
@@ -67,13 +68,18 @@ const routes = [
     }
   },
   {
-    path: '/admin',
+    path: '/admin/',
     name: 'Admin',
     component: AdminView,
     meta: {
       middleware: "admin",
       breadcrumb: { text: 'Admin'}
     }
+  },
+  {
+    name: 'Parameter',
+    path: '/admin/parameter',
+    component: ParameterView
   }
 ]
 
