@@ -14,7 +14,7 @@ return new class extends Migration {
     Schema::create('param_jabatan', function (Blueprint $table) {
       $table->id();
       $table->string('code_divisi', 8);
-      $table->string('nama_divisi', 8);
+      $table->string('nama_divisi', 255);
       $table->timestamps();
     });
   }
