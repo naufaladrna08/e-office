@@ -13,8 +13,8 @@ class DivisiResource extends JsonResource {
    */
   public function toArray($request) {
     return [
-      'code_jabatan' => $this->code_jabatan,
-      'nama_jabatan' => $this->nama_jabatan
+      'code_divisi' => $this->code_divisi,
+      'nama_divisi' => $this->nama_divisi
     ];
   }
 }
