@@ -14,7 +14,6 @@ use Illuminate\Auth\AuthenticationException;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
   $request->user()->getRoleNames();
   
@@ -47,6 +46,7 @@ Route::group(['prefix' => 'aspiration'], function() {
 
 Route::group(['prefix' => 'profile', 'middleware' => 'auth:sanctum'], function() {
   Route::get('list', [App\Http\Controllers\API\AuthController::class, 'index']);
+  Route::get('userdata', [App\Http\Controllers\API\AuthController::class, 'userdata']);
 });
 
 Route::group(['prefix' => 'divisi', 'middleware' => 'auth:sanctum'], function() {

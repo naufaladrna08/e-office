@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Auth;
 use Validator;
 use App\Models\User;
@@ -141,5 +142,23 @@ class AuthController extends Controller {
     }
 
     return Response::pretty(200, 'Success', 'You are logged out');
+  }
+
+  public function userdata(Request $r) {
+    $data = [];
+
+    $query = DB::table('users')
+      ->where('users.id', Auth::id())
+      ->leftJoin('param_divisi', 'param_divisi.code_divisi', '=', 'users.code_divisi')
+      ->leftJoin('param_jabatan', 'param_jabatan.code_jabatan', '=', 'users.code_jabatan')
+      ->first();
+
+    if ($query) {
+      $data = Response::pretty(200, 'Success', 'Data found', $query);
+    } else {
+      $data = Response::pretty(404, 'Failed', 'Data not found', null);
+    }
+
+    return $data;
   }
 }
