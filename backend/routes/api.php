@@ -51,14 +51,14 @@ Route::group(['prefix' => 'profile', 'middleware' => 'auth:sanctum'], function()
 
 Route::group(['prefix' => 'divisi', 'middleware' => 'auth:sanctum'], function() {
   Route::post('create', [App\Http\Controllers\DivisiController::class, 'create']);
-  Route::post('read', [App\Http\Controllers\DivisiController::class, 'read']);
+  Route::get('read', [App\Http\Controllers\DivisiController::class, 'read']);
   Route::post('update', [App\Http\Controllers\DivisiController::class, 'update']);
   Route::post('delete', [App\Http\Controllers\DivisiController::class, 'delete']);
 });
 
 Route::group(['prefix' => 'jabatan', 'middleware' => 'auth:sanctum'], function() {
   Route::post('create', [App\Http\Controllers\JabatanController::class, 'create']);
-  Route::post('read', [App\Http\Controllers\JabatanController::class, 'read']);
+  Route::get('read', [App\Http\Controllers\JabatanController::class, 'read']);
   Route::post('update', [App\Http\Controllers\JabatanController::class, 'update']);
   Route::post('delete', [App\Http\Controllers\JabatanController::class, 'delete']);
 });
