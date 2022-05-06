@@ -48,6 +48,12 @@
     <table v-bind:class="tclass">
       <thead>
         <tr>
+          <template v-if="number == 1">
+            <th width="4%"> # </th> 
+          </template>
+          <template v-if="action == 1">
+            <th width="7%"> Action </th> 
+          </template>
           <th v-for="column in columnList" :key="column" @click="sortByColumn(column)"> 
             {{ column.toUpperCase() }} 
             
@@ -64,7 +70,18 @@
             No records found
           </td>
         </tr>
-        <tr v-for="data in tableData" :key="data.data">
+        <tr v-for="(data, index) in tableData" :key="data.data">
+          <template v-if="number == 1">
+            <td> {{ index + 1 }} </td>
+          </template>
+          <template v-if="action == 1">
+            <a @click.prevent="handleActionClicked(data)" class="btn btn-primary mx-2 my-2"> 
+              <i class="fa fa-eye"></i> 
+            </a>
+            <a @click.prevent="handleDeleteClicked(data)" class="btn btn-danger"> 
+              <i class="fa fa-trash"></i> 
+            </a>
+          </template>
           <td v-for="col in data" :key="col"> {{ col }} </td>
         </tr>
       </tbody>
@@ -92,7 +109,8 @@ export default {
     columns: { type: Array, required: true },
     tclass: { type: Number, required: true },
     url: { type: String, required: true },
-    useNumber: { type: Boolean, required: false }
+    useNumber: { type: Boolean, required: false },
+    useAction: { type: Number, required: false },
   },
   data() {
     return {
@@ -106,18 +124,13 @@ export default {
       page: 1,
       total: 1,
       columnList: this.columns,
-      number: this.useNumber
+      number: this.useNumber,
+      action: this.useAction
     }
   },
   created() {
-    // if (this.number) {
-    //   for (let i = 0; i < this.pagination.total; i++) {
-    //     this.columnList[i].unshift({no: i})
-    //   }
-    // }
-
     this.fetchData()
-},
+  },
   methods: {
     async fetchData() {
       try {
@@ -132,16 +145,6 @@ export default {
         const {data} = await axios.get(this.url, {params})
         this.tableData = data.data 
         this.pagination = data.meta
-
-        // if (this.number) {
-        //   this.columnList.unshift('no')
-        //   console.log(this.columnList)
-          
-        //   data.data.forEach((i) => {
-        //     console.log(i)
-        //   })
-        // }
-        
       } catch (e) {
         console.log(e)
       }
@@ -168,6 +171,12 @@ export default {
     handlePageChange(number) {
       this.page = number
       this.fetchData()      
+    },
+    handleActionClicked(data) {
+      this.$emit("actionClicked", data)
+    },
+    handleDeleteClicked(data) {
+      this.$emit("deleteClicked", data)
     }
   }
 }
@@ -183,6 +192,36 @@ tr {
   vertical-align: middle; 
 }
 
+table .btn {
+  border-radius: .5rem;
+}
+
+table tbody tr a {
+  color: white;
+  transition: 0.5s
+}
+table tbody tr:hover a {
+  color: white;
+}
+
+table .btn-primary {
+  border-color: #0d6efd;
+  background-color: #0d6efd;
+}
+
+table .btn-primary:hover {
+  background-color: #198cf0;
+}
+
+
+table .btn-danger {
+  border-color: #dc3545;
+  background-color: #dc3545;
+}
+
+table .btn-danger:hover {
+  background-color: #eb4757;
+}
 
 .btn {
   border-radius: 0 0.25rem 0.25rem 0;
