@@ -156,7 +156,7 @@ export default {
         this.sortField = col
       }
 
-      this.fetchData()
+      this.fetchData()  
     },
     handleSearch() {
       this.sortField = this.columns[0]
