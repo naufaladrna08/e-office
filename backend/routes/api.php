@@ -29,7 +29,7 @@ Route::group(['prefix' => 'mail', 'middleware' => ['auth:sanctum']], function() 
   
   Route::get('sent', [App\Http\Controllers\MailController::class, 'readAll']);
   Route::get('inbox', [App\Http\Controllers\MailController::class, 'readInbox']);
-});
+});  
 
 Route::group(['prefix' => 'news', 'middleware' => ['auth:sanctum']], function() {
   Route::post('create', [App\Http\Controllers\NewsController::class, 'create']);
