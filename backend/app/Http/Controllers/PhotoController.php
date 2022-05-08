@@ -38,7 +38,7 @@ class PhotoController extends Controller {
     ]);
 
     $name = Auth::id() . '-' . time() . '.' . $request->file->getClientOriginalExtension();
-    $path = $request->file('file')->storeAs('public/files', $name);
+    $path = $request->file('file')->storeAs('files', $name);
 
     $model = new Photo;
     $model->path = $path;
