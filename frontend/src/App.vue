@@ -31,7 +31,7 @@
         </ul>
         <div class="dropdown border-top">
           <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="mdo" width="24" height="24" class="rounded-circle">
+            <img :src="userdata.profile_path" width="24" height="24" class="rounded-circle">
           </a>
           <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
             <li><a class="dropdown-item" href="#">New project...</a></li>
@@ -62,6 +62,7 @@
 
 <script>
 import store from './store'
+import axios from 'axios'
 import { mapActions } from 'vuex'
 import BreadcrumbGlobal from './components/BreadcrumbGlobal.vue'
 
@@ -73,6 +74,24 @@ export default {
   data() {
     return {
       user: store.state.auth.authenticated,
+      userdata: {
+        "uid": null,
+        "id": null,
+        "name": null,
+        "email": null,
+        "username": null,
+        "code_divisi": null,
+        "code_jabatan": null,
+        "profile_photo_id": null,
+        "cover_photo_id": null,
+        "remember_token": null,
+        "created_at": null,
+        "updated_at": null,
+        "nama_divisi": null,
+        "nama_jabatan": null,
+        "profile_path": null,
+        "cover_path": null
+      },
       currentRoute: 'dashboard',
       crumbs: []
     }
@@ -92,6 +111,11 @@ export default {
       this.currentRoute = this.$route.name
       this.crumbs[0] = this.$route.name
     }
+  },
+  created() {
+    axios.get('/profile/userdata').then((resp) => {
+      this.userdata = resp.data.data
+    })
   }
 }
 </script>
