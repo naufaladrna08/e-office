@@ -150,10 +150,23 @@ class AuthController extends Controller {
     $data = [];
 
     $query = DB::table('users')
+      ->select([
+        'users.id AS uid',
+        'users.*',
+        'param_divisi.*',
+        'param_jabatan.*',
+        'profile.path AS profile_path',
+        'cover.path AS cover_path',
+      ])
       ->where('users.id', Auth::id())
       ->leftJoin('param_divisi', 'param_divisi.code_divisi', '=', 'users.code_divisi')
       ->leftJoin('param_jabatan', 'param_jabatan.code_jabatan', '=', 'users.code_jabatan')
+      ->leftJoin('photos as profile', 'profile.id', '=', 'users.profile_photo_id')
+      ->leftJoin('photos as cover', 'cover.id', '=', 'users.cover_photo_id')
       ->first();
+
+    $query->profile_path = app('url')->asset('storage/' . $query->profile_path);
+    $query->cover_path = app('url')->asset('storage/' . $query->cover_path);
 
     if ($query) {
       $data = Response::pretty(200, 'Success', 'Data found', $query);
