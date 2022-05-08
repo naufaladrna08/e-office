@@ -40,7 +40,7 @@
           <div class="row mb-2">
             <div class="col">
               <h3> NIP / NIPP </h3>
-              <p class="lead"> {{ user.id }} </p>
+              <p class="lead"> {{ userdata.uid }} </p>
             </div>
           </div>
           <div class="row mb-2">
@@ -71,11 +71,28 @@ export default {
   data() {
     return {
       user: store.state.auth.user,
-      userdata: null
+      userdata: {
+        "uid": null,
+        "id": null,
+        "name": null,
+        "email": null,
+        "username": null,
+        "code_divisi": null,
+        "code_jabatan": null,
+        "profile_photo_id": null,
+        "cover_photo_id": null,
+        "remember_token": null,
+        "created_at": null,
+        "updated_at": null,
+        "nama_divisi": null,
+        "nama_jabatan": null,
+        "profile_path": null,
+        "cover_path": null
+      }
     }
   },
-  created() {
-    axios.get('/profile/userdata', this.auth).then((resp) => {
+  beforeMount() {
+    axios.get('/profile/userdata').then((resp) => {
       this.userdata = resp.data.data
     })
   }
