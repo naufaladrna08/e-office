@@ -64,7 +64,9 @@ class AuthController extends Controller {
         'username' => $r->username,
         'code_divisi' => 'JST-CRTD',
         'code_jabatan' => 'KRYWN',
-        'last_action' => 'REGISTERED'
+        'last_action' => 'REGISTERED',
+        'photo_profile_id' => 1,
+        'cover_profile_id' => 2
       ]);
 
       $token = $user->createToken('auth_token')->plainTextToken;
