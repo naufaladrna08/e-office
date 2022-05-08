@@ -21,6 +21,8 @@ return new class extends Migration {
       $table->string('code_divisi', 8);
       $table->string('code_jabatan', 8);
       $table->string('last_action');
+      $table->integer('profile_photo_id');
+      $table->integer('cover_photo_id');
       $table->rememberToken();
       $table->timestamps();
     });
