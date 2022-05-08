@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- START OF COVER -->
-    <div class="container-fluid" id="green">
+    <div class="container-fluid" id="cover" :style="{ backgroundImage: `url(${userdata.cover_path})`}">
       <div class="container d-flex vertical-align-middle py-4">
-        <img src="https://github.com/mdo.png" class="img-thumbnail avatar-lg">
+        <img :src="userdata.profile_path" class="img-thumbnail avatar-lg">
 
         <div class="p-4 my-4">
           <h1> {{ user.name }} </h1>
@@ -83,9 +83,8 @@ export default {
 </script>
 
 <style scoped>
-  #green {
+  #cover {
     color: #fff;
-    background-color: #528B8D;
   }
 
   .avatar-lg {
