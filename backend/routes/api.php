@@ -63,6 +63,10 @@ Route::group(['prefix' => 'jabatan', 'middleware' => 'auth:sanctum'], function()
   Route::post('delete', [App\Http\Controllers\JabatanController::class, 'delete']);
 });
 
+Route::group(['prefix' => 'photo', 'middleware' => 'auth:sanctum'], function() {
+  Route::post('store', [App\Http\Controllers\PhotoController::class, 'store']);
+});
+
 
 Route::post('/register', [App\Http\Controllers\API\AuthController::class, 'register']);
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);

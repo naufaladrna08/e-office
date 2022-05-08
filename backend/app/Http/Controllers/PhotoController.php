@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Photo;
+use App\Classes\Response;
 use Illuminate\Http\Request;
+use Auth;
 
 class PhotoController extends Controller {
   /**
@@ -31,7 +33,18 @@ class PhotoController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function store(Request $request) {
-      //
+    $validate = $request->validate([
+      'file' => 'mimes:jpeg,jpg,png,gif|required|max:10000'
+    ]);
+
+    $name = Auth::id() . '-' . time() . '.' . $request->file->getClientOriginalExtension();
+    $path = $request->file('file')->storeAs('public/files', $name);
+
+    $model = new Photo;
+    $model->path = $path;
+    $model->save();
+
+    return Response::pretty(200, 'Success', 'Data has been created', $model);
   }
 
   /**
