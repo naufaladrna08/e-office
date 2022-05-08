@@ -131,16 +131,6 @@
 
         <div class="row mt-4">
           <div class="col-md-12">
-            <div class="form-group my-2">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Judul"
-                v-model="subject"
-              />
-            </div>
-          </div>
-          <div class="col-md-12">
              <div class="form-group my-2">
               <ckeditor 
                 :editor="editor" 
