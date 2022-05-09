@@ -11,36 +11,46 @@
               
               <div class="row mt-2">
                 <div class="col">
-                  <input type="text" placeholder="AAA" class="form-control">
+                  <select class="form-control" id="type" name="type">
+                    <option selected="true" disabled="true"> Nota Dinas </option>
+                  </select>
                 </div>
                 <div class="col">
-                  <input type="text" placeholder="AAA" class="form-control">
+                  <input type="text" placeholder="Auto" class="form-control" disabled>
                 </div>
                 <div class="col">
-                  <input type="text" placeholder="AAA" class="form-control">
+                  <input type="text" placeholder="Auto" class="form-control" disabled>
                 </div>
               </div>
             </div>
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Perihal </label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" name="perihal" id="perihal">
             </div>
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Klasifikasi Masalah </label>
-              <input type="text" class="form-control">
+              <select class="form-control" name="klasifikasi_masalah" id="klasifikasi_masalah">
+                <option selected="true" disabled="true"> KL848-AMDAL / Limbah Kapal </option>
+                
+              </select>
             </div>
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Lampiran </label>
               
               <div class="row mt-2">
                 <div class="col">
-                  <input type="text" placeholder="AAA" class="form-control">
+                  <input type="text" placeholder="" class="form-control" id="lampiran" name="lampiran">
                 </div>
                 <div class="col">
-                  <input type="text" placeholder="AAA" class="form-control">
+                  <select class="form-control" id="prioritas" name="prioritas">
+                    <option selected="true" disabled="true"> Prioritas </option>
+                  </select>
                 </div>
                 <div class="col">
-                  <input type="text" placeholder="AAA" class="form-control">
+                  <select class="form-control" id="klasifikasi" name="klasifikasi">
+                    <option selected="true" disabled="true"> Klasifikasi </option>
+                
+                  </select>
                 </div>
               </div>
             </div>
@@ -49,23 +59,23 @@
 
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Jabatan </label>
-              <input type="text" value="Autocomplete" class="form-control" disabled>
+              <input type="text" :value="userdata.nama_jabatan" class="form-control" disabled>
             </div>
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> NIPP / Nama </label>
 
               <div class="row mt-2">
                 <div class="col">
-                  <input type="text" value="Autocomplete" class="form-control" disabled>
+                  <input type="text" :value="userdata.uid" class="form-control" disabled>
                 </div>
                 <div class="col">
-                  <input type="text" value="Autocomplete" class="form-control" disabled>
+                  <input type="text" :value="userdata.name" class="form-control" disabled>
                 </div>
               </div>
             </div>
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Divisi </label>
-              <input type="text" value="Autocomplete" class="form-control" disabled>
+              <input type="text" :value="userdata.nama_divisi" class="form-control" disabled>
             </div>
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Cab / Dir </label>
@@ -180,7 +190,25 @@ export default {
       editorData: this.content,
       mailNumber: null,
       sendTo: null,
-      subject: null
+      subject: null,
+      userdata: {
+        "uid": null,
+        "id": null,
+        "name": null,
+        "email": null,
+        "username": null,
+        "code_divisi": null,
+        "code_jabatan": null,
+        "profile_photo_id": null,
+        "cover_photo_id": null,
+        "remember_token": null,
+        "created_at": null,
+        "updated_at": null,
+        "nama_divisi": null,
+        "nama_jabatan": null,
+        "profile_path": null,
+        "cover_path": null
+      }
     };
   },
   methods: {
@@ -209,6 +237,11 @@ export default {
         }) 
       })
     }
+  },
+  created() {
+    axios.get('/profile/userdata').then((resp) => {
+      this.userdata = resp.data.data
+    })
   }
 }
 </script>
