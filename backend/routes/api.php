@@ -67,6 +67,10 @@ Route::group(['prefix' => 'photo', 'middleware' => 'auth:sanctum'], function() {
   Route::post('store', [App\Http\Controllers\PhotoController::class, 'store']);
 });
 
+Route::group(['prefix' => 'parameter', 'middleware' => 'auth:sanctum'], function() {
+  Route::post('store', [App\Http\Controllers\ParameterController::class, 'storeOrUpdate']);
+  Route::get('fetch', [App\Http\Controllers\ParameterController::class, 'fetch']);
+});
 
 Route::post('/register', [App\Http\Controllers\API\AuthController::class, 'register']);
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
