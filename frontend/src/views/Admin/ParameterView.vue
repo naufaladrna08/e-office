@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import DataTables from '../components/DataTables.vue'
+import DataTables from '../../components/DataTables.vue'
 import axios from 'axios'
 import { Modal } from 'bootstrap'
 import 'bootstrap/dist/js/bootstrap.js'

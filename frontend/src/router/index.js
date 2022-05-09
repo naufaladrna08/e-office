@@ -6,8 +6,8 @@ import DashboardView from '../views/DashboardView.vue'
 import NewMessageView from '../views/Mail/NewMessageView.vue'
 import UserView from '../views/UserView.vue'
 import ArchiveView from '../views/ArchiveView.vue'
-import AdminView from '../views/AdminView.vue'
-import ParameterView from '../views/ParameterView.vue'
+import AdminView from '../views/Admin/AdminView.vue'
+import ParameterView from '../views/Admin/ParameterView.vue'
 import store from '../store'
 
 const routes = [

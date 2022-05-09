@@ -26,10 +26,10 @@
                 Change texts or images in Homepage such as title, descriptions, "Visi dan Misi", etc. 
               </p>
 
-              <a href="#" class="btn btn-primary mt-4"> 
+              <router-link to="/admin/parameter" class="btn btn-primary mt-4"> 
                 <i class="fa fa-edit"></i>
                 Customize 
-              </a>
+              </router-link>
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import store from '../store'
+import store from '../../store'
 
 export default {
   name: 'AdminView',
