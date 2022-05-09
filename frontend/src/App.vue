@@ -61,7 +61,7 @@
 
     <div v-if="user">
       <div class="container" style="margin-top: 8em">
-        <footer class="my-4 text-center text-secondary small"> Copyright (c) E-Office 2022 </footer>  
+        <footer class="my-4 text-center text-secondary small"> {{ pageFooter }} </footer>  
       </div>
     </div>
   </div>
@@ -100,7 +100,8 @@ export default {
         "cover_path": null
       },
       currentRoute: 'dashboard',
-      crumbs: []
+      crumbs: [],
+      pageFooter: null
     }
   },
   methods: {
@@ -122,6 +123,10 @@ export default {
   created() {
     axios.get('/profile/userdata').then((resp) => {
       this.userdata = resp.data.data
+    })
+
+    axios.get('/parameter/fetch?pcode=page_footer').then((resp) => {
+      this.pageFooter = resp.data.data.description
     })
   }
 }
