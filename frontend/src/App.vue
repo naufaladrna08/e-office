@@ -56,7 +56,14 @@
         <BreadcrumbGlobal :crumbs="crumbs" @selected="selected" />
       </div>
     </div>
+
     <router-view />
+
+    <div v-if="user">
+      <div class="container" style="margin-top: 8em">
+        <footer class="my-4 text-center text-secondary small"> Copyright (c) E-Office 2022 </footer>  
+      </div>
+    </div>
   </div>
 </template>
 
