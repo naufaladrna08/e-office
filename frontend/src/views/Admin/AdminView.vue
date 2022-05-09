@@ -57,7 +57,16 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-body">
-              <h6> Ad </h6>
+              <h5> <i class="fa fa-users"></i> User Management </h5>
+
+              <p class="card-text my-4"> 
+                Add or remove users, assign role to user, assign divisi/jabatan to user, etc. 
+              </p>
+
+              <router-link to="/admin/user" class="btn btn-primary mt-4"> 
+                <i class="fa fa-edit"></i>
+                Go To Page 
+              </router-link>
             </div>
           </div>
         </div>
