@@ -150,26 +150,6 @@
               />
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="form-group my-2">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Nomor Surat"
-                v-model="mailNumber"
-              />
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group my-2">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Kirim Ke"
-                v-model="sendTo"
-              />
-            </div>
-          </div>
         </div>
 
         <button class="btn btn-primary float-right mt-4"> Kirim </button>
@@ -253,6 +233,6 @@ export default {
 
 .ck-content { 
   height: 500px; 
-  border:1px solid #ABABAB;
+  border: 1px solid #ABABAB;
 }
 </style>
