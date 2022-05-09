@@ -10,6 +10,9 @@
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="jabatan-tab" data-bs-toggle="tab" data-bs-target="#jabatan" type="button" role="tab" aria-controls="jabatan" aria-selected="false"> Manage Jabatan </button>
         </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="parameter-tab" data-bs-toggle="tab" data-bs-target="#parameter" type="button" role="tab" aria-controls="parameter" aria-selected="false"> Edit Parameter </button>
+        </li>
       </ul>
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="divisi" role="tabpanel" aria-labelledby="divisi-tab">
@@ -52,6 +55,22 @@
             @actionClicked="editJabatan"
             @deleteClicked="deleteJabatan"
           />
+        </div>
+        <div class="tab-pane fade" id="parameter" rol="tabpanel" aria-labelledby="parameter-tab">
+          <div class="row my-4">
+            <div class="col-6">
+              <label for="footer"> Page Footer </label>
+              
+              <div class="d-flex">
+                <input
+                  v-model="pageFooter"
+                  class="form-control mt-2"
+                />
+
+                <button type="submit" class="btn btn-primary mt-2" @click.prevent="saveParameter('page_footer')"> Save </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -139,7 +158,8 @@ export default {
       },
       divisiModal: null,
       jabatanModal: null,
-      action: null
+      action: null,
+      pageFooter: null
     }
   },
   mounted() {
@@ -307,7 +327,23 @@ export default {
           })
         }
       })
+    },
+    saveParameter(type) {
+      const data = {
+        'pcode': type,
+        'description': this.pageFooter
+      }
+      
+      axios.post('/parameter/store', data).then((resp) => {
+        
+      })
     }
+  },
+  created() {
+    /* Get page footer */
+    axios.get('/parameter/fetch?pcode=page_footer').then((resp) => {
+      this.pageFooter = resp.data.data.description
+    })
   }
 }
 </script>
