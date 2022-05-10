@@ -79,4 +79,20 @@ class DivisiController extends Controller {
 
     return $data;
   }
+
+  public function dropdown(Request $r) {
+    $fields = ['code_divisi', 'nama_divisi'];
+
+    $query = DB::table('param_divisi')
+      ->select('code_divisi', 'nama_divisi')
+      ->where('nama_divisi', '<>', $r->nama_divisi);
+
+    // if (!is_null($r->search)) {
+    //   $query = $query 
+    //     ->where('code_divisi', 'like', '%'.$r->search.'%')
+    //     ->orWhere('nama_divisi', 'like', '%'.$r->search.'%');
+    // }
+
+    return DivisiResource::collection($query->get());
+  }
 }
