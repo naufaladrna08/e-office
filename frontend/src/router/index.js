@@ -8,6 +8,7 @@ import UserView from '../views/UserView.vue'
 import ArchiveView from '../views/ArchiveView.vue'
 import AdminView from '../views/Admin/AdminView.vue'
 import ParameterView from '../views/Admin/ParameterView.vue'
+import ManageUserView from '../views/Admin/ManageUserView.vue'
 import store from '../store'
 
 const routes = [
@@ -79,7 +80,20 @@ const routes = [
   {
     name: 'Parameter',
     path: '/admin/parameter',
-    component: ParameterView
+    component: ParameterView,
+    meta: {
+      middleware: "admin",
+      breadcrumb: { text: 'Parameter' }
+    }
+  },
+  {
+    name: 'User Management',
+    path: '/admin/user',
+    component: ManageUserView,
+    meta: {
+      middleware: "admin",
+      breadcrumb: { text: 'User Management' }
+    }
   }
 ]
 
