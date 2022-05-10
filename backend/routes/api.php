@@ -50,6 +50,7 @@ Route::group(['prefix' => 'profile', 'middleware' => 'auth:sanctum'], function()
 
   Route::post('/create', [App\Http\Controllers\API\AuthController::class, 'register']);
   Route::post('/update', [App\Http\Controllers\API\AuthController::class, 'update']);
+  Route::post('/delete', [App\Http\Controllers\API\AuthController::class, 'delete']);
 });
 
 Route::group(['prefix' => 'divisi', 'middleware' => 'auth:sanctum'], function() {

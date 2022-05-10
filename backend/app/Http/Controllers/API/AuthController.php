@@ -92,6 +92,7 @@ class AuthController extends Controller {
 
     if (!$validator->fails()) {
       $user = User::where('id', $r->old_nipp)->first();
+      
       if (!$user) {
         return Response::pretty(404, 'Failed', 'User is not found', null);
       }
@@ -108,6 +109,16 @@ class AuthController extends Controller {
     }
 
     return Response::pretty(200, 'Success', 'Data has been created', $user);
+  }
+
+  public function delete(Request $r) {
+    if ($r->old_nipp == Auth::id()) {
+      return Response::pretty(404, 'Failed', 'Cannot edit yourself', 'SELF_DELETE');
+    }
+
+    $model = User::where('id', $r->old_nipp)->delete();
+
+    return Response::pretty(200, 'Success', 'Data has been deleted', null);
   }
 
   public function login(Request $r) {
