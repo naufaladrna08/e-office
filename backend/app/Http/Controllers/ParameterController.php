@@ -13,6 +13,7 @@ class ParameterController extends Controller {
     $model = Parameter::updateOrCreate([
       'pcode' => $r->pcode
     ], [
+      'pname' => $r->pname == null ? 'v1.0' : $r->pname,
       'description' => $r->description
     ]);
 
