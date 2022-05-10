@@ -214,4 +214,43 @@ class AuthController extends Controller {
 
     return $data;
   }
+
+  public function user_divisi(Request $r) {
+    /*
+     * field: field to sort
+     * order: ascending or descending
+     * page: page number
+     */
+
+    $sortField = [
+      'username',
+      'nama_divisi'
+    ];
+
+    $orderField = ['asc', 'desc'];
+    
+    if ($r->order == null || $r->field == null || 
+        !in_array($r->field, $sortField) || !in_array($r->order, $orderField)) {
+      $r->order = 'asc';
+      $r->field = 'name';
+    }
+
+    $query = User::orderBy($r->field, $r->order);
+
+    $query = DB::table('users')
+      ->select([
+        'users.id AS uid',
+        'users.username',
+        'param_divisi.*',
+      ])
+      ->leftJoin('param_divisi', 'param_divisi.code_divisi', '=', 'users.code_divisi');
+      
+    if (!is_null($r->search)) {
+      $query = $query
+        ->where('name', 'like', '%'.$r->search.'%')
+        ->orWhere('username', 'like', '%'.$r->search.'%');
+    }
+
+    return $query->paginate($r->show == null ? 10 : $r->show);
+  }
 }

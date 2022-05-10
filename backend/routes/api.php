@@ -47,6 +47,7 @@ Route::group(['prefix' => 'aspiration'], function() {
 Route::group(['prefix' => 'profile', 'middleware' => 'auth:sanctum'], function() {
   Route::get('list', [App\Http\Controllers\API\AuthController::class, 'index']);
   Route::get('userdata', [App\Http\Controllers\API\AuthController::class, 'userdata']);
+  Route::get('user_divisi', [App\Http\Controllers\API\AuthController::class, 'user_divisi']);
 
   Route::post('/create', [App\Http\Controllers\API\AuthController::class, 'register']);
   Route::post('/update', [App\Http\Controllers\API\AuthController::class, 'update']);
