@@ -239,7 +239,7 @@ class AuthController extends Controller {
 
     $query = DB::table('users')
       ->select([
-        'users.id AS uid',
+        'users.id AS nipp',
         'users.username',
         'param_divisi.nama_divisi',
       ])
