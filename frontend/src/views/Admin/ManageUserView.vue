@@ -45,7 +45,17 @@
         <div class="text-center my-4 lead"> Coming Soon </div>
       </div>
       <div class="tab-pane fade" id="divisi" role="tabpanel" aria-labelledby="divisi-tab">
-        3
+        <br>
+        
+        <DataTables
+          url="profile/user_divisi"
+          tclass="table table-bordered w-100 p-2" 
+          :columns="divisiColumn"
+          useNumber="1"
+          useAssigner="1"
+          ref="divisi"
+          @actionClicked="editDivisi"
+        />
       </div>
       <div class="tab-pane fade" id="jabatan" role="tabpanel" aria-labelledby="jabatan-tab">
         4
@@ -87,6 +97,41 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="changeDivisi" ref="divisiModal" tabindex="-1" aria-labelledby="changeDivisiLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="changeDivisiLabel"> Update divisi </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form">
+              <div class="form-group">
+                <label for="code"> NIPP </label>
+                <input type="text" class="form-control my-2" id="nipp" name="nipp" v-model="userdataDivisi.nipp" disabled>
+              </div>
+              <div class="form-group">
+                <label for="code"> Username </label>
+                <input type="text" class="form-control my-2" id="username" name="username" v-model="userdataDivisi.username" disabled>
+              </div>
+              <div class="form-group">
+                <label for="code"> Divisi </label>
+
+                <select class="form-control my-2" id="divisi" name="divisi" v-model="userdataDivisi.nama_divisi">
+                  <option disabled="true" selected> {{ userdataDivisi.nama_divisi }} </option>
+                  <option v-for="data in dropdownDivisi" :value="data.code_divisi" :key="data.code_divisi">{{data.nama_divisi}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close </button>
+            <button type="button" class="btn btn-primary" id="assign-divisi-button" @click="ioDivisi()"> Assign </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>  
 </template>
 
@@ -110,19 +155,32 @@ export default {
         email: 'E-Mail',
         created_at: 'Created'
       },
+      divisiColumn: {
+        nipp: 'NIPP',
+        username: 'Username',
+        nama_divisi: 'Nama Divisi'
+      },
       userdata: {
         nipp: '',
         username: '',
         name: '',
         email: '',
       },
+      userdataDivisi: {
+        nipp: '',
+        username: '',
+        nama_divisi: '',
+        code_divisi: ''
+      },
       ioUserModal: null,
       action: 'create',
-      tmpCode: null
+      tmpCode: null,
+      dropdownDivisi: []
     }
   },
   mounted() {
     this.ioUserModal = new Modal(this.$refs.userModal)
+    this.ioDivisiModal = new Modal(this.$refs.divisiModal)
   },
   methods: {
     async ioUser(type) {
@@ -151,6 +209,23 @@ export default {
       })
 
       this.ioUserModal.hide()
+    },
+    async ioDivisi() {
+      console.log(this.userdataDivisi)
+      await axios.post('/divisi/user', this.userdataDivisi).then(() => {
+        this.$refs.divisi.fetchData()
+
+        this.$swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Data has been saved!'
+        })
+      }).catch(({response: {data}}) => {
+        alert(data.message)
+      })
+
+      this.$refs.divisi.fetchData()
+      this.ioDivisiModal.hide()
     },
     changeLabels(type, to) {
       if (type == 'create') {
@@ -234,6 +309,17 @@ export default {
             alert(data.message)
           })
         }
+      })
+    },
+    editDivisi(data) {
+      this.ioDivisiModal.show()
+
+      this.userdataDivisi.nipp = data.nipp
+      this.userdataDivisi.username = data.username
+      this.userdataDivisi.nama_divisi = data.nama_divisi
+
+      axios.get('divisi/dropdown?nama_divisi=' + data.nama_divisi).then((resp) => {
+        this.dropdownDivisi = resp.data.data
       })
     }
   }
