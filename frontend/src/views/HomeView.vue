@@ -30,7 +30,7 @@
               <div class="card-body">
                 <img v-bind:src="images.visi" class="my-4">
                 <h5 class="card-title"> Visi </h5>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, veritatis.
+                <p class="lead"> {{ visi }} </p>
               </div>
             </div>
           </div>
@@ -39,7 +39,7 @@
               <div class="card-body">
                 <img v-bind:src="images.misi" class="my-4">
                 <h5 class="card-title"> Misi </h5>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure tenetur quasi eos architecto fuga recusandae quod et hic.
+                <p class="lead"> {{ misi }} </p>
               </div>
             </div>
           </div>
@@ -134,7 +134,7 @@
             <img v-bind:src="images.logo">
           </div>
           <div class="col copy">
-            2022 Copyrights & Protected
+            {{ pageFooter }}
           </div>
         </div>
       </div>
@@ -250,6 +250,8 @@
 </style>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'HomeView',
   components: {
@@ -265,8 +267,27 @@ export default {
         "wave": require('../assets/particles/wave-landing.svg'),
         "wave_news": require('../assets/particles/wave-news-landing.svg'),
         "struktur_organisasi": require('../assets/struktur_og.svg'),
-      }
+      },
+      visi: null,
+      misi: null,
+      pageFooter: null
     }
+  },
+  created() {
+    /* Page Footer */
+    axios.get('/parameter/fetch?pcode=page_footer').then((resp) => {
+      this.pageFooter = resp.data.data.description
+    })
+    
+    /* Get visi */
+    axios.get('/parameter/fetch?pcode=visi').then((resp) => {
+      this.visi = resp.data.data.description
+    })
+
+    /* Get misi */
+    axios.get('/parameter/fetch?pcode=misi').then((resp) => {
+      this.misi = resp.data.data.description
+    })
   }
 }
 </script>
