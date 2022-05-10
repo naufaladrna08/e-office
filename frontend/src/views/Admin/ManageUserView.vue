@@ -58,7 +58,17 @@
         />
       </div>
       <div class="tab-pane fade" id="jabatan" role="tabpanel" aria-labelledby="jabatan-tab">
-        4
+        <br>
+        
+        <DataTables
+          url="profile/user_jabatan"
+          tclass="table table-bordered w-100 p-2" 
+          :columns="jabatanColumn"
+          useNumber="1"
+          useAssigner="1"
+          ref="jabatan"
+          @actionClicked="editJabatan"
+        />
       </div>
     </div>
 
@@ -132,6 +142,41 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="changeJabatan" ref="jabatanModal" tabindex="-1" aria-labelledby="changeJabatanLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="changeJabatanLabel"> Update jabatan </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form">
+              <div class="form-group">
+                <label for="code"> NIPP </label>
+                <input type="text" class="form-control my-2" id="nipp" name="nipp" v-model="userdataJabatan.nipp" disabled>
+              </div>
+              <div class="form-group">
+                <label for="code"> Username </label>
+                <input type="text" class="form-control my-2" id="username" name="username" v-model="userdataJabatan.username" disabled>
+              </div>
+              <div class="form-group">
+                <label for="code"> Jabatan </label>
+
+                <select class="form-control my-2" id="jabatan" name="jabatan" v-model="userdataJabatan.nama_jabatan">
+                  <option disabled="true" selected> {{ userdataJabatan.nama_jabatan }} </option>
+                  <option v-for="data in dropdownJabatan" :value="data.code_jabatan" :key="data.code_jabatan"> {{ data.nama_jabatan }} </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close </button>
+            <button type="button" class="btn btn-primary" id="assign-jabatan-button" @click="ioJabatan()"> Assign </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>  
 </template>
 
@@ -160,6 +205,11 @@ export default {
         username: 'Username',
         nama_divisi: 'Nama Divisi'
       },
+      jabatanColumn: {
+        nipp: 'NIPP',
+        username: 'Username',
+        nama_divisi: 'Nama Jabatan'
+      },
       userdata: {
         nipp: '',
         username: '',
@@ -172,15 +222,25 @@ export default {
         nama_divisi: '',
         code_divisi: ''
       },
+      userdataJabatan: {
+        nipp: '',
+        username: '',
+        nama_jabatan: '',
+        code_jabatan: ''
+      },
       ioUserModal: null,
+      ioDivisiModal: null,
+      ioJabatanModal: null,
       action: 'create',
       tmpCode: null,
-      dropdownDivisi: []
+      dropdownDivisi: [],
+      dropdownJabatan: []
     }
   },
   mounted() {
     this.ioUserModal = new Modal(this.$refs.userModal)
     this.ioDivisiModal = new Modal(this.$refs.divisiModal)
+    this.ioJabatanModal = new Modal(this.$refs.jabatanModal)
   },
   methods: {
     async ioUser(type) {
@@ -211,7 +271,6 @@ export default {
       this.ioUserModal.hide()
     },
     async ioDivisi() {
-      console.log(this.userdataDivisi)
       await axios.post('/divisi/user', this.userdataDivisi).then(() => {
         this.$refs.divisi.fetchData()
 
@@ -227,6 +286,21 @@ export default {
       this.$refs.divisi.fetchData()
       this.ioDivisiModal.hide()
     },
+    async ioJabatan() {
+      await axios.post('/jabatan/user', this.userdataJabatan).then(() => {
+        this.$refs.jabatan.fetchData()
+
+        this.$swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Data has been saved!'
+        })
+      }).catch(({response: {data}}) => {
+        alert(data.message)
+      })
+
+      this.ioJabatanModal.hide()
+    },
     changeLabels(type, to) {
       if (type == 'create') {
         this.action = 'create'
@@ -236,13 +310,6 @@ export default {
           document.getElementById('create-user-button').innerHTML = 'Create'
 
           for (let member in this.userdata) delete this.userdata[member]
-        } else if (to == 'jabatan') {
-          document.getElementById('createJabatanLabel').innerHTML = 'Create Jabatan'
-          document.getElementById('create-jabatan-button').innerHTML = 'Create'
-
-          for (let member in this.jabatanData) delete this.jabatanData[member]
-          document.getElementById('code_jabatan').value = ''
-          document.getElementById('nama_Jabatan').value = ''
         } else {
           console.error('Target is not found')
         }
@@ -252,9 +319,6 @@ export default {
         if (to == 'users') {
           document.getElementById('createUserLabel').innerHTML = 'Update User'
           document.getElementById('create-user-button').innerHTML = 'Update'
-        } else if (to == 'jabatan') {
-          document.getElementById('createJabatanLabel').innerHTML = 'Update Jabatan'
-          document.getElementById('create-jabatan-button').innerHTML = 'Update'
         } else {
           console.error('Target is not found')
         }
@@ -320,6 +384,17 @@ export default {
 
       axios.get('divisi/dropdown?nama_divisi=' + data.nama_divisi).then((resp) => {
         this.dropdownDivisi = resp.data.data
+      })
+    },
+    editJabatan(data) {
+      this.ioJabatanModal.show()
+
+      this.userdataJabatan.nipp = data.nipp
+      this.userdataJabatan.username = data.username
+      this.userdataJabatan.nama_jabatan = data.nama_jabatan
+
+      axios.get('jabatan/dropdown?nama_jabatan=' + data.nama_jabatan).then((resp) => {
+        this.dropdownJabatan = resp.data.data
       })
     }
   }
