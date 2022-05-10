@@ -58,8 +58,11 @@ Route::group(['prefix' => 'divisi', 'middleware' => 'auth:sanctum'], function() 
   Route::post('create', [App\Http\Controllers\DivisiController::class, 'create']);
   Route::get('read', [App\Http\Controllers\DivisiController::class, 'read']);
   Route::get('dropdown', [App\Http\Controllers\DivisiController::class, 'dropdown']);
+  
+  Route::post('delete', [App\Http\Controllers\DivisiController::class, 'delete']);
   Route::post('update', [App\Http\Controllers\DivisiController::class, 'update']);
   Route::post('delete', [App\Http\Controllers\DivisiController::class, 'delete']);
+  Route::post('user', [App\Http\Controllers\DivisiController::class, 'user']);
 });
 
 Route::group(['prefix' => 'jabatan', 'middleware' => 'auth:sanctum'], function() {

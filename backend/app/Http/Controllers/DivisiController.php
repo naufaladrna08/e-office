@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\ParamDivisi;
+use App\Models\User;
 use App\Http\Resources\DivisiResource;
 use App\Classes\Response;
 use Illuminate\Support\Facades\DB;
@@ -94,5 +95,16 @@ class DivisiController extends Controller {
     // }
 
     return DivisiResource::collection($query->get());
+  }
+
+  public function user(Request $r) {
+    $data = User::where('id', $r->nipp)->first();
+    $data->code_divisi = $r->nama_divisi;
+
+    if (!$data->update()) {
+      return Response::pretty(500, 'Failed', 'Internal Server Error', null);
+    }
+
+    return Response::pretty(200, 'Success', 'Data has been saved', $data);
   }
 }
