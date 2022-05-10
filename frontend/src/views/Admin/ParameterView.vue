@@ -59,15 +59,39 @@
         <div class="tab-pane fade" id="parameter" rol="tabpanel" aria-labelledby="parameter-tab">
           <div class="row my-4">
             <div class="col-6">
-              <label for="footer"> Page Footer </label>
+              <div class="form-group mb-2">
+                <label for="footer"> Page Footer </label>
               
-              <div class="d-flex">
-                <input
-                  v-model="pageFooter"
+                <div class="d-flex">
+                  <input
+                    v-model="pageFooter"
+                    class="form-control mt-2"
+                  />
+
+                  <button type="submit" class="btn btn-primary mt-2" @click.prevent="saveParameter('page_footer', pageFooter)"> Save </button>
+                </div>
+              </div>
+              <div class="form-group mb-2">
+                <label for="footer"> Visi </label>
+              
+                <textarea
+                  v-model="visi"
                   class="form-control mt-2"
                 />
 
-                <button type="submit" class="btn btn-primary mt-2" @click.prevent="saveParameter('page_footer')"> Save </button>
+                <button type="submit" class="btn btn-primary mt-2" @click.prevent="saveParameter('visi', visi)"> Save </button>
+                <button type="submit" class="btn btn-success mt-2 mx-2" @click.prevent="preview()"> Preview </button>
+              </div>
+              <div class="form-group mb-2">
+                <label for="footer"> Misi </label>
+              
+                <textarea
+                  v-model="misi"
+                  class="form-control mt-2"
+                />
+
+                <button type="submit" class="btn btn-primary mt-2" @click.prevent="saveParameter('misi', misi)"> Save </button>
+                <button type="submit" class="btn btn-success mt-2 mx-2" @click.prevent="preview()"> Preview </button>
               </div>
             </div>
           </div>
@@ -159,7 +183,9 @@ export default {
       divisiModal: null,
       jabatanModal: null,
       action: null,
-      pageFooter: null
+      pageFooter: null,
+      visi: null,
+      misi: null
     }
   },
   mounted() {
@@ -328,21 +354,39 @@ export default {
         }
       })
     },
-    saveParameter(type) {
+    saveParameter(type, description) {
       const data = {
         'pcode': type,
-        'description': this.pageFooter
+        'description': description
       }
       
       axios.post('/parameter/store', data).then((resp) => {
-        
+        this.$swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Data has been saved!'
+        })
       })
+    },
+    preview() {
+      let url = new URL(location.href).href + '/preview_home'
+      window.open(url, '_blank');
     }
   },
   created() {
     /* Get page footer */
     axios.get('/parameter/fetch?pcode=page_footer').then((resp) => {
       this.pageFooter = resp.data.data.description
+    })
+
+    /* Get visi */
+    axios.get('/parameter/fetch?pcode=visi').then((resp) => {
+      this.visi = resp.data.data.description
+    })
+
+    /* Get misi */
+    axios.get('/parameter/fetch?pcode=misi').then((resp) => {
+      this.misi = resp.data.data.description
     })
   }
 }
