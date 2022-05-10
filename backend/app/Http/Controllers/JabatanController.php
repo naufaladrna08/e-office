@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\ParamJabatan;
+use App\Models\User;
 use App\Http\Resources\JabatanResource;
 use App\Classes\Response;
 use Illuminate\Support\Facades\DB;
