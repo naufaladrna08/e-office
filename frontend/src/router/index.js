@@ -9,6 +9,7 @@ import ArchiveView from '../views/ArchiveView.vue'
 import AdminView from '../views/Admin/AdminView.vue'
 import ParameterView from '../views/Admin/ParameterView.vue'
 import ManageUserView from '../views/Admin/ManageUserView.vue'
+import PreviewHomeView from '../views/Admin/PreviewHomeView.vue'
 import store from '../store'
 
 const routes = [
@@ -90,6 +91,15 @@ const routes = [
     name: 'User Management',
     path: '/admin/user',
     component: ManageUserView,
+    meta: {
+      middleware: "admin",
+      breadcrumb: { text: 'User Management' }
+    }
+  },
+  {
+    name: 'Home Preview',
+    path: '/admin/parameter/preview_home',
+    component: PreviewHomeView,
     meta: {
       middleware: "admin",
       breadcrumb: { text: 'User Management' }
