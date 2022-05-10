@@ -253,4 +253,43 @@ class AuthController extends Controller {
 
     return $query->paginate($r->show == null ? 10 : $r->show);
   }
+
+  public function user_jabatan(Request $r) {
+    /*
+     * field: field to sort
+     * order: ascending or descending
+     * page: page number
+     */
+
+    $sortField = [
+      'username',
+      'nama_jabatan'
+    ];
+
+    $orderField = ['asc', 'desc'];
+    
+    if ($r->order == null || $r->field == null || 
+        !in_array($r->field, $sortField) || !in_array($r->order, $orderField)) {
+      $r->order = 'asc';
+      $r->field = 'name';
+    }
+
+    $query = User::orderBy($r->field, $r->order);
+
+    $query = DB::table('users')
+      ->select([
+        'users.id AS nipp',
+        'users.username',
+        'param_jabatan.nama_jabatan',
+      ])
+      ->leftJoin('param_jabatan', 'param_jabatan.code_jabatan', '=', 'users.code_jabatan');
+      
+    if (!is_null($r->search)) {
+      $query = $query
+        ->where('name', 'like', '%'.$r->search.'%')
+        ->orWhere('username', 'like', '%'.$r->search.'%');
+    }
+
+    return $query->paginate($r->show == null ? 10 : $r->show);
+  }
 }

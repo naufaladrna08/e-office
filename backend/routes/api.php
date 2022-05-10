@@ -48,6 +48,7 @@ Route::group(['prefix' => 'profile', 'middleware' => 'auth:sanctum'], function()
   Route::get('list', [App\Http\Controllers\API\AuthController::class, 'index']);
   Route::get('userdata', [App\Http\Controllers\API\AuthController::class, 'userdata']);
   Route::get('user_divisi', [App\Http\Controllers\API\AuthController::class, 'user_divisi']);
+  Route::get('user_jabatan', [App\Http\Controllers\API\AuthController::class, 'user_jabatan']);
 
   Route::post('/create', [App\Http\Controllers\API\AuthController::class, 'register']);
   Route::post('/update', [App\Http\Controllers\API\AuthController::class, 'update']);
@@ -70,6 +71,9 @@ Route::group(['prefix' => 'jabatan', 'middleware' => 'auth:sanctum'], function()
   Route::get('read', [App\Http\Controllers\JabatanController::class, 'read']);
   Route::post('update', [App\Http\Controllers\JabatanController::class, 'update']);
   Route::post('delete', [App\Http\Controllers\JabatanController::class, 'delete']);
+
+  Route::get('dropdown', [App\Http\Controllers\JabatanController::class, 'dropdown']);
+  Route::post('user', [App\Http\Controllers\JabatanController::class, 'user']);
 });
 
 Route::group(['prefix' => 'photo', 'middleware' => 'auth:sanctum'], function() {

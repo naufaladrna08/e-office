@@ -79,4 +79,31 @@ class JabatanController extends Controller {
 
     return $data;
   }
+
+  public function dropdown(Request $r) {
+    $fields = ['code_jabatan', 'nama_jabatan'];
+
+    $query = DB::table('param_jabatan')
+      ->select('code_jabatan', 'nama_jabatan')
+      ->where('nama_jabatan', '<>', $r->nama_jabatan);
+
+    // if (!is_null($r->search)) {
+    //   $query = $query 
+    //     ->where('code_jabatan', 'like', '%'.$r->search.'%')
+    //     ->orWhere('nama_jabatan', 'like', '%'.$r->search.'%');
+    // }
+
+    return JabatanResource::collection($query->get());
+  }
+
+  public function user(Request $r) {
+    $data = User::where('id', $r->nipp)->first();
+    $data->code_jabatan = $r->nama_jabatan;
+
+    if (!$data->update()) {
+      return Response::pretty(500, 'Failed', 'Internal Server Error', null);
+    }
+
+    return Response::pretty(200, 'Success', 'Data has been saved', $data);
+  }
 }
