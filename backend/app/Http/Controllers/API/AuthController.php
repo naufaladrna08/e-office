@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use \Illuminate\Validation\Rule;
 use Auth;
 use Validator;
 use App\Models\User;
@@ -69,18 +70,44 @@ class AuthController extends Controller {
         'cover_photo_id' => 2
       ]);
 
-      $token = $user->createToken('auth_token')->plainTextToken;
       $user->assignRole('user');
 
     } else {
       return response()->json($validator->errors()); 
     }
 
-    return Response::pretty(200, 'Success', 'Data has been created', [
-      'user' => $user,
-      'access_token' => $token,
-      'token_type' => 'Bearer'
+    return Response::pretty(200, 'Success', 'Data has been created', $user);
+  }
+
+  public function update(Request $r) {
+    $validator = Validator::make($r->all(), [
+      'name' => 'required|string|max:255|min:3',
+      'email' => [
+        'required', 'email', Rule::unique('users')->ignore($r->old_nipp)
+      ],
+      'username' => [
+        'required', 'string', Rule::unique('users')->ignore($r->old_nipp)
+      ]
     ]);
+
+    if (!$validator->fails()) {
+      $user = User::where('id', $r->old_nipp)->first();
+      if (!$user) {
+        return Response::pretty(404, 'Failed', 'User is not found', null);
+      }
+      
+      $user->id = $r->nipp;
+      $user->name = $r->name;
+      $user->username = $r->username;
+      $user->email = $r->email;
+      $user->last_action = 'UPDATE';
+      $user->save();
+
+    } else {
+      return response()->json($validator->errors()); 
+    }
+
+    return Response::pretty(200, 'Success', 'Data has been created', $user);
   }
 
   public function login(Request $r) {
