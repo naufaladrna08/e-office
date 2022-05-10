@@ -241,7 +241,7 @@ class AuthController extends Controller {
       ->select([
         'users.id AS uid',
         'users.username',
-        'param_divisi.*',
+        'param_divisi.nama_divisi',
       ])
       ->leftJoin('param_divisi', 'param_divisi.code_divisi', '=', 'users.code_divisi');
       
