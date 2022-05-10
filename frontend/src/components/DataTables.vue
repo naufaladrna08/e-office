@@ -62,6 +62,9 @@
               <i v-else class="fa fa-arrow-down"></i> 
             </span>
           </th>
+           <template v-if="assigner == 1">
+            <th> Action </th> 
+          </template>
         </tr>
       </thead>
       <tbody>
@@ -83,6 +86,11 @@
             </a>
           </template>
           <td v-for="col in data" :key="col"> {{ col }} </td>
+          <template v-if="assigner == 1">
+            <a @click.prevent="handleActionClicked(data)" class="btn btn-primary mx-2 my-2"> 
+              <i class="fa fa-tasks"></i> Assign / Change
+            </a>
+          </template>
         </tr>
       </tbody>
     </table>
@@ -111,6 +119,7 @@ export default {
     url: { type: String, required: true },
     useNumber: { type: Boolean, required: false },
     useAction: { type: Number, required: false },
+    useAssigner: { type: Number, required: false },
   },
   data() {
     return {
@@ -125,7 +134,8 @@ export default {
       total: 1,
       columnList: this.columns,
       number: this.useNumber,
-      action: this.useAction
+      action: this.useAction,
+      assigner: this.useAssigner
     }
   },
   created() {
