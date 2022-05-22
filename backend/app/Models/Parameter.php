@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Parameter extends Model {
   use HasFactory;
 
+  protected $table = 'parameter';
   protected $fillable = ['id', 'pcode', 'pname', 'description'];
 }
