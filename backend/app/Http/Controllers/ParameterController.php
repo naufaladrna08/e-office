@@ -24,7 +24,7 @@ class ParameterController extends Controller {
   public function fetch(Request $r) {
     $data = [];
     
-    $model = Parameter::where('code', $r->code)->firstOrFail();
+    $model = Parameter::where('type', $r->type)->firstOrFail();
 
     return Response::pretty(200, 'Success', 'Data has been saved', $model);
   }
