@@ -85,6 +85,17 @@ Route::group(['prefix' => 'parameter'], function() {
   Route::get('fetch', [App\Http\Controllers\ParameterController::class, 'fetch']);
 });
 
+Route::group(['prefix' => 'klasifikasi-masalah', 'middleware' => 'auth:sanctum'], function() {
+  Route::post('create', [App\Http\Controllers\KlasifikasiMasalahController::class, 'create']);
+  Route::get('read', [App\Http\Controllers\KlasifikasiMasalahController::class, 'read']);
+  Route::post('update', [App\Http\Controllers\KlasifikasiMasalahController::class, 'update']);
+  Route::post('delete', [App\Http\Controllers\KlasifikasiMasalahController::class, 'delete']);
+
+  Route::get('dropdown', [App\Http\Controllers\KlasifikasiMasalahController::class, 'dropdown']);
+  Route::post('user', [App\Http\Controllers\KlasifikasiMasalahController::class, 'user']);
+});
+
+
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
 Route::post('/validate-login', [App\Http\Controllers\API\AuthController::class, 'validate_login']);
 Route::middleware('auth:sanctum')->post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
