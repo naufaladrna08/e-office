@@ -11,9 +11,10 @@ class ParameterController extends Controller {
     $data = [];
     
     $model = Parameter::updateOrCreate([
-      'pcode' => $r->pcode
+      'type' => $r->type,
+      'code' => $r->code
     ], [
-      'pname' => $r->pname == null ? 'v1.0' : $r->pname,
+      'name' => $r->name == null ? 'v1.0' : $r->name,
       'description' => $r->description
     ]);
 
@@ -23,7 +24,7 @@ class ParameterController extends Controller {
   public function fetch(Request $r) {
     $data = [];
     
-    $model = Parameter::where('pcode', $r->pcode)->firstOrFail();
+    $model = Parameter::where('code', $r->code)->firstOrFail();
 
     return Response::pretty(200, 'Success', 'Data has been saved', $model);
   }
