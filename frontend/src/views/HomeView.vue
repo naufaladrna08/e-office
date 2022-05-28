@@ -275,17 +275,17 @@ export default {
   },
   created() {
     /* Page Footer */
-    axios.get('/parameter/fetch?pcode=page_footer').then((resp) => {
+    axios.get('/parameter/fetch?type=page_footer').then((resp) => {
       this.pageFooter = resp.data.data.description
     })
     
     /* Get visi */
-    axios.get('/parameter/fetch?pcode=visi').then((resp) => {
+    axios.get('/parameter/fetch?type=visi').then((resp) => {
       this.visi = resp.data.data.description
     })
 
     /* Get misi */
-    axios.get('/parameter/fetch?pcode=misi').then((resp) => {
+    axios.get('/parameter/fetch?type=misi').then((resp) => {
       this.misi = resp.data.data.description
     })
   }
