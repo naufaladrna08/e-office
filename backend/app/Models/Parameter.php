@@ -9,5 +9,5 @@ class Parameter extends Model {
   use HasFactory;
 
   protected $table = 'parameter';
-  protected $fillable = ['id', 'pcode', 'pname', 'description'];
+  protected $fillable = ['id', 'type', 'code', 'name', 'description'];
 }
