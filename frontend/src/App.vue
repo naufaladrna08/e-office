@@ -125,7 +125,7 @@ export default {
       this.userdata = resp.data.data
     })
 
-    axios.get('/parameter/fetch?pcode=page_footer').then((resp) => {
+    axios.get('/parameter/fetch?type=page_footer').then((resp) => {
       this.pageFooter = resp.data.data.description
     })
   }
