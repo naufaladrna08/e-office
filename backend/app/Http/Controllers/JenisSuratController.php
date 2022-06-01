@@ -108,7 +108,7 @@ class JenisSuratController extends Controller {
     foreach ($dataall as $val) {
       $data[] = [
         'text' => $val->name,
-        'value' => $val->code
+        'id' => $val->code
       ];
     }
 
