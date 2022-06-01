@@ -140,7 +140,7 @@
     </div>
 
     <!-- MODALS -->
-    <div class="modal fade" id="createDivisi" ref="divisiModal" tabindex="-1" aria-labelledby="createDivisiLabel" aria-hidden="true">
+    <div class="modal fade" ref="divisiModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -167,7 +167,7 @@
       </div>
     </div>
 
-    <div class="modal fade" id="createJabatan" ref="jabatanModal" tabindex="-1" aria-labelledby="createJabatanLabel" aria-hidden="true">
+    <div class="modal fade" ref="jabatanModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
