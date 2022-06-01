@@ -91,21 +91,29 @@ class JenisSuratController extends Controller {
     return $data;
   }
 
-  // public function dropdown(Request $r) {
-  //   $fields = ['code_jabatan', 'nama_jabatan'];
+  public function dropdown(Request $r) {
+    $fields = ['code', 'name'];
+    $data = [];
 
-  //   $query = DB::table('param_jabatan')
-  //     ->select('code_jabatan', 'nama_jabatan')
-  //     ->where('nama_jabatan', '<>', $r->nama_jabatan);
+    $query = DB::table('parameter')
+      ->select('code', 'name')
+      ->where('type', 'jenis_surat');
 
-  //   // if (!is_null($r->search)) {
-  //   //   $query = $query 
-  //   //     ->where('code_jabatan', 'like', '%'.$r->search.'%')
-  //   //     ->orWhere('nama_jabatan', 'like', '%'.$r->search.'%');
-  //   // }
+    if (!is_null($r->search)) {
+      $query = $query->where('name', 'like', '%'.$r->search.'%');
+    }
 
-  //   return JabatanResource::collection($query->get());
-  // }
+    $dataall = $query->get();
+
+    foreach ($dataall as $val) {
+      $data[] = [
+        'text' => $val->name,
+        'value' => $val->code
+      ];
+    }
+
+    return response()->json($data);
+  }
 
   // public function user(Request $r) {
   //   $data = User::where('id', $r->nipp)->first();
