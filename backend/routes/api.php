@@ -92,7 +92,17 @@ Route::group(['prefix' => 'klasifikasi-masalah', 'middleware' => 'auth:sanctum']
   Route::post('delete', [App\Http\Controllers\KlasifikasiMasalahController::class, 'delete']);
 
   Route::get('dropdown', [App\Http\Controllers\KlasifikasiMasalahController::class, 'dropdown']);
-  Route::post('user', [App\Http\Controllers\KlasifikasiMasalahController::class, 'user']);
+  // Route::post('user', [App\Http\Controllers\KlasifikasiMasalahController::class, 'user']);
+});
+
+Route::group(['prefix' => 'jenis-surat', 'middleware' => 'auth:sanctum'], function() {
+  Route::post('create', [App\Http\Controllers\JenisSuratController::class, 'create']);
+  Route::get('read', [App\Http\Controllers\JenisSuratController::class, 'read']);
+  Route::post('update', [App\Http\Controllers\JenisSuratController::class, 'update']);
+  Route::post('delete', [App\Http\Controllers\JenisSuratController::class, 'delete']);
+
+  Route::get('dropdown', [App\Http\Controllers\JenisSuratController::class, 'dropdown']);
+  // Route::post('user', [App\Http\Controllers\JenisSuratController::class, 'user']);
 });
 
 
