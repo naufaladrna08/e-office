@@ -71,4 +71,28 @@ class ParameterController extends Controller {
 
     return $data;
   }
+
+  public function dropdown(Request $r) {
+    $fields = ['code', 'name'];
+    $data = [];
+
+    $query = DB::table('parameter')
+      ->select('code', 'name')
+      ->where('type', $r->type);
+
+    if (!is_null($r->search)) {
+      $query = $query->where('name', 'like', '%'.$r->search.'%');
+    }
+
+    $dataall = $query->get();
+
+    foreach ($dataall as $val) {
+      $data[] = [
+        'text' => $val->name,
+        'id' => $val->code
+      ];
+    }
+
+    return response()->json($data);
+  }
 }
