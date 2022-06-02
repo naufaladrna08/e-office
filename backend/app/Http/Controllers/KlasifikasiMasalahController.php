@@ -93,19 +93,27 @@ class KlasifikasiMasalahController extends Controller {
   }
 
   public function dropdown(Request $r) {
-    $fields = ['code_jabatan', 'nama_jabatan'];
+    $fields = ['code', 'name'];
+    $data = [];
 
-    $query = DB::table('param_jabatan')
-      ->select('code_jabatan', 'nama_jabatan')
-      ->where('nama_jabatan', '<>', $r->nama_jabatan);
+    $query = DB::table('parameter')
+      ->select('code', 'name')
+      ->where('type', 'klasifikasi_masalah');
 
-    // if (!is_null($r->search)) {
-    //   $query = $query 
-    //     ->where('code_jabatan', 'like', '%'.$r->search.'%')
-    //     ->orWhere('nama_jabatan', 'like', '%'.$r->search.'%');
-    // }
+    if (!is_null($r->search)) {
+      $query = $query->where('name', 'like', '%'.$r->search.'%');
+    }
 
-    return JabatanResource::collection($query->get());
+    $dataall = $query->get();
+
+    foreach ($dataall as $val) {
+      $data[] = [
+        'text' => $val->name,
+        'id' => $val->code
+      ];
+    }
+
+    return response()->json($data);
   }
 
   public function user(Request $r) {
