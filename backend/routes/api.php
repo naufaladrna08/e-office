@@ -83,6 +83,7 @@ Route::group(['prefix' => 'photo', 'middleware' => 'auth:sanctum'], function() {
 Route::group(['prefix' => 'parameter'], function() {
   Route::post('store', [App\Http\Controllers\ParameterController::class, 'storeOrUpdate']);
   Route::get('fetch', [App\Http\Controllers\ParameterController::class, 'fetch']);
+  Route::get('read', [App\Http\Controllers\ParameterController::class, 'read']);
 });
 
 Route::group(['prefix' => 'klasifikasi-masalah', 'middleware' => 'auth:sanctum'], function() {
