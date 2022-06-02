@@ -19,6 +19,9 @@
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="jenis-surat-tab" data-bs-toggle="tab" data-bs-target="#jenis-surat" type="button" role="tab" aria-controls="jenis-surat" aria-selected="false"> Jenis Surat </button>
         </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="false"> All </button>
+        </li>
       </ul>
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="divisi" role="tabpanel" aria-labelledby="divisi-tab">
@@ -136,6 +139,23 @@
             @deleteClicked="deleteJenisSurat"
           />
         </div>
+        <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
+          <div class="btn btn-primary mr-2 my-4" data-bs-toggle="modal" data-bs-target="#createJenisSurat" @click="this.changeLabels('create', 'parameter')"> Create </div>
+          <div class="btn btn-primary mr-2 my-4"> Upload </div>
+          <div class="btn btn-primary mr-2 my-4"> Download Template </div>
+
+          <!-- Datatables -->
+          <DataTables 
+            tclass="table table-hover table-bordered w-100 p-2" 
+            url="parameter/read"
+            :columns="allParameterFields"
+            useNumber="1"
+            useAction="1"
+            ref="allParameter"
+            @actionClicked="editParameter"
+            @deleteClicked="deleteParameter"
+          />
+        </div>
       </div>
     </div>
 
@@ -247,6 +267,41 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" ref="allParameterModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="createParameterLabel"> Create Parameter </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form">
+              <div class="form-group">
+                <label for="code"> Type </label>
+                <input type="text" class="form-control my-2" id="type-parameter" name="type-parameter" v-model="parameterData.type">
+              </div>
+              <div class="form-group">
+                <label for="code"> Kode </label>
+                <input type="text" class="form-control my-2" id="kode-parameter" name="kode-parameter" v-model="parameterData.code">
+              </div>
+              <div class="form-group">
+                <label for="name"> Nama </label>
+                <input type="text" class="form-control my-2" id="nama-parameter" name="nama-parameter" v-model="parameterData.name">
+              </div>
+              <div class="form-group">
+                <label for="name"> Deskripsi </label>
+                <textarea type="text" class="form-control my-2" id="deskripsi-parameter" name="deskripsi-parameter" v-model="parameterData.description" />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close </button>
+            <button type="button" class="btn btn-primary" id="create-parameter-button" @click="action == 'create' ? ioParameter('create') : ioParameter('update')"> Create </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- END OF MODALS -->
   </div>
 </template>
@@ -266,6 +321,7 @@ export default {
     return {
       divisiFields: ['code_divisi', 'nama_divisi'],
       jabatanFields: ['code_jabatan', 'nama_jabatan'],
+      allParameterFields: ['type', 'code', 'name', 'description'],
       klasifikasiMasalahFields: ['code', 'description'],
       jenisSuratFields: ['code', 'description'],
       divisiData: {
@@ -284,10 +340,18 @@ export default {
         old_code: null,
         name: null,
       },
+      parameterData: {
+        old_code: null,
+        type: null,
+        code: null,
+        name: null,
+        description: null,
+      },
       divisiModal: null,
       jabatanModal: null,
       klasifikasiMasalahModal: null,
       jenisSuratModal: null,
+      allParameterModal: null,
       action: null,
       pageFooter: null,
       visi: null,
@@ -299,6 +363,7 @@ export default {
     this.jabatanModal = new Modal(this.$refs.jabatanModal)
     this.klasifikasiMasalahModal = new Modal(this.$refs.klasifikasiMasalahModal)
     this.jenisSuratModal = new Modal(this.$refs.jenisSuratModal)
+    this.allParameterModal = new Modal(this.$refs.allParameterModal)
   },
   methods: {
     async ioDivisi(type) {
@@ -377,6 +442,17 @@ export default {
 
       this.jenisSuratModal.hide()
     },
+    async ioParameter() {
+      let url = '/parameter/store'
+
+      await axios.post(url, this.parameterData).then(() => {
+        this.$refs.allParameter.fetchData()
+      }).catch(({response: {data}}) => {
+        alert(data.message)
+      })
+
+      this.allParameterModal.hide()
+    },
     changeLabels(type, to) {
       if (type == 'create') {
         this.action = 'create'
@@ -416,6 +492,18 @@ export default {
           
           /* Show modal */
           this.jenisSuratModal.show()
+        } else if (to == 'parameter') {
+          document.getElementById('createParameterLabel').innerHTML = 'Create Parameter'
+          document.getElementById('create-parameter-button').innerHTML = 'Create'
+
+          for (let member in this.parameterData) delete this.parameterData[member]
+          document.getElementById('type-parameter').value = ''
+          document.getElementById('kode-parameter').value = ''
+          document.getElementById('nama-parameter').value = ''
+          document.getElementById('deskripsi-parameter').value = ''
+          
+          /* Show modal */
+          this.allParameterModal.show()
         } else {
           console.error('Target is not found')
         }
@@ -434,6 +522,9 @@ export default {
         } else if (to == 'jenis-surat') {
           document.getElementById('createJenisSuratLabel').innerHTML = 'Update Jenis Surat'
           document.getElementById('create-jenis-surat-button').innerHTML = 'Update'
+        } else if (to == 'parameter]') {
+          document.getElementById('createParameterLabel').innerHTML = 'Update Parameter'
+          document.getElementById('create-parameter-button').innerHTML = 'Update'
         } else {
           console.error('Target is not found')
         }
@@ -601,6 +692,58 @@ export default {
             )
 
             this.$refs.jenisSurat.fetchData()
+          }).catch(({response: {data}}) => {
+            alert(data.message)
+          })
+        }
+      })
+    },
+    editParameter(data) {
+      this.allParameterModal.show()
+      this.changeLabels('update', 'parameter')
+      
+      let type = data.type
+      let code = data.code
+      let name = data.name
+      let description = data.description
+
+      this.tmpCode = data.code
+      this.parameterData.type = type
+      this.parameterData.code = code
+      this.parameterData.name = name
+      this.parameterData.description = description
+
+      document.getElementById('type-parameter').value = type
+      document.getElementById('kode-parameter').value = name
+      document.getElementById('nama-parameter').value = code
+      document.getElementById('deskripsi-parameter').value = description
+    },
+    deleteParameter(data) {
+      console.log(data)
+
+      this.$swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const postData = {
+            code: data.code,
+            type: data.type
+          }
+          
+          axios.post('/parameter/delete', postData).then(() => {
+            this.$swal.fire(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
+            )
+
+            this.$refs.allParameter.fetchData()
           }).catch(({response: {data}}) => {
             alert(data.message)
           })
