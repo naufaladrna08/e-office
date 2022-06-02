@@ -13,6 +13,7 @@ class ParameterResource extends JsonResource {
    */
   public function toArray($request) {
     return [
+      'type' => $this->type,
       'code' => $this->code,
       'name' => $this->name,
       'description' => $this->description

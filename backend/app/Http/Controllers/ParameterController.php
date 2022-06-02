@@ -32,7 +32,7 @@ class ParameterController extends Controller {
   }
 
   public function read(Request $r) {
-    $fields = ['code', 'name', 'description'];
+    $fields = ['type', 'code', 'name', 'description'];
     $oderField = ['asc', 'desc'];
 
     if ($r->order == null || $r->field != null ||
@@ -42,13 +42,13 @@ class ParameterController extends Controller {
     }
 
     $query = DB::table('parameter')
-      ->select('code', 'name', 'description')
-      ->where('type', 'jenis_surat')
+      ->select('code', 'name', 'description', 'type')
       ->orderBy($r->field, $r->order);
 
     if (!is_null($r->search)) {
       $query = $query 
-        ->where('code', 'like', '%'.$r->search.'%')
+        ->where('type', 'like', '%'.$r->search.'%')
+        ->orWhere('code', 'like', '%'.$r->search.'%')
         ->orWhere('name', 'like', '%'.$r->search.'%')
         ->orWhere('description', 'like', '%'.$r->search.'%');
     }
