@@ -55,4 +55,20 @@ class ParameterController extends Controller {
 
     return ParameterResource::collection($query->paginate(10));
   }
+
+  public function delete(Request $r) {
+    $data = [];
+    $param = Parameter
+      ::where('type', $r->type)
+      ->where('code', $r->code)
+      ->delete();
+
+    if ($param) {
+      $data = Response::pretty(200, 'Success', 'Deleted', null);
+    } else {
+      $data = Response::pretty(500, 'Failed', 'Internal Server Error', null);
+    }
+
+    return $data;
+  }
 }

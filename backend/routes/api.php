@@ -84,6 +84,7 @@ Route::group(['prefix' => 'parameter'], function() {
   Route::post('store', [App\Http\Controllers\ParameterController::class, 'storeOrUpdate']);
   Route::get('fetch', [App\Http\Controllers\ParameterController::class, 'fetch']);
   Route::get('read', [App\Http\Controllers\ParameterController::class, 'read']);
+  Route::post('delete', [App\Http\Controllers\ParameterController::class, 'delete']);
 });
 
 Route::group(['prefix' => 'klasifikasi-masalah', 'middleware' => 'auth:sanctum'], function() {
