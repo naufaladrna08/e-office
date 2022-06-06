@@ -17,6 +17,8 @@
       </li>
     </ul>
     <div class="tab-content" id="myTabContent">
+      <input id="fileUpload" @change="handleFileUpload($event)" type="file" hidden>
+
       <div class="tab-pane fade show active" id="user" role="tabpanel" aria-labelledby="user-tab">
         <div class="my-4">
           <button 
@@ -27,7 +29,7 @@
           > 
             Create 
           </button> 
-          <button class="btn btn-primary mx-2" disabled> Upload </button> 
+          <button class="btn btn-primary mx-2" @click="chooseFiles()"> Upload </button> 
         </div>
       
         <DataTables
@@ -193,6 +195,7 @@ export default {
   },
   data() {
     return {
+      file: null,
       listUsers: {
         id: 'NIPP',
         username: 'Username',
@@ -395,6 +398,45 @@ export default {
 
       axios.get('jabatan/dropdown?nama_jabatan=' + data.nama_jabatan).then((resp) => {
         this.dropdownJabatan = resp.data.data
+      })
+    },
+    chooseFiles() {
+      document.getElementById("fileUpload").click()
+    },
+    handleFileUpload(event) {
+      this.file = event.target.files[0];
+
+      this.$swal.fire({
+        title: 'Are you sure?',
+        text: "Make sure your data is correct!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Upload'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let formData = new FormData()
+          formData.append('file', this.file)
+
+          axios.post('/user/upload', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }).then((resp) => {
+            if (resp.data.code == 200) {
+              this.$swal.fire(
+                'Deleted!',
+                'Data has been saved.',
+                'success'
+              )
+
+              this.$refs.users.fetchData()
+            }
+          }).catch(() => {
+            console.log('Error')
+          })
+        }
       })
     }
   }
