@@ -11,9 +11,10 @@
               
               <div class="row mt-2">
                 <div class="col">
-                  <select class="form-control" id="type" name="type">
-                    <option selected="true" disabled="true"> Nota Dinas </option>
-                  </select>
+                  <SelectComponent 
+                    v-model="formData.jenisSurat" 
+                    :options="jenisSuratOptions"
+                  />
                 </div>
                 <div class="col">
                   <input type="text" placeholder="Auto" class="form-control" disabled>
@@ -29,10 +30,10 @@
             </div>
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Klasifikasi Masalah </label>
-              <select class="form-control" name="klasifikasi_masalah" id="klasifikasi_masalah">
-                <option selected="true" disabled="true"> KL848-AMDAL / Limbah Kapal </option>
-                
-              </select>
+              <SelectComponent 
+                v-model="formData.klasifikasiMasalah" 
+                :options="klasifikasiMasalahOptions"
+              />
             </div>
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Lampiran </label>
@@ -42,15 +43,16 @@
                   <input type="text" placeholder="" class="form-control" id="lampiran" name="lampiran">
                 </div>
                 <div class="col">
-                  <select class="form-control" id="prioritas" name="prioritas">
-                    <option selected="true" disabled="true"> Prioritas </option>
-                  </select>
+                  <SelectComponent 
+                    v-model="formData.prioritas" 
+                    :options="prioritasOptions"
+                  />
                 </div>
                 <div class="col">
-                  <select class="form-control" id="klasifikasi" name="klasifikasi">
-                    <option selected="true" disabled="true"> Klasifikasi </option>
-                
-                  </select>
+                  <SelectComponent 
+                    v-model="formData.klasifikasi" 
+                    :options="klasifikasiOptions"
+                  />
                 </div>
               </div>
             </div>
@@ -161,13 +163,17 @@
 <script>
 import Editor from '@ckeditor/ckeditor5-build-decoupled-document'
 import axios from 'axios'
+import SelectComponent from '../../components/SelectComponent.vue'
 
 export default {
   name: 'NewMessageView',
+  components: {
+    SelectComponent
+  },
   data() {
     return {
       editor: Editor,
-      editorData: this.content,
+      editorData: '',
       mailNumber: null,
       sendTo: null,
       subject: null,
@@ -188,7 +194,17 @@ export default {
         "nama_jabatan": null,
         "profile_path": null,
         "cover_path": null
-      }
+      },
+      formData: {
+        jenisSurat: null,
+        klasifikasiMasalah: null,
+        prioritas: null,
+        klasifikasi: null,
+      },
+      jenisSuratOptions: null,
+      klasifikasiMasalahOptions: null,
+      prioritasOptions: null,
+      klasifikasiOptions: null
     };
   },
   methods: {
@@ -216,17 +232,40 @@ export default {
           }
         }) 
       })
+    },
+    selectJenisSurat(value) {
+      console.log(value)
     }
   },
   created() {
     axios.get('/profile/userdata').then((resp) => {
       this.userdata = resp.data.data
     })
+
+    /* Get jenis surat */
+    axios.get('/jenis-surat/dropdown').then((resp) => {
+      this.jenisSuratOptions = resp.data
+    })
+
+    /* Get jenis surat */
+    axios.get('/klasifikasi-masalah/dropdown').then((resp) => {
+      this.klasifikasiMasalahOptions = resp.data
+    })
+
+    /* Get prioritas */
+    axios.get('/parameter/dropdown?type=prioritas').then((resp) => {
+      this.prioritasOptions = resp.data
+    })
+
+    /* Get klasifikasi */
+    axios.get('/parameter/dropdown?type=klasifikasi').then((resp) => {
+      this.klasifikasiOptions = resp.data
+    })
   }
 }
 </script>
 
-<style scoped>
+<style>
 .float-right {
   float: right;
 }
@@ -234,5 +273,9 @@ export default {
 .ck-content { 
   height: 500px; 
   border: 1px solid #ABABAB;
+}
+
+.select2 {
+  height: 38px;
 }
 </style>
