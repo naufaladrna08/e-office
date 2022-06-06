@@ -12,6 +12,8 @@ use Validator;
 use App\Models\User;
 use App\Classes\Response;
 use App\Http\Resources\UserResource;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UserImport;
 
 class AuthController extends Controller {
   public function index(Request $r) {
@@ -291,5 +293,28 @@ class AuthController extends Controller {
     }
 
     return $query->paginate($r->show == null ? 10 : $r->show);
+  }
+
+  public function upload(Request $r) {
+    $data = [];
+    $file = Excel::import(new UserImport, $r->file('file')->store('files'));
+    
+    if ($file) {
+      $data = [
+        'code' => 200,
+        'status' => 'Success',
+        'message' => 'Data berhasil disimpan',
+        'data' => null
+      ];
+    } else {
+      $data = [
+        'code' => 500,
+        'status' => 'Failed',
+        'message' => 'Data gagal disimpan',
+        'data' => null
+      ];
+    }
+
+    return response()->json($data);
   }
 }
