@@ -12,7 +12,7 @@ class UserImport implements ToModel {
   * @return \Illuminate\Database\Eloquent\Model|null
   */
   public function model(array $row) {
-    return new User([
+    $user = new User([
       'id' => $row[0],
       'name' => $row[1],
       'email' => $row[2], 
@@ -24,5 +24,9 @@ class UserImport implements ToModel {
       'profile_photo_id' => 1, 
       'cover_photo_id' => 0,
     ]);
+
+    $user->assignRole('user');
+
+    return $user;
   }
 }
