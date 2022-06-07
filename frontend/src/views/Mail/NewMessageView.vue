@@ -143,7 +143,16 @@
 
         <div class="row mt-4">
           <div class="col-md-12">
-             <div class="form-group my-2">
+            <div class="form-group my-2">
+              <button class="btn btn-primary ml-2" @click="getTemplate(1)"> Template 1 </button>
+              <button class="btn btn-primary mx-2" @click="getTemplate(2)"> Template 2 </button>
+              <button class="btn btn-primary mx-2" @click="getTemplate(3)"> Template 3 </button>
+              <button class="btn btn-primary mx-2" @click="getTemplate(4)"> Template 4 </button>
+              <button class="btn btn-primary mx-2" @click="getTemplate(5)"> Template 5 </button>
+              <button class="btn btn-primary mx-2" @click="getTemplate(6)"> Template 6 </button>
+              <button class="btn btn-primary mx-2" @click="getTemplate(7)"> Template 7 </button>
+            </div>
+            <div class="form-group my-2">
               <ckeditor 
                 :editor="editor" 
                 v-model="editorData" 
@@ -235,6 +244,12 @@ export default {
     },
     selectJenisSurat(value) {
       console.log(value)
+    },
+    getTemplate(number) {
+      axios.get('/mail/template?id=' + number)
+      .then((resp) => {
+        this.editorData = resp.data.data
+      })
     }
   },
   created() {
