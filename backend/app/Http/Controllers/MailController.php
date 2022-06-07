@@ -8,6 +8,8 @@ use App\Classes\Response;
 use Validator;
 use App\Http\Resources\SentResource;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpWord\IOFactory;
+use File;
 
 class MailController extends Controller {
   public function create(Request $r) {
@@ -163,5 +165,14 @@ class MailController extends Controller {
     } else {
       return Response::pretty(500, 'Failed', 'Data available', null);
     }
+  }
+
+  public function readTemplate(Request $r) {
+    $data = [];
+
+    $file = public_path() . '/templates/template_' . $r->id . '.html';
+    $data = file_get_contents($file);
+
+    return response()->json(['data' => $data]);
   }
 }
