@@ -170,9 +170,13 @@ class MailController extends Controller {
   public function readTemplate(Request $r) {
     $data = [];
 
-    $file = public_path() . '/templates/template_' . $r->id . '.html';
+    $file  = public_path() . '/templates/template_' . $r->id . '.html';
+    $image = asset('/templates/template_' . $r->id . '.png');
     $data = file_get_contents($file);
 
-    return response()->json(['data' => $data]);
+    return response()->json([
+      'data' => $data,
+      'image' => $image
+    ]);
   }
 }
