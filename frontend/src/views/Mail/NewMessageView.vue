@@ -166,6 +166,26 @@
         <button class="btn btn-primary float-right mt-4"> Kirim </button>
       </form>
     </div>
+
+    <div class="modal fade" ref="confirmTemplate">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="createParameterLabel"> Use this template </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p class="lead"> Are you sure to use this template? </p>
+
+            <img v-bind:src="templateImageSource" class="img-thumbnail">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close </button>
+            <button type="button" class="btn btn-primary" id="create-parameter-button" @click="applyTemplate"> Use </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -173,6 +193,7 @@
 import Editor from '@ckeditor/ckeditor5-build-decoupled-document'
 import axios from 'axios'
 import SelectComponent from '../../components/SelectComponent.vue'
+import {Modal} from 'bootstrap'
 
 export default {
   name: 'NewMessageView',
@@ -186,6 +207,7 @@ export default {
       mailNumber: null,
       sendTo: null,
       subject: null,
+      templateImageSource: null,
       userdata: {
         "uid": null,
         "id": null,
@@ -213,7 +235,9 @@ export default {
       jenisSuratOptions: null,
       klasifikasiMasalahOptions: null,
       prioritasOptions: null,
-      klasifikasiOptions: null
+      klasifikasiOptions: null,
+      confirmTemplate: null,
+      templateChoosed: null
     };
   },
   methods: {
@@ -246,10 +270,21 @@ export default {
       console.log(value)
     },
     getTemplate(number) {
+      this.confirmTemplate.show()
+
       axios.get('/mail/template?id=' + number)
+      .then((resp) => {
+        this.templateImageSource = resp.data.image
+        this.templateChoosed = number 
+      })
+    }, 
+    applyTemplate() {
+      axios.get('/mail/template?id=' + this.templateChoosed)
       .then((resp) => {
         this.editorData = resp.data.data
       })
+
+      this.confirmTemplate.hide()
     }
   },
   created() {
@@ -276,6 +311,9 @@ export default {
     axios.get('/parameter/dropdown?type=klasifikasi').then((resp) => {
       this.klasifikasiOptions = resp.data
     })
+  },
+  mounted() {
+    this.confirmTemplate = new Modal(this.$refs.confirmTemplate)
   }
 }
 </script>
