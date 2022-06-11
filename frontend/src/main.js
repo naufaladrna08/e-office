@@ -5,12 +5,13 @@ import axios from 'axios'
 import store from './store'
 import VueSweetalert2 from 'vue-sweetalert2'
 
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap/dist/js/bootstrap.js'
 import 'font-awesome/css/font-awesome.min.css'
 import 'sweetalert2/dist/sweetalert2.min.css';
-import '@/assets/style.scss'
 import CKEditor from '@ckeditor/ckeditor5-vue';
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.bundle.js'
+import '@/assets/style.scss'
 
 require('@/store/subscriber')
 
