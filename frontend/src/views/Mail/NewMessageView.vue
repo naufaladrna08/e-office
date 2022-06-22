@@ -88,7 +88,7 @@
             <p class="lead"> * Penerima </p>
 
             <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Kepada (Jabatan) </label>
+              <label class="fw-bolder mb-2"> Kepada </label>
               
               <div class="input-group">
                 <input type="text" class="form-control">
@@ -96,23 +96,7 @@
               </div>
             </div>
             <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Tembusan (Jabatan) </label>
-              
-              <div class="input-group">
-                <input type="text" class="form-control">
-                <div class="btn btn-primary"> + </div>
-              </div>
-            </div>
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Kepada (Pekerja) </label>
-              
-              <div class="input-group">
-                <input type="text" class="form-control">
-                <div class="btn btn-primary"> + </div>
-              </div>
-            </div>
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Tembusan (Pekerja) </label>
+              <label class="fw-bolder mb-2"> Tembusan </label>
               
               <div class="input-group">
                 <input type="text" class="form-control">
