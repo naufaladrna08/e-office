@@ -90,18 +90,26 @@
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Kepada </label>
               
-              <div class="input-group">
-                <input type="text" class="form-control">
-                <div class="btn btn-primary"> + </div>
-              </div>
+              <!-- <div class="input-group"> -->
+                <SelectComponent 
+                  v-model="formData.send_to" 
+                  :options="usersOptions"
+                />
+                
+                <div class="btn btn-primary mt-2"> + </div>
+              <!-- </div> -->
             </div>
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Tembusan </label>
               
-              <div class="input-group">
-                <input type="text" class="form-control">
-                <div class="btn btn-primary"> + </div>
-              </div>
+              <!-- <div class="input-group"> -->
+                <SelectComponent 
+                  v-model="formData.cc" 
+                  :options="usersOptions"
+                />
+
+                <div class="btn btn-primary mt-2"> + </div>
+              <!-- </div> -->
             </div>
           </div>
         </div>
@@ -196,11 +204,14 @@ export default {
         klasifikasiMasalah: null,
         prioritas: null,
         klasifikasi: null,
+        send_to: null,
+        cc: null,
       },
       jenisSuratOptions: null,
       klasifikasiMasalahOptions: null,
       prioritasOptions: null,
       klasifikasiOptions: null,
+      usersOptions: null,
       confirmTemplate: null,
       templateChoosed: null
     };
@@ -275,6 +286,11 @@ export default {
     /* Get klasifikasi */
     axios.get('/parameter/dropdown?type=klasifikasi').then((resp) => {
       this.klasifikasiOptions = resp.data
+    })
+
+    /* Get users */
+    axios.get('/mail/dropdown-users').then((resp) => {
+      this.usersOptions = resp.data
     })
   },
   mounted() {

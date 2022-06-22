@@ -179,4 +179,27 @@ class MailController extends Controller {
       'image' => $image
     ]);
   }
+
+  public function dropdownUsers(Request $r) {
+    $fields = ['code', 'name'];
+    $data = [];
+
+    $query = DB::table('users')
+      ->select('id', 'name');
+
+    if (!is_null($r->search)) {
+      $query = $query->where('name', 'like', '%'.$r->search.'%');
+    }
+
+    $dataall = $query->get();
+
+    foreach ($dataall as $val) {
+      $data[] = [
+        'text' => $val->name,
+        'id' => $val->id
+      ];
+    }
+
+    return response()->json($data);
+  }
 }
