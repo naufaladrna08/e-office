@@ -119,25 +119,6 @@
                 <div class="btn btn-primary"> + </div>
               </div>
             </div>
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Tembusan (Non Pekerja) </label>
-              
-              <div class="input-group">
-                <input type="text" class="form-control">
-                <div class="btn btn-primary"> + </div>
-              </div>
-            </div>
-
-            <p class="lead"> * Pemeriksa </p>
-
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Pemeriksa </label>
-              
-              <div class="input-group">
-                <input type="text" class="form-control">
-                <div class="btn btn-primary"> + </div>
-              </div>
-            </div>
           </div>
         </div>
 
