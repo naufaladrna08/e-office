@@ -10,18 +10,8 @@ class Mail extends Model {
   use HasFactory;
 
   protected $fillable = [
-    'uid',
-    'cc',
-    'mail_number',
-    'subject',
-    'description',
-    'is_active',
-    'status',
-    'type',
-    'priority',
-    'klasifikasi',
-    'klasifikasi_masalah',
-    'created_by',
+    'mail_number', 'subject', 'description', 'is_active', 'status', 'type',
+    'priority', 'klasifikasi', 'klasifikasi_masalah', 'created_by',
   ];
 
   /* Status */

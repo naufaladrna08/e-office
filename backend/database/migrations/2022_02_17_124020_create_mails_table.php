@@ -13,8 +13,6 @@ return new class extends Migration {
   public function up() {
     Schema::create('mails', function (Blueprint $table) {
       $table->id();
-      $table->string('uid');
-      $table->string('cc');
       $table->string('mail_number');
       $table->string('subject');
       $table->text('description');
