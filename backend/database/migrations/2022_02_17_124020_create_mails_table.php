@@ -17,7 +17,7 @@ return new class extends Migration {
       $table->string('cc');
       $table->string('mail_number');
       $table->string('subject');
-      $table->string('description');
+      $table->text('description');
       $table->boolean('is_active');
       $table->string('status');
       $table->string('type');
