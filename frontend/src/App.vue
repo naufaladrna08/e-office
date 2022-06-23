@@ -14,9 +14,18 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/mail/new" class="nav-link py-3 border-bottom" :class="currentRoute === 'Create Mail' ? 'active' : ''" title="Create Mail">
+            <!-- <router-link to="/mail/new" class="nav-link py-3 border-bottom" :class="currentRoute === 'Create Mail' ? 'active' : ''" title="Create Mail">
               <i class="fa fa-inbox" style="width: 24px; height: 24px"></i>
-            </router-link>
+            </router-link> -->
+            <div class="dropdown border-top">
+              <a href="#" class="d-flex align-items-center justify-content-center p-3 text-decoration-none" id="maildropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-inbox" style="width: 24px; height: 24px"></i>
+              </a>
+              <ul class="dropdown-menu text-small shadow" aria-labelledby="maildropdown">
+                <li><a class="dropdown-item" href="/mail/new"> New Message </a></li>
+                <li><a class="dropdown-item" href="/mail/inbox"> Inbox </a></li>
+              </ul>
+            </div>
           </li>
           <li>
             <router-link to="/archive" class="nav-link py-3 border-bottom" :class="currentRoute === 'Archive' ? 'active' : ''" title="Archive">
