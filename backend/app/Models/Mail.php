@@ -11,13 +11,17 @@ class Mail extends Model {
 
   protected $fillable = [
     'uid',
+    'cc',
     'mail_number',
     'subject',
     'description',
     'is_active',
     'status',
     'type',
-    'created_by'
+    'priority',
+    'klasifikasi',
+    'klasifikasi_masalah',
+    'created_by',
   ];
 
   /* Status */

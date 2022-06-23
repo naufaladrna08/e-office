@@ -19,9 +19,12 @@ return new class extends Migration {
       $table->string('subject');
       $table->string('description');
       $table->boolean('is_active');
-      $table->integer('created_by');
       $table->string('status');
       $table->string('type');
+      $table->string('priority');
+      $table->string('klasifikasi');
+      $table->string('klasifikasi_masalah');
+      $table->integer('created_by');
       $table->timestamps();
     });
   }
