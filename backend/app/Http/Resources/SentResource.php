@@ -15,7 +15,6 @@ class SentResource extends JsonResource {
   public function toArray($request) {
     return [
       'no_surat' => $this->mail_number,
-      'kepada' => $this->uid,
       'perihal' => $this->perihal,
       'tanggal' => Carbon::parse($this->created_at)->toDayDateTimeString(),
       'jenis_surat' => $this->type,

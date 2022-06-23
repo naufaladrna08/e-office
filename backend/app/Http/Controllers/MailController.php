@@ -127,19 +127,24 @@ class MailController extends Controller {
       $r->field = 'mail_number';
     }
 
+    $ids = null;
+    $relation = Relation::where('to', auth()->user()->id)->get();
+
+    foreach ($relation as $each) {
+      $ids[] = $each['item'];
+    }
+
     $query = DB::table('mails')
       ->select(
-        'mails.mail_number', 
-        'mails.uid', 
-        DB::raw('mails.subject AS perihal'),
+        'mails.mail_number',
         'mails.created_at',
         'mails.type',
         'mails.status',
-        DB::raw("(case when mails.status = 'TERKIRIM' THEN CONCAT('Surat telah diterima oleh ', users.name) ELSE 'NO COMMENT' END) AS description")
+        'mails.description',
+        DB::raw('mails.subject AS perihal'),
       )
-      ->where('uid', auth()->user()->id)
+      ->wherein('mail_number', $ids)
       ->where('is_active', true)
-      ->leftJoin('users', 'users.id', '=', 'mails.uid')
       ->orderBy($r->field, $r->order);
 
     if (!is_null($r->search)) {
