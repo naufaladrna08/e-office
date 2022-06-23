@@ -17,7 +17,7 @@
                   />
                 </div>
                 <div class="col">
-                  <input type="text" placeholder="Auto" class="form-control" disabled>
+                  <input type="text" placeholder="Mail Number" class="form-control" v-model="formData.mailNumber">
                 </div>
                 <div class="col">
                   <input type="text" placeholder="Auto" class="form-control" disabled>
@@ -26,7 +26,7 @@
             </div>
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Perihal </label>
-              <input type="text" class="form-control" name="perihal" id="perihal">
+              <input type="text" class="form-control" name="perihal" id="perihal" v-model="formData.subject">
             </div>
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Klasifikasi Masalah </label>
@@ -90,26 +90,28 @@
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Kepada </label>
               
-              <!-- <div class="input-group"> -->
+              <div class="users" v-for="(user, counter) in formData.send_to" v-bind:key="counter">
                 <SelectComponent 
-                  v-model="formData.send_to" 
+                  v-model="user.uid" 
                   :options="usersOptions"
+                  class="mb-2"
                 />
-                
-                <div class="btn btn-primary mt-2"> + </div>
-              <!-- </div> -->
+              </div>
+              
+              <div class="btn btn-primary mt-2" @click="addReceiver"> + </div>
             </div>
             <div class="form-group my-2">
               <label class="fw-bolder mb-2"> Tembusan </label>
               
-              <!-- <div class="input-group"> -->
+              <div class="users" v-for="(user, counter) in formData.cc" v-bind:key="counter">
                 <SelectComponent 
-                  v-model="formData.cc" 
+                  v-model="user.uid" 
                   :options="usersOptions"
+                  class="mb-2"
                 />
+              </div>
 
-                <div class="btn btn-primary mt-2"> + </div>
-              <!-- </div> -->
+              <div class="btn btn-primary mt-2" @click="addCc"> + </div>
             </div>
           </div>
         </div>
@@ -177,9 +179,7 @@ export default {
     return {
       editor: Editor,
       editorData: '',
-      mailNumber: null,
       sendTo: null,
-      subject: null,
       templateImageSource: null,
       userdata: {
         "uid": null,
@@ -200,12 +200,22 @@ export default {
         "cover_path": null
       },
       formData: {
+        mailNumber: null,
+        subject: null,
         jenisSurat: null,
         klasifikasiMasalah: null,
         prioritas: null,
         klasifikasi: null,
-        send_to: null,
-        cc: null,
+        send_to: [
+          {
+            uid: 0
+          }
+        ],
+        cc:  [
+          {
+            uid: 0
+          }
+        ],
       },
       jenisSuratOptions: null,
       klasifikasiMasalahOptions: null,
@@ -225,11 +235,8 @@ export default {
     },
     send() {
       const data = {
-        mail_number: this.mailNumber,
-        send_to: this.sendTo,
-        subject: this.subject,
-        description: this.editorData,
-        type: "TIPE"
+        options: this.formData,
+        description: this.editorData
       }
 
       axios.get('/csrf-cookie').then(() => {
@@ -261,6 +268,16 @@ export default {
       })
 
       this.confirmTemplate.hide()
+    },
+    addReceiver() {
+      this.formData.send_to.push({
+        uid: 1
+      })
+    },
+    addCc() {
+      this.formData.cc.push({
+        uid: 1
+      })
     }
   },
   created() {

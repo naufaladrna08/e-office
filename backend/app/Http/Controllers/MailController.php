@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Mail;
+use App\Models\Relation;
 use App\Classes\Response;
 use Validator;
 use App\Http\Resources\SentResource;
@@ -14,27 +15,39 @@ use File;
 class MailController extends Controller {
   public function create(Request $r) {
     $data = [];
-
-    $validator = Validator::make($r->all(), [
-      'subject' => "string|required|min:3|max:255",
-      'description' => 'string|required|min:3',
-      'type' => 'string|required|min:3'
-    ]);
-
-    if (!$validator->fails()) {
-      $mail = Mail::create([
-        'mail_number' => $r->mail_number,
-        'uid' => $r->send_to,
-        'subject' => $r->subject,
-        'description' => $r->description,
-        'created_by' => auth()->user()->id,
-        'is_active' => true,
-        'status' => MAIL::TERKIRIM,
-        'type' => $r->type
-      ]);
-    } else {
-      return response()->json($validator->errors()); 
+    
+    /* Receiver */
+    foreach ($r->options['send_to'] as $each) {
+      $relation = new Relation();
+      $relation->type = 'RECEIVER';
+      $relation->item = $r->options['mailNumber'];
+      $relation->from = auth()->user()->id;
+      $relation->to   = $each['uid'];
+      $relation->save();
     }
+
+    /* Carbon copy */
+    foreach ($r->options['cc'] as $each) {
+      $relation = new Relation();
+      $relation->type = 'CC';
+      $relation->item = $r->options['mailNumber'];
+      $relation->from = auth()->user()->id;
+      $relation->to   = $each['uid'];
+      $relation->save();
+    }
+
+    $mail = Mail::create([
+      'mail_number' => $r->options['mailNumber'],
+      'subject' => $r->options['subject'],
+      'description' => $r->description,
+      'is_active' => true,
+      'status' => MAIL::TERKIRIM,
+      'priority' => $r->options['prioritas'],
+      'type' => $r->options['jenisSurat'],
+      'klasifikasi' => $r->options['klasifikasi'],
+      'klasifikasi_masalah' => $r->options['klasifikasiMasalah'],
+      'created_by' => auth()->user()->id,
+    ]);
 
     return Response::pretty(200, 'Success', 'Data has been created', $mail);
   }
