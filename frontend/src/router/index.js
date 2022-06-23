@@ -4,6 +4,7 @@ import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import NewMessageView from '../views/Mail/NewMessageView.vue'
+import InboxView from '../views/Mail/InboxView.vue'
 import UserView from '../views/UserView.vue'
 import ArchiveView from '../views/ArchiveView.vue'
 import AdminView from '../views/Admin/AdminView.vue'
@@ -49,6 +50,14 @@ const routes = [
     path: '/mail/new',
     name: 'New Message',
     component: NewMessageView,
+    meta: {
+      middleware: "auth",
+    }
+  },
+  {
+    path: '/mail/inbox',
+    name: 'Inbox',
+    component: InboxView,
     meta: {
       middleware: "auth",
     }
