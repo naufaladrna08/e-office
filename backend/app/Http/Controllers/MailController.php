@@ -53,7 +53,7 @@ class MailController extends Controller {
   }
 
   public function read(Request $r) {
-    $mail = Mail::where('id', $r->id)
+    $mail = Mail::where('mail_number', $r->id)
       ->where('is_active', true)
       ->firstOrFail();
 
