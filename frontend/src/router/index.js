@@ -5,6 +5,7 @@ import RegisterView from '../views/RegisterView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import NewMessageView from '../views/Mail/NewMessageView.vue'
 import InboxView from '../views/Mail/InboxView.vue'
+import ReadView from '../views/Mail/ReadView.vue'
 import UserView from '../views/UserView.vue'
 import ArchiveView from '../views/ArchiveView.vue'
 import AdminView from '../views/Admin/AdminView.vue'
@@ -58,6 +59,14 @@ const routes = [
     path: '/mail/inbox',
     name: 'Inbox',
     component: InboxView,
+    meta: {
+      middleware: "auth",
+    }
+  },
+  {
+    path: '/mail/read/:id',
+    name: 'Read',
+    component: ReadView,
     meta: {
       middleware: "auth",
     }
