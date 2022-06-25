@@ -62,7 +62,10 @@
               <i v-else class="fa fa-arrow-down"></i> 
             </span>
           </th>
-           <template v-if="assigner == 1">
+          <template v-if="assigner == 1">
+            <th> Action </th> 
+          </template>
+          <template v-if="openButton == 1">
             <th> Action </th> 
           </template>
         </tr>
@@ -89,6 +92,11 @@
           <template v-if="assigner == 1">
             <a @click.prevent="handleActionClicked(data)" class="btn btn-primary mx-2 my-2"> 
               <i class="fa fa-tasks"></i> Assign / Change
+            </a>
+          </template>
+          <template v-if="openButton == 1">
+            <a @click.prevent="handleOpenButton(data)" class="btn btn-primary mx-2 my-2"> 
+              <i class="fa fa-tasks"></i> Open
             </a>
           </template>
         </tr>
@@ -120,6 +128,7 @@ export default {
     useNumber: { type: Boolean, required: false },
     useAction: { type: Number, required: false },
     useAssigner: { type: Number, required: false },
+    useOpenButton: { type: Number, required: false },
   },
   data() {
     return {
@@ -135,7 +144,8 @@ export default {
       columnList: this.columns,
       number: this.useNumber,
       action: this.useAction,
-      assigner: this.useAssigner
+      assigner: this.useAssigner,
+      openButton: this.useOpenButton,
     }
   },
   created() {
@@ -187,6 +197,9 @@ export default {
     },
     handleDeleteClicked(data) {
       this.$emit("deleteClicked", data)
+    },
+    handleOpenButton(data) {
+      this.$emit("openClicked", data)
     }
   }
 }

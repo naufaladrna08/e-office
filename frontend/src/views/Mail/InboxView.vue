@@ -6,6 +6,8 @@
       :columns="inboxColumn"
       useNumber="1"
       useAssigner="0"
+      useOpenButton="1"
+      @openClicked="openMail"
       ref="inbox"
     />
   </div>  
@@ -29,6 +31,11 @@ export default {
         status: 'Status',
         tanggal: 'Tanggal'
       },
+    }
+  },
+  methods: { 
+    openMail(data) {
+      this.$router.push('/mail/read/' + data.no_surat)
     }
   }
 }
