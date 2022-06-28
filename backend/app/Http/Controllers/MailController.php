@@ -220,4 +220,25 @@ class MailController extends Controller {
 
     return response()->json($data);
   }
+
+  public function getReceiverAndCc(Request $r) {
+    $datareceiver = DB::table('relations')
+      ->where('item', $r->item)
+      ->where('type','RECEIVER')
+      ->leftJoin('users', 'relations.to', '=', 'users.id')
+      ->get();
+
+    $datacc = DB::table('relations')
+      ->where('item', $r->item)
+      ->where('type','CC')
+      ->leftJoin('users', 'relations.to', '=', 'users.id')
+      ->get();
+
+    return response()->json([
+      'data' => [
+        'receiver' => $datareceiver,
+        'cc' => $datacc
+      ]
+    ]);
+  }
 }

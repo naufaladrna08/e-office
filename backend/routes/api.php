@@ -31,6 +31,7 @@ Route::group(['prefix' => 'mail', 'middleware' => ['auth:sanctum']], function() 
   Route::get('inbox', [App\Http\Controllers\MailController::class, 'readInbox']);
   Route::get('template', [App\Http\Controllers\MailController::class, 'readTemplate']);
   Route::get('dropdown-users', [App\Http\Controllers\MailController::class, 'dropdownUsers']);
+  Route::get('receiver-cc', [App\Http\Controllers\MailController::class, 'getReceiverAndCc']);
 });  
 
 Route::group(['prefix' => 'news', 'middleware' => ['auth:sanctum']], function() {
