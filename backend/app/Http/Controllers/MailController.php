@@ -120,12 +120,6 @@ class MailController extends Controller {
     ];
 
     $orderField = ['asc', 'desc'];
-    
-    if ($r->order == null || $r->field == null || 
-        !in_array($r->field, array_values($sortField)) || !in_array($r->order, $orderField)) {
-      $r->order = 'asc';
-      $r->field = 'mail_number';
-    }
 
     $ids = null;
     $relation = Relation::where('to', auth()->user()->id)->get();
@@ -145,7 +139,15 @@ class MailController extends Controller {
       )
       ->wherein('mail_number', $ids)
       ->where('is_active', true)
-      ->orderBy($r->field, $r->order);
+      ->orderBy('created_at', 'desc');
+
+    if ($r->order == null || $r->field == null || 
+        !in_array($r->field, array_values($sortField)) || !in_array($r->order, $orderField)) {
+      $r->order = 'asc';
+      $r->field = 'mail_number';
+
+      $query->orderBy($r->field, $r->order);
+    }
 
     if (!is_null($r->search)) {
       $query = $query
