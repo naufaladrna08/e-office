@@ -1,23 +1,103 @@
 <template>
   <div class="container">
-    <div id="body" v-html="content"> </div>
+    <div id="header" class="row">
+      <div class="col-6 lead">
+        <p class="lead"> <b> Kepala Surat </b> </p>
+        
+        <div class="row mb-2">
+          <div class="col-4">
+            Jenis / No / Tgl
+          </div>
+          <div class="col-8">
+            <b> : {{ data.type }} / {{ data.mail_number }} / {{ data.updated_at }} </b>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-4">
+            Perihal
+          </div>
+          <div class="col-8">
+            <b> : {{ data.subject }} </b>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-4">
+            Klasifikasi Masalah
+          </div>
+          <div class="col-8">
+            <b> : {{ data.klasifikasi_masalah }} </b>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-2">
+            Lampiran
+          </div>
+          <div class="col-2">
+            <b> : {{ data.type }} </b>
+          </div>
+          <div class="col-2">
+            Prioritas
+          </div>
+          <div class="col-2">
+            <b> : {{ data.priority }} </b>
+          </div>
+          <div class="col-2">
+            Klasifikasi
+          </div>
+          <div class="col-2">
+            <b> : {{ data.klasifikasi }} </b>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 lead">
+        <div class="row mb-2">
+          <div class="col-md-12">
+            <p class="lead"> <b> Penerima : </b> </p>
+    
+            <ul v-for="(item) in userdata.receiver" v-bind:key="item">
+              <li> {{ item.name }} </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-12">
+            <p class="lead"> <b> CC : </b> </p>
+
+            <ul v-for="(item) in userdata.cc" v-bind:key="item">
+              <li> {{ item.name }} </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="body" class="card"> 
+      <div class="card-body" v-html="data.description">
+        
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 
-export default {
+export default { 
   name: 'ReadView',
   data() {
     return {
       id: this.$route.params.id,
-      content: null
+      data: null,
+      userdata: null
     }
   },
   created() {
     axios.get('/mail/read/' + this.id).then((resp) => {
-      this.content = resp.data.data.description
+      this.data = resp.data.data
+    })
+
+    axios.get('/mail/receiver-cc?item=' + this.id).then((resp) => {
+      this.userdata = resp.data.data
     })
   }
 }
