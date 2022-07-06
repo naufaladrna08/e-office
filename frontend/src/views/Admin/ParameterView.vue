@@ -472,7 +472,7 @@ export default {
 
           for (let member in this.jabatanData) delete this.jabatanData[member]
           document.getElementById('code_jabatan').value = ''
-          document.getElementById('nama_Jabatan').value = ''
+          document.getElementById('nama_jabatan').value = ''
 
           this.jabatanModal.show()
         } else if (to == 'klasifikasi-masalah') {
