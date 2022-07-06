@@ -15,7 +15,7 @@ class Log extends Model {
     $data = DB::table('logs')->insert([
       'type' => $type,
       'type_id' => $type_id,
-      'description' => data('Y-m-d H:i:s') . ' - ' . $description,
+      'description' => date('Y-m-d H:i:s') . ' - ' . $description,
       'status' => $status
     ]);
 
