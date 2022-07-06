@@ -253,11 +253,13 @@ class MailController extends Controller {
   }
 
   public function getLog(Request $r) {
-    dd($r);
     $data = DB
       ::table('logs')
       ->select('*')
       ->where('type', 'mail')
-      ->where('type_id', $r->id);
+      ->where('type_id', $r->id)
+      ->get();
+
+    return response()->json($data);
   }
 }
