@@ -76,6 +76,12 @@
         
       </div>
     </div>
+
+    <div id="log" class="card">
+      <div class="card-body">
+
+      </div>
+    </div>
   </div>
 </template>
 
@@ -88,7 +94,8 @@ export default {
     return {
       id: this.$route.params.id,
       data: null,
-      userdata: null
+      userdata: null,
+      logs: null
     }
   },
   created() {
@@ -98,6 +105,11 @@ export default {
 
     axios.get('/mail/receiver-cc?item=' + this.id).then((resp) => {
       this.userdata = resp.data.data
+    })
+
+    const id = this.data.id
+    axios.get('/mail/get_log?id=' + id).then((resp) => {
+      this.logs = 'AAA'
     })
   }
 }

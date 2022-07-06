@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Mail;
 use App\Models\Relation;
+use App\Models\Log;
 use App\Classes\Response;
 use Validator;
 use App\Http\Resources\SentResource;
@@ -48,6 +49,13 @@ class MailController extends Controller {
       'klasifikasi_masalah' => $r->options['klasifikasiMasalah'],
       'created_by' => auth()->user()->id,
     ]);
+
+    $log = Log::insert(
+      'mail', 
+      $mail->id,
+      auth()->user()->id . ' membuat surat ' . $mail->mail_number,
+      'CREATED'
+    );
 
     return Response::pretty(200, 'Success', 'Data has been created', $mail);
   }
@@ -242,5 +250,14 @@ class MailController extends Controller {
         'cc' => $datacc
       ]
     ]);
+  }
+
+  public function getLog(Request $r) {
+    dd($r);
+    $data = DB
+      ::table('logs')
+      ->select('*')
+      ->where('type', 'mail')
+      ->where('type_id', $r->id);
   }
 }

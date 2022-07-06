@@ -3,37 +3,29 @@
     <div class="main">
       <div class="dashboard">
         <div class="container">
-          <h1> Overview </h1>          
-          <div class="media" id="overview">
-            <h5 class="py-2"> 
-              <i class="fa fa-inbox"></i>
-              Inbox 
-            </h5>
-            <div class="media-body border p-2">
-              <DataTables 
-                tclass="table table-hover table-bordered w-100 p-2" 
-                url="mail/inbox"
-                :columns="arr"
-                useNumber="true"
-                id="inbox-table"
-              />
-            </div>
-          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-body row">
+                  <div class="col-6 text-center">
+                    <i class="fa-solid fa-inbox"></i>
+                    Kotak Masuk
+                  </div>
+                  <div class="col-6">
 
-          <div class="media mt-4" id="mail">
-            <h5 class="py-2"> 
-              <i class="fa fa-paper-plane"></i>
-              Sent 
-            </h5>
-            
-            <div class="media-body bg-lightblue border p-2">
-              <DataTables 
-                tclass="table table-hover table-bordered w-100 p-2" 
-                url="mail/read-all"
-                :columns="arr"
-                useNumber="true"
-                id="overview-table"
-              />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card">
+
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card">
+
+              </div>
             </div>
           </div>
         </div>
@@ -44,7 +36,7 @@
 
 <script>
 import store from '../store'
-import DataTables from '../components/DataTables.vue'
+// import DataTables from '../components/DataTables.vue'
 
 export default {
   name: 'DashboardView',
@@ -63,7 +55,7 @@ export default {
     }
   },
   components: {
-    DataTables
+    // DataTables
   }
 };
 </script>

@@ -27,6 +27,7 @@ Route::group(['prefix' => 'mail', 'middleware' => ['auth:sanctum']], function() 
   Route::post('update', [App\Http\Controllers\MailController::class, 'update']);
   Route::post('delete', [App\Http\Controllers\MailController::class, 'delete']);
   
+  Route::get('get_log', [App\Http\Controllers\MailController::class, 'getLog']);
   Route::get('sent', [App\Http\Controllers\MailController::class, 'readAll']);
   Route::get('inbox', [App\Http\Controllers\MailController::class, 'readInbox']);
   Route::get('template', [App\Http\Controllers\MailController::class, 'readTemplate']);
