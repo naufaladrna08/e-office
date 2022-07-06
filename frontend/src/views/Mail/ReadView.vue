@@ -77,9 +77,11 @@
       </div>
     </div>
 
-    <div id="log" class="card">
-      <div class="card-body">
-
+    <div id="log" class="card mt-4">
+      <div class="card-body p-4">
+        <ul v-for="(item, id) in logs" v-bind:key="id">
+          <li> {{ item.description }} </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -101,16 +103,15 @@ export default {
   created() {
     axios.get('/mail/read/' + this.id).then((resp) => {
       this.data = resp.data.data
+      
+      axios.get('/mail/get_log?id=' + this.data.id).then((resp) => {
+        this.logs = resp.data
+      })   
     })
 
     axios.get('/mail/receiver-cc?item=' + this.id).then((resp) => {
       this.userdata = resp.data.data
-    })
-
-    const id = this.data.id
-    axios.get('/mail/get_log?id=' + id).then((resp) => {
-      this.logs = 'AAA'
-    })
+    }) 
   }
 }
 </script>
@@ -118,5 +119,10 @@ export default {
 <style>
 #body {
   width: 100%;
+}
+
+#log {
+  color: #fff;
+  background: #2d3436
 }
 </style>
