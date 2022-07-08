@@ -10,6 +10,7 @@ use App\Classes\Response;
 use Validator;
 use App\Http\Resources\SentResource;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use PhpOffice\PhpWord\IOFactory;
 use File;
 
@@ -61,9 +62,28 @@ class MailController extends Controller {
   }
 
   public function read(Request $r) {
-    $mail = Mail::where('mail_number', $r->id)
-      ->where('is_active', true)
-      ->firstOrFail();
+    $mail = DB::table('mails')
+      ->select(
+        'mails.id', 
+        'mails.mail_number', 
+        'mails.description', 
+        'mails.type', 
+        'mails.created_at', 
+        DB::raw('km.name AS KLASIFIKASI_MASALAH'),
+        DB::raw('pr.name AS PRIORITAS'),
+        DB::raw('kl.name AS KLASIFIKASI')
+      )
+      ->leftJoin('parameter AS km', function ($join) {
+        $join->on("km.type", '=', DB::raw("'klasifikasi_masalah'"))->on('km.code', 'mails.klasifikasi_masalah');
+      })
+      ->leftJoin('parameter AS pr', function ($join) {
+        $join->on("pr.type", '=', DB::raw("'prioritas'"))->on('pr.code', 'mails.priority');
+      })
+      ->leftJoin('parameter AS kl', function ($join) {
+        $join->on("kl.type", '=', DB::raw("'klasifikasi'"))->on('kl.code', 'mails.klasifikasi');
+      })
+      ->where('mails.mail_number', $r->id)
+      ->first();
 
     return Response::pretty(200, 'Success', 'Data available', $mail);
   }
