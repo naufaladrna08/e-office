@@ -39,7 +39,7 @@
             Prioritas
           </div>
           <div class="col-2">
-            <b> : {{ data.priority }} </b>
+            <b> : {{ data.prioritas }} </b>
           </div>
           <div class="col-2">
             Klasifikasi
