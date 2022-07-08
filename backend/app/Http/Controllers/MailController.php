@@ -69,6 +69,8 @@ class MailController extends Controller {
         'mails.description', 
         'mails.type', 
         'mails.created_at', 
+        'mails.updated_at', 
+        'mails.subject', 
         DB::raw('km.name AS KLASIFIKASI_MASALAH'),
         DB::raw('pr.name AS PRIORITAS'),
         DB::raw('kl.name AS KLASIFIKASI')
