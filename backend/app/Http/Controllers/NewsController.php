@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\News;
+use App\Models\Photo;
 use App\Classes\Response;
 use Validator;
+use Auth;
 
 class NewsController extends Controller {
   public function create(Request $r) {
@@ -13,13 +15,22 @@ class NewsController extends Controller {
 
     $validator = Validator::make($r->all(), [
       'title' => "string|required|min:3|max:255",
-      'description' => 'string|required|min:3'
+      'description' => 'string|required|min:3',
+      'cover' => 'mimes:jpeg,jpg,png,gif|required|max:10000'
     ]);
 
     if (!$validator->fails()) {
+      $name = Auth::id() . '-' . time() . '.' . $r->cover->getClientOriginalExtension();
+      $path = $r->file('cover')->storeAs('files', $name);
+
+      $model = new Photo;
+      $model->path = $path;
+      $model->save();
+      
       $news = News::create([
         'title' => $r->title,
         'description' => $r->description,
+        'cover' => $path,
         'created_by' => auth()->user()->id,
         'is_active' => true
       ]);
