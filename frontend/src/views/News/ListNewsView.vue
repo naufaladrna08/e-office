@@ -5,7 +5,7 @@
 
       <div class="row my-4">
         <div class="col-md-4">
-          <button class="btn btn-primary"> Create News </button>
+          <router-link to="/admin/news/create" class="btn btn-primary"> Create News </router-link>
         </div>
       </div>
 
@@ -16,8 +16,8 @@
               <h5> {{ data.title }} <small class="text-muted"><i> Posted on {{ data.created_at }} </i></small></h5>
               <p> {{ data.description }} </p>
             
-              <router-link :to="{ path: '/news/read/' + data.id }" class="btn btn-primary btn-sm"> <i class="fa fa-eye"></i> Continue Reading </router-link> •
-              <router-link :to="{ path: '/news/edit/' + data.id }" class="btn btn-primary btn-sm"> <i class="fa fa-edit"></i> Edit </router-link> • 
+              <router-link :to="{ path: '/admin/news/read/' + data.id }" class="btn btn-primary btn-sm"> <i class="fa fa-eye"></i> Continue Reading </router-link> •
+              <router-link :to="{ path: '/admin/news/edit/' + data.id }" class="btn btn-primary btn-sm"> <i class="fa fa-edit"></i> Edit </router-link> • 
               <a href="javascript:void();" @click="onDeleteNews(data.id)" class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i> Delete </a>
             </div>
           </div>
