@@ -45,7 +45,7 @@
                 Be updated and read or write some news today. You can perform CRUD on News content.   
               </p>
 
-              <a href="/news/list" class="btn btn-primary mt-4"> 
+              <a href="/admin/news/list" class="btn btn-primary mt-4"> 
                 <i class="fa fa-edit"></i>
                 Go to page 
               </a>
