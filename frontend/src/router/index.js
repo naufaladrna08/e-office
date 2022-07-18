@@ -12,6 +12,7 @@ import AdminView from '../views/Admin/AdminView.vue'
 import ParameterView from '../views/Admin/ParameterView.vue'
 import ManageUserView from '../views/Admin/ManageUserView.vue'
 import PreviewHomeView from '../views/Admin/PreviewHomeView.vue'
+import ListNewsView from '../views/News/ListNewsView.vue'
 import store from '../store'
 
 const routes = [
@@ -121,6 +122,15 @@ const routes = [
     meta: {
       middleware: "admin",
       breadcrumb: { text: 'User Management' }
+    }
+  },
+  {
+    name: 'News',
+    path: '/admin/news/list',
+    component: ListNewsView,
+    meta: {
+      middleware: "admin",
+      breadcrumb: { text: 'News' }
     }
   }
 ]
