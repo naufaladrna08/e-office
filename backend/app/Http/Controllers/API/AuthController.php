@@ -188,6 +188,7 @@ class AuthController extends Controller {
 
   public function userdata(Request $r) {
     $data = [];
+    $role = ['role' => $r->user()->getRoleNames()[0]];
 
     $query = DB::table('users')
       ->select([
@@ -208,8 +209,10 @@ class AuthController extends Controller {
     $query->profile_path = app('url')->asset('storage/' . $query->profile_path);
     $query->cover_path = app('url')->asset('storage/' . $query->cover_path);
 
+    $arr = array_merge((array) $query, (array) $role);
+
     if ($query) {
-      $data = Response::pretty(200, 'Success', 'Data found', $query);
+      $data = Response::pretty(200, 'Success', 'Data found', $arr);
     } else {
       $data = Response::pretty(404, 'Failed', 'Data not found', null);
     }
