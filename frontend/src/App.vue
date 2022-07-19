@@ -8,11 +8,11 @@
               <i class="fa fa-home" style="width: 24px; height: 24px"></i>
             </router-link>
           </li>
-          <li>
+          <!-- <li>
             <router-link to="/user" class="nav-link py-3 border-bottom" :class="currentRoute === 'User' ? 'active' : ''" title="User">
               <i class="fa fa-user" style="width: 24px; height: 24px"></i>
             </router-link>
-          </li>
+          </li> -->
           <li>
             <!-- <router-link to="/mail/new" class="nav-link py-3 border-bottom" :class="currentRoute === 'Create Mail' ? 'active' : ''" title="Create Mail">
               <i class="fa fa-inbox" style="width: 24px; height: 24px"></i>
@@ -30,6 +30,11 @@
           <li>
             <router-link to="/archive" class="nav-link py-3 border-bottom" :class="currentRoute === 'Archive' ? 'active' : ''" title="Archive">
               <i class="fa fa-archive" style="width: 24px; height: 24px"></i>
+            </router-link>
+          </li>
+          <li v-if="userdata.role === 'admin'">
+            <router-link to="/admin" class="nav-link py-3 border-bottom" title="Admin">
+              <i class="fa fa-dashboard" style="width: 24px; height: 24px"></i>
             </router-link>
           </li>
           <li>
@@ -103,7 +108,8 @@ export default {
         "nama_divisi": null,
         "nama_jabatan": null,
         "profile_path": null,
-        "cover_path": null
+        "cover_path": null,
+        "roles": null
       },
       currentRoute: 'dashboard',
       crumbs: [],
