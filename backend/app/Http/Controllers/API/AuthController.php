@@ -69,7 +69,8 @@ class AuthController extends Controller {
         'code_jabatan' => 'KRYWN',
         'last_action' => 'REGISTERED',
         'profile_photo_id' => 1,
-        'cover_photo_id' => 2
+        'cover_photo_id' => 2,
+        'password_changed' => false
       ]);
 
       $user->assignRole('user');

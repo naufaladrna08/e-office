@@ -23,6 +23,7 @@ return new class extends Migration {
       $table->string('last_action');
       $table->integer('profile_photo_id');
       $table->integer('cover_photo_id');
+      $table->boolean('password_changed');
       $table->rememberToken();
       $table->timestamps();
     });
