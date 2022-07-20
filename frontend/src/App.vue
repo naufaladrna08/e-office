@@ -74,6 +74,34 @@
       <div class="container" style="margin-top: 8em">
         <footer class="my-4 text-center text-secondary small"> {{ pageFooter }} </footer>  
       </div>
+
+    <div class="modal fade show" id="changePassword" ref="passwordModal" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="changePasswordLabel"> Update divisi </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form">
+              <div class="form-group">
+                <label for="password"> New Password </label>
+                <input type="password" class="form-control my-2" id="password" name="password" v-model="newpassword">
+              </div>
+              <div class="form-group">
+                <label for="password"> Confirm Password </label>
+                <input type="password" class="form-control my-2" id="cnewpassword" name="cnewpassword" v-model="cnewpassword">
+              </div>
+              <p class="lead text-danger"> {{ errorpassword }} </p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close </button>
+            <button type="button" class="btn btn-primary" id="assign-divisi-button" @click="changePassword()"> Apply and Continue </button>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   </div>
 </template>
@@ -83,6 +111,8 @@ import store from './store'
 import axios from 'axios'
 import { mapActions } from 'vuex'
 import BreadcrumbGlobal from './components/BreadcrumbGlobal.vue'
+import { Modal } from 'bootstrap'
+import 'bootstrap/dist/js/bootstrap.js'
 
 export default {
   name: 'App',
@@ -91,6 +121,9 @@ export default {
   },
   data() {
     return {
+      newpassword: null,
+      errorpassword: null,
+      cnewpassword: null,
       user: store.state.auth.authenticated,
       userdata: {
         "uid": null,
@@ -109,11 +142,13 @@ export default {
         "nama_jabatan": null,
         "profile_path": null,
         "cover_path": null,
-        "roles": null
+        "roles": null,
+        "password_changed": null
       },
       currentRoute: 'dashboard',
       crumbs: [],
-      pageFooter: null
+      pageFooter: null,
+      modal: null
     }
   },
   methods: {
@@ -123,6 +158,36 @@ export default {
     async logout() {
       this.signOut()
       this.$router.push('/login')
+    },
+    changePassword() {
+      if (this.newpassword != this.cnewpassword) {
+        this.errorpassword = 'Password mismatch'
+        return
+      }
+
+      /* Clear the error message */
+      this.errorpassword = ''
+
+      axios.post('/profile/update-password', {
+        'password': this.newpassword
+      }).then((resp) => {
+        this.modal.hide()
+
+        if (resp.data.code == 200) {
+          this.$swal.fire(
+            'Updated!',
+            'Your password has been updated.',
+            'success'
+          )
+        } else {
+          this.$swal.fire(
+            'Failed!',
+            'Your password not updated.',
+            'failed'
+          )
+        }
+        
+      })
     }
   },
   watch:{
@@ -135,12 +200,17 @@ export default {
   created() {
     axios.get('/profile/userdata').then((resp) => {
       this.userdata = resp.data.data
+    
+      if (this.userdata.password_changed == false) {
+        this.modal = new Modal(this.$refs.passwordModal)
+        this.modal.show()
+      }
     })
 
     axios.get('/parameter/fetch?type=page_footer').then((resp) => {
       this.pageFooter = resp.data.data.description
     })
-  }
+  },
 }
 </script>
 

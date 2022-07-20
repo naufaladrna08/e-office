@@ -321,4 +321,30 @@ class AuthController extends Controller {
 
     return response()->json($data);
   }
+
+  public function update_password(Request $r) {
+    $data = [];
+
+    $user = User::where('id', Auth::id())->first();
+    $user->password = Hash::make($r->password);
+    $user->password_changed = true;
+
+    if ($user->save()) {
+      $data = [
+        'code' => 200,
+        'status' => 'Success',
+        'message' => 'Data berhasil disimpan',
+        'data' => null
+      ];
+    } else {
+      $data = [
+        'code' => 500,
+        'status' => 'Failed',
+        'message' => 'Data gagal disimpan',
+        'data' => null
+      ];
+    }
+
+    return response()->json($data);
+  }
 }
