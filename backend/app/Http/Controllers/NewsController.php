@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\News;
 use App\Models\Photo;
 use App\Classes\Response;
+use Illuminate\Routing\UrlGenerator;
 use Validator;
 use Auth;
 
@@ -15,22 +16,22 @@ class NewsController extends Controller {
 
     $validator = Validator::make($r->all(), [
       'title' => "string|required|min:3|max:255",
-      'description' => 'string|required|min:3',
-      'cover' => 'mimes:jpeg,jpg,png,gif|required|max:10000'
+      'description' => 'string|required|min:3'
     ]);
 
     if (!$validator->fails()) {
+      // return response()->json($r->hasFile('cover'));
       $name = Auth::id() . '-' . time() . '.' . $r->cover->getClientOriginalExtension();
-      $path = $r->file('cover')->storeAs('files', $name);
+      $path = $r->file('cover')->storeAs('public/files/', $name);
 
       $model = new Photo;
-      $model->path = $path;
+      $model->path = 'files/' . $name;
       $model->save();
       
       $news = News::create([
         'title' => $r->title,
         'description' => $r->description,
-        'cover' => $path,
+        'cover' => 'files/' . $name,
         'created_by' => auth()->user()->id,
         'is_active' => true
       ]);
@@ -46,6 +47,8 @@ class NewsController extends Controller {
       ->where('is_active', true)
       ->firstOrFail();
 
+    $news['cover'] = url('storage/' . $news['cover']);
+
     return Response::pretty(200, 'Success', 'Data available', $news);
   }
 
@@ -53,6 +56,16 @@ class NewsController extends Controller {
     $news = News::where('created_by', auth()->user()->id)
       ->where('is_active', true)
       ->get();
+
+    foreach ($news as $each) {
+      $description = strip_tags($each['description']);
+
+      if (strlen($description) > 255) {
+        $description = substr($description, 0, 255) . ' ...';
+      }
+
+      $each['description'] = $description;
+    }
 
     return Response::pretty(200, 'Success', 'Data available', $news);
   }
