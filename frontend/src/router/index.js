@@ -14,6 +14,7 @@ import ManageUserView from '../views/Admin/ManageUserView.vue'
 import PreviewHomeView from '../views/Admin/PreviewHomeView.vue'
 import ListNewsView from '../views/News/ListNewsView.vue'
 import CreateNewsView from '../views/News/CreateNewsView.vue'
+import NewsView from '../views/News/NewsView.vue'
 import store from '../store'
 
 const routes = [
@@ -142,7 +143,12 @@ const routes = [
       middleware: "admin",
       breadcrumb: { text: 'Create News' }
     }
-  }
+  },
+  {
+    path: '/news/read/:id',
+    name: 'Read News',
+    component: NewsView,
+  },
 ]
 
 const history = createWebHistory()
