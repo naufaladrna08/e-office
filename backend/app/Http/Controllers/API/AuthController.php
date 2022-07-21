@@ -129,7 +129,11 @@ class AuthController extends Controller {
     $credentials = null;
 
     if (is_numeric($r->username)) {
-      $credentials = $r->only('id', 'password');
+      $credentials = [
+        'id' => $r->username,
+        'password' => $r->password
+      ];
+
       $user = User::where('id', $r->username)->first();
     } else {
       $credentials = $r->only('username', 'password');
@@ -161,7 +165,11 @@ class AuthController extends Controller {
     \DB::enableQueryLog();
 
     if (is_numeric($r->username)) {
-      $credentials = $r->only('id', 'password');
+      $credentials = [
+        'id' => $r->username,
+        'password' => $r->password
+      ];
+
       $user = User::where('id', $r->username)->first();
     } else {
       $credentials = $r->only('username', 'password');
