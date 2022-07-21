@@ -79,10 +79,11 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="changePasswordLabel"> Update divisi </h5>
+            <h5 class="modal-title" id="changePasswordLabel"> Update Password </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <p class="lead"> Please update your password for your security. </p>
             <div class="form">
               <div class="form-group">
                 <label for="password"> New Password </label>
