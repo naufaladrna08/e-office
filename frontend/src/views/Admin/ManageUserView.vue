@@ -10,7 +10,8 @@
         <button class="nav-link" id="role-tab" data-bs-toggle="tab" data-bs-target="#role" type="button" role="tab" aria-controls="role" aria-selected="false"> Assign Role </button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="divisi-tab" data-bs-toggle="tab" data-bs-target="#divisi" type="button" role="tab" aria-controls="divisi" aria-selected="false"> Assign Divisi </button>
+        <!-- TODO: selesaikan -->
+        <button class="nav-link" id="divisi-tab" data-bs-toggle="tab" data-bs-target="#divisi" type="button" role="tab" aria-controls="divisi" aria-selected="false"> Assign Group </button>
       </li>
       <li class="nav-item" role="presentation">
         <button class="nav-link" id="jabatan-tab" data-bs-toggle="tab" data-bs-target="#jabatan" type="button" role="tab" aria-controls="jabatan" aria-selected="false"> Assign Jabatan </button>
@@ -44,7 +45,17 @@
         />
       </div>
       <div class="tab-pane fade" id="role" role="tabpanel" aria-labelledby="role-tab">
-        <div class="text-center my-4 lead"> Coming Soon </div>
+        <br>
+        
+        <DataTables
+          url="role/get-data"
+          tclass="table table-bordered w-100 p-2" 
+          :columns="roleColumn"
+          useNumber="1"
+          useAssigner="1"
+          ref="role"
+          @actionClicked="editRole"
+        />
       </div>
       <div class="tab-pane fade" id="divisi" role="tabpanel" aria-labelledby="divisi-tab">
         <br>
@@ -145,6 +156,41 @@
       </div>
     </div>
 
+    <div class="modal fade" id="changeRole" ref="roleModal" tabindex="-1" aria-labelledby="changeRoleLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="changeRoleLabel"> Update Role </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form">
+              <div class="form-group">
+                <label for="code"> NIPP </label>
+                <input type="text" class="form-control my-2" id="nipp" name="nipp" v-model="userdataRole.nipp" disabled>
+              </div>
+              <div class="form-group">
+                <label for="code"> Username </label>
+                <input type="text" class="form-control my-2" id="username" name="username" v-model="userdataRole.username" disabled>
+              </div>
+              <div class="form-group">
+                <label for="code"> Role </label>
+
+                <select class="form-control my-2" id="divisi" name="divisi" v-model="userdataRole.role">
+                  <option disabled="true" selected> {{ userdataRole.role }} </option>
+                  <option v-for="data in dropdownRole" :value="data.role" :key="data.role">{{data.role}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close </button>
+            <button type="button" class="btn btn-primary" id="assign-divisi-button" @click="ioRole()"> Assign </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="modal fade" id="changeJabatan" ref="jabatanModal" tabindex="-1" aria-labelledby="changeJabatanLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -208,6 +254,11 @@ export default {
         username: 'Username',
         nama_divisi: 'Nama Divisi'
       },
+      roleColumn: {
+        nipp: 'NIPP',
+        username: 'Username',
+        role: 'Role'
+      },
       jabatanColumn: {
         nipp: 'NIPP',
         username: 'Username',
@@ -231,19 +282,27 @@ export default {
         nama_jabatan: '',
         code_jabatan: ''
       },
+      userdataRole: {
+        nipp: '',
+        username: '',
+        role: ''
+      },
       ioUserModal: null,
+      ioRoleModal: null,
       ioDivisiModal: null,
       ioJabatanModal: null,
       action: 'create',
       tmpCode: null,
       dropdownDivisi: [],
-      dropdownJabatan: []
+      dropdownJabatan: [],
+      dropdownRole: []
     }
   },
   mounted() {
     this.ioUserModal = new Modal(this.$refs.userModal)
     this.ioDivisiModal = new Modal(this.$refs.divisiModal)
     this.ioJabatanModal = new Modal(this.$refs.jabatanModal)
+    this.ioRoleModal = new Modal(this.$refs.roleModal)
   },
   methods: {
     async ioUser(type) {
@@ -288,6 +347,22 @@ export default {
 
       this.$refs.divisi.fetchData()
       this.ioDivisiModal.hide()
+    },
+    async ioRole() {
+      await axios.post('/role/update', this.userdataRole).then(() => {
+        this.$refs.role.fetchData()
+
+        this.$swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Data has been saved!'
+        })
+      }).catch(({response: {data}}) => {
+        alert(data.message)
+      })
+
+      this.$refs.role.fetchData()
+      this.ioRoleModal.hide()
     },
     async ioJabatan() {
       await axios.post('/jabatan/user', this.userdataJabatan).then(() => {
@@ -387,6 +462,17 @@ export default {
 
       axios.get('divisi/dropdown?nama_divisi=' + data.nama_divisi).then((resp) => {
         this.dropdownDivisi = resp.data.data
+      })
+    },
+    editRole(data) {
+      this.ioRoleModal.show()
+
+      this.userdataRole.nipp = data.nipp
+      this.userdataRole.username = data.username
+      this.userdataRole.role = data.role
+
+      axios.get('role/dropdown?existing=' + data.role).then((resp) => {
+        this.dropdownRole = resp.data.data
       })
     },
     editJabatan(data) {
