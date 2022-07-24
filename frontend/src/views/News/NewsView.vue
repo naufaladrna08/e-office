@@ -3,14 +3,15 @@
     <div class="row">
       <div 
         class="col-md-12 cover my-4"
-        :style="'background-image: url(\''+ news.data.cover +'\');'"
+        :style="'background-image: url(\''+ news.news.cover +'\');'"
       >
 
       </div>
       <div class="col-3"> &nbsp; </div>
       <div class="col-6"> 
-        <h1> {{ news.data.title }} </h1>
-        <p class="load" v-html="news.data.description"></p>
+        <h1> {{ news.news.title }} </h1>
+        <p> Dibuat oleh {{ news.user.username }} </p>
+        <p class="lead" v-html="news.news.description"></p>
       </div>
       <div class="col-3"> &nbsp; </div>
     </div>
@@ -25,9 +26,7 @@ export default {
   data() {
     return {
       cover: null,
-      news: {
-        description: null
-      }
+      news: null
     }
   },
   created() {
@@ -35,8 +34,7 @@ export default {
     
     /* Get news form ID */
     axios.get('/news/read/' + id).then((resp) => {
-      this.news = resp.data
-      console.log(this.news)
+      this.news = resp.data.data
     })
   }
 }
