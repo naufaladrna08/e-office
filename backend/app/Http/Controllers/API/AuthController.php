@@ -10,8 +10,11 @@ use \Illuminate\Validation\Rule;
 use Auth;
 use Validator;
 use App\Models\User;
+use App\Models\Roles;
+use App\Models\ModelHasRoles;
 use App\Classes\Response;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\RoleResource;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UserImport;
 
@@ -354,5 +357,73 @@ class AuthController extends Controller {
     }
 
     return response()->json($data);
+  }
+
+  public static function dd($data) {
+    return response()->json($data); die;
+  }
+
+  public function dropdown_role(Request $r) {
+    $data = [];
+    
+    $fields = ['id', 'name'];
+
+    $query = DB::table('roles')
+      ->select(['id AS nipp', 'name AS role', 'name AS username'])
+      ->where('name', '<>', $r->existing);
+
+    // if (!is_null($r->search)) {
+    //   $query = $query 
+    //     ->where('code_divisi', 'like', '%'.$r->search.'%')
+    //     ->orWhere('nama_divisi', 'like', '%'.$r->search.'%');
+    // }
+
+    return RoleResource::collection($query->get());
+
+    return response()->json($data);
+  }
+
+  public function get_data_role(Request $r) {
+    $fields = ['rid', 'name', 'username', 'nipp'];
+    $oderField = ['asc', 'desc'];
+
+    if ($r->order == null || $r->field != null ||
+       !in_array($r->order, $oderField) || !in_array($r->field, $fields)) {
+      $r->order = 'asc';
+      $r->field = 'code_divisi';
+    }
+
+    $query = DB::table('model_has_roles')
+      ->select([
+        'roles.id AS rid', 
+        'roles.name AS role',
+        'users.username',
+        'users.id AS nipp'
+      ])
+      ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
+      ->leftJoin('users', 'model_has_roles.model_id', '=', 'users.id')
+      ->orderBy($r->field, $r->order);
+
+    if (!is_null($r->search)) {
+      $query = $query 
+        ->where('users.username', 'like', '%'.$r->search.'%')
+        ->orWhere('users.id', 'like', '%'.$r->search.'%');
+    }
+
+    return RoleResource::collection($query->paginate(10));
+  }
+
+  public function update_role(Request $r) {
+    $role = Roles::where('name', $r->role)->first();
+
+    $data = ModelHasRoles::where('model_id', $r->nipp)->first();
+    $data->role_id = $role->id;
+    $data->timestamps = false;
+
+    if (!$data->save()) {
+      return Response::pretty(500, 'Failed', 'Internal Server Error', null);
+    }
+
+    return Response::pretty(200, 'Success', 'Data has been saved', $data);
   }
 }

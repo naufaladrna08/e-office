@@ -113,6 +113,11 @@ Route::group(['prefix' => 'jenis-surat', 'middleware' => 'auth:sanctum'], functi
   // Route::post('user', [App\Http\Controllers\JenisSuratController::class, 'user']);
 });
 
+Route::group(['prefix' => 'role', 'middleware' => 'auth:sanctum'], function() {
+  Route::get('dropdown', [App\Http\Controllers\API\AuthController::class, 'dropdown_role']);
+  Route::get('get-data', [App\Http\Controllers\API\AuthController::class, 'get_data_role']);
+  Route::post('update', [App\Http\Controllers\API\AuthController::class, 'update_role']);
+});
 
 Route::post('/user/upload', [App\Http\Controllers\API\AuthController::class, 'upload']);
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
