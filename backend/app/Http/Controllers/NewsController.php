@@ -53,9 +53,7 @@ class NewsController extends Controller {
   }
 
   public function readAll(Request $r) {
-    $news = News::where('created_by', auth()->user()->id)
-      ->where('is_active', true)
-      ->get();
+    $news = News::where('is_active', true)->get();
 
     foreach ($news as $each) {
       $description = strip_tags($each['description']);
