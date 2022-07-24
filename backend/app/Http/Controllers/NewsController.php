@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\News;
+use App\Models\User;
 use App\Models\Photo;
 use App\Classes\Response;
 use Illuminate\Routing\UrlGenerator;
@@ -47,9 +48,14 @@ class NewsController extends Controller {
       ->where('is_active', true)
       ->firstOrFail();
 
+    $user = User::where('id', $news->created_by)->firstOrFail();
+
     $news['cover'] = url('storage/' . $news['cover']);
 
-    return Response::pretty(200, 'Success', 'Data available', $news);
+    return Response::pretty(200, 'Success', 'Data available', [ 
+      'news' => $news,
+      'user' => $user
+    ]);
   }
 
   public function readAll(Request $r) {
