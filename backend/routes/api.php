@@ -119,6 +119,10 @@ Route::group(['prefix' => 'role', 'middleware' => 'auth:sanctum'], function() {
   Route::post('update', [App\Http\Controllers\API\AuthController::class, 'update_role']);
 });
 
+Route::group(['prefix' => 'group', 'middleware' => 'auth:sanctum'], function() {
+  Route::get('list', [App\Http\Controllers\GroupController::class, 'index']);
+});
+
 Route::post('/user/upload', [App\Http\Controllers\API\AuthController::class, 'upload']);
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
 Route::post('/validate-login', [App\Http\Controllers\API\AuthController::class, 'validate_login']);
