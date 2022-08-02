@@ -196,6 +196,10 @@ export default {
       this.user = store.state.auth.authenticated
       this.currentRoute = this.$route.name
       this.crumbs[0] = this.$route.name
+      
+      axios.get('/profile/userdata').then((resp) => {
+        this.userdata = resp.data.data
+      })
     }
   },
   created() {
