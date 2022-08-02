@@ -38,9 +38,9 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/logout" class="nav-link py-3 border-bottom" title="Logout">
-              <i class="fa fa-sign-out" style="width: 24px; height: 24px" @click="logout"></i>
-            </router-link>
+            <a href="javascript:void();" @click="logout" class="nav-link py-3 border-bottom" title="Logout">
+              <i class="fa fa-sign-out" style="width: 24px; height: 24px"></i>
+            </a>
           </li>
         </ul>
         <div class="dropdown border-top">
@@ -48,11 +48,7 @@
             <img :src="userdata.profile_path" width="24" height="24" class="rounded-circle">
           </a>
           <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-            <li><a class="dropdown-item" href="#">New project...</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="javascript:void(0);" @click="logout">Sign out</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);" @click="logout"> Sign out </a></li>
           </ul>
         </div>
       </div>
