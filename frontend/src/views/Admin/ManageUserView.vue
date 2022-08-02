@@ -7,6 +7,9 @@
         <button class="nav-link active" id="user-tab" data-bs-toggle="tab" data-bs-target="#user" type="button" role="tab" aria-controls="divisi" aria-selected="true"> User List </button>
       </li>
       <li class="nav-item" role="presentation">
+        <button class="nav-link" id="group-tab" data-bs-toggle="tab" data-bs-target="#group" type="button" role="tab" aria-controls="group" aria-selected="true"> Group List </button>
+      </li>
+      <li class="nav-item" role="presentation">
         <button class="nav-link" id="role-tab" data-bs-toggle="tab" data-bs-target="#role" type="button" role="tab" aria-controls="role" aria-selected="false"> Assign Role </button>
       </li>
       <li class="nav-item" role="presentation">
@@ -42,6 +45,24 @@
           ref="users"
           @actionClicked="editUser"
           @deleteClicked="deleteUser"
+        />
+      </div>
+      <div class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
+        <div class="my-4">
+          <button 
+            class="btn btn-primary" 
+            @click="showCreateGroupModal()" 
+          > 
+            Create 
+          </button>
+        </div>
+      
+        <DataTables
+          url="group/list"
+          tclass="table table-bordered w-100 p-2" 
+          :columns="listGroups"
+          useNumber="1"
+          ref="groups"
         />
       </div>
       <div class="tab-pane fade" id="role" role="tabpanel" aria-labelledby="role-tab">
@@ -116,6 +137,29 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close </button>
             <button type="button" class="btn btn-primary" id="create-user-button" @click="action == 'create' ? ioUser('create') : ioUser('update')"> Create </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="createGroup" ref="groupModal" tabindex="-1" aria-labelledby="createGroupLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="createGroupLabel"> Create Group </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form">
+              <div class="form-group">
+                <label for="name"> Name </label>
+                <input type="text" class="form-control my-2" id="name" name="name" v-model="groupdata.name">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close </button>
+            <button type="button" class="btn btn-primary" id="create-group-button" @click="ioGroup()"> Create </button>
           </div>
         </div>
       </div>
@@ -249,6 +293,10 @@ export default {
         email: 'E-Mail',
         created_at: 'Created'
       },
+      listGroups: {
+        name: 'Name',
+        count: 'Jumlah'
+      },
       divisiColumn: {
         nipp: 'NIPP',
         username: 'Username',
@@ -269,6 +317,9 @@ export default {
         username: '',
         name: '',
         email: '',
+      },
+      groupdata: {
+        name: ''
       },
       userdataDivisi: {
         nipp: '',
@@ -291,6 +342,7 @@ export default {
       ioRoleModal: null,
       ioDivisiModal: null,
       ioJabatanModal: null,
+      ioGroupModal: null,
       action: 'create',
       tmpCode: null,
       dropdownDivisi: [],
@@ -303,6 +355,7 @@ export default {
     this.ioDivisiModal = new Modal(this.$refs.divisiModal)
     this.ioJabatanModal = new Modal(this.$refs.jabatanModal)
     this.ioRoleModal = new Modal(this.$refs.roleModal)
+    this.ioGroupModal = new Modal(this.$refs.groupModal)
   },
   methods: {
     async ioUser(type) {
@@ -331,6 +384,22 @@ export default {
       })
 
       this.ioUserModal.hide()
+    },
+    async ioGroup() {
+      await axios.post('/group/create', this.groupdata).then(() => {
+        this.$refs.groups.fetchData()
+
+        this.$swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Data has been saved!'
+        })
+      }).catch(({response: {data}}) => {
+        alert(data.message)
+      })
+
+      this.$refs.groups.fetchData()
+      this.ioGroupModal.hide()
     },
     async ioDivisi() {
       await axios.post('/divisi/user', this.userdataDivisi).then(() => {
@@ -524,6 +593,9 @@ export default {
           })
         }
       })
+    },
+    showCreateGroupModal() {
+      this.ioGroupModal.show()
     }
   }
 }

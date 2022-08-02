@@ -121,6 +121,7 @@ Route::group(['prefix' => 'role', 'middleware' => 'auth:sanctum'], function() {
 
 Route::group(['prefix' => 'group', 'middleware' => 'auth:sanctum'], function() {
   Route::get('list', [App\Http\Controllers\GroupController::class, 'index']);
+  Route::post('create', [App\Http\Controllers\GroupController::class, 'create']);
 });
 
 Route::post('/user/upload', [App\Http\Controllers\API\AuthController::class, 'upload']);

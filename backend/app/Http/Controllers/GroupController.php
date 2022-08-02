@@ -8,6 +8,7 @@ use App\Models\Group;
 use App\Models\GroupMember;
 use App\Http\Resources\GroupResource;
 use Illuminate\Support\Facades\DB;
+use App\Classes\Response;
 
 class GroupController extends Controller {
   public function index(Request $r) {
@@ -37,5 +38,22 @@ class GroupController extends Controller {
     // }
 
     return GroupResource::collection($query->paginate(10));
+  }
+
+  public function create(Request $r) {
+    $data = [];
+
+    $model = Group::create([
+      'name' => $r->name,
+      'is_active' => true
+    ]);
+
+    if ($model) {
+      $data = Response::pretty(200, 'Success', 'Data berhasil dibuat', $model);
+    } else {
+      $data = Response::pretty(500, 'Failed', 'Internal Server Error', null);
+    }
+
+    return response()->json($data);
   }
 }
