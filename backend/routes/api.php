@@ -123,3 +123,4 @@ Route::post('/user/upload', [App\Http\Controllers\API\AuthController::class, 'up
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
 Route::post('/validate-login', [App\Http\Controllers\API\AuthController::class, 'validate_login']);
 Route::middleware('auth:sanctum')->post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
+// Route::post('/guest/create', [App\Http\Controllers\API\AuthController::class, 'register']);
