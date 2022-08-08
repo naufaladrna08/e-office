@@ -13,10 +13,6 @@
         <button class="nav-link" id="role-tab" data-bs-toggle="tab" data-bs-target="#role" type="button" role="tab" aria-controls="role" aria-selected="false"> Assign Role </button>
       </li>
       <li class="nav-item" role="presentation">
-        <!-- TODO: selesaikan -->
-        <button class="nav-link" id="divisi-tab" data-bs-toggle="tab" data-bs-target="#divisi" type="button" role="tab" aria-controls="divisi" aria-selected="false"> Assign Group </button>
-      </li>
-      <li class="nav-item" role="presentation">
         <button class="nav-link" id="jabatan-tab" data-bs-toggle="tab" data-bs-target="#jabatan" type="button" role="tab" aria-controls="jabatan" aria-selected="false"> Assign Jabatan </button>
       </li>
     </ul>
@@ -62,6 +58,8 @@
           tclass="table table-bordered w-100 p-2" 
           :columns="listGroups"
           useNumber="1"
+          useAssigner="1"
+          @actionClicked="showGroupAssigner"
           ref="groups"
         />
       </div>
@@ -269,6 +267,38 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="groupAssignerModal" ref="groupAssignerModal" tabindex="-1" aria-labelledby="groupAssignerModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="groupAssignerModalLabel"> Assign Group </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <ul class="ws-container">
+                  <li class="ws-item" v-for="(data, index) in groups.all_users" @click="assignGroup(data.id)" :key="index"> 
+                    {{ data.name }} 
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <ul class="ws-container">
+                  <li class="ws-item" v-for="(data, index) in groups.inside" @click="exitGroup(data.id)" :key="index"> 
+                    {{ data.name }} 
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>  
 </template>
 
@@ -277,6 +307,7 @@ import DataTables from '../../components/DataTables.vue'
 import { Modal } from 'bootstrap'
 import 'bootstrap/dist/js/bootstrap.js'
 import axios from 'axios'
+import { toJSON } from 'lodash-es'
 
 export default {
   name: 'ManageUserView',
@@ -294,6 +325,7 @@ export default {
         created_at: 'Created'
       },
       listGroups: {
+        id: 'ID',
         name: 'Name',
         count: 'Jumlah'
       },
@@ -338,6 +370,10 @@ export default {
         username: '',
         role: ''
       },
+      groups: {
+        all_users: [],
+        inside: null
+      },
       ioUserModal: null,
       ioRoleModal: null,
       ioDivisiModal: null,
@@ -347,7 +383,8 @@ export default {
       tmpCode: null,
       dropdownDivisi: [],
       dropdownJabatan: [],
-      dropdownRole: []
+      dropdownRole: [],
+      selectedGroupID: null
     }
   },
   mounted() {
@@ -356,6 +393,7 @@ export default {
     this.ioJabatanModal = new Modal(this.$refs.jabatanModal)
     this.ioRoleModal = new Modal(this.$refs.roleModal)
     this.ioGroupModal = new Modal(this.$refs.groupModal)
+    this.groupAssignerModal = new Modal(this.$refs.groupAssignerModal)
   },
   methods: {
     async ioUser(type) {
@@ -596,11 +634,98 @@ export default {
     },
     showCreateGroupModal() {
       this.ioGroupModal.show()
+    },
+    showGroupAssigner(id) {
+      axios.get('group/list-user-outside?gid=' + id.id).then((resp) => {
+        const data = resp.data
+        this.groups.all_users = data
+      })
+
+      axios.get('group/list-user-inside?gid=' + id.id).then((resp) => {
+        const data = resp.data
+        this.groups.inside = data
+      })
+
+      this.selectedGroupID = id
+      this.groupAssignerModal.show()
+    },
+    assignGroup(id) {
+      axios.post('group/assign', {
+        gid: this.selectedGroupID.id,
+        uid: id
+      }).then((resp) => {
+        const data = resp.data.original
+
+        if (data.code == 200) {
+          axios.get('group/list-user-outside?gid=' + this.selectedGroupID.id).then((resp) => {
+            const data = resp.data
+            this.groups.all_users = data
+          })
+
+          axios.get('group/list-user-inside?gid=' + this.selectedGroupID.id).then((resp) => {
+            const data = resp.data
+            this.groups.inside = data
+          })
+        }
+      })
+
+      this.$refs.groups.fetchData()
+    },
+    exitGroup(id) {
+      axios.post('group/exit', {
+        gid: this.selectedGroupID.id,
+        uid: id
+      }).then((resp) => {
+        const data = resp.data.original
+
+        if (data.code == 200) {
+          axios.get('group/list-user-outside?gid=' + this.selectedGroupID.id).then((resp) => {
+            const data = resp.data
+            this.groups.all_users = data
+          })
+
+          axios.get('group/list-user-inside?gid=' + this.selectedGroupID.id).then((resp) => {
+            const data = resp.data
+            this.groups.inside = data
+          })
+        }
+      })
+      
+      this.$refs.groups.fetchData()
     }
   }
 }
 </script>
 
 <style scoped>
+  .ws-container {
+    height: 256px;
+    max-height: 256px;
+    overflow-y: scroll;
+    border: 1px solid rgb(118, 118, 118);
+    border-radius: 2px;
+    margin-left: 0;
+  }
 
+  .ws-container ul {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .ws-container li {
+    width: 100%;
+    list-style-type: none;
+    margin-left: 0;
+    padding: 8px;
+  }
+
+  li {
+    margin-left:0;
+  }
+
+  .ws-container li:hover {
+    background-color: #00000022;
+  }
+
+  ul { list-style-type: none; margin: 0; padding: 0; }
 </style>
