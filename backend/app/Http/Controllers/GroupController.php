@@ -56,4 +56,84 @@ class GroupController extends Controller {
 
     return response()->json($data);
   }
+
+  public function outside(Request $r) {
+    $sortField = [
+      'id',
+      'name',
+    ];
+
+    $orderField = ['asc', 'desc'];
+    
+    if ($r->order == null || $r->field == null || 
+        !in_array($r->field, $sortField) || !in_array($r->order, $orderField)) {
+      $r->order = 'asc';
+      $r->field = 'name';
+    }
+
+    $filtered['gid'] = htmlentities($r->gid);
+
+    $query = DB::table(DB::raw('users'))
+      ->select('*')
+      ->whereNOTIn('id', GroupMember::where('group_id', $filtered['gid'])->get('user_id'))
+      ->get();
+
+    return response()->json($query);
+  }
+
+  public function inside(Request $r) {
+    $sortField = [
+      'id',
+      'name',
+    ];
+
+    $orderField = ['asc', 'desc'];
+    
+    if ($r->order == null || $r->field == null || 
+        !in_array($r->field, $sortField) || !in_array($r->order, $orderField)) {
+      $r->order = 'asc';
+      $r->field = 'name';
+    }
+
+    $filtered['gid'] = htmlentities($r->gid);
+
+    $query = DB::table(DB::raw('users'))
+      ->select('*')
+      ->wherein('id', GroupMember::where('group_id', $filtered['gid'])->get('user_id'))
+      ->get();
+
+    return response()->json($query);
+  }
+
+  public function assign(Request $r) {
+    $data = [];
+    $model = GroupMember::create([
+      'group_id' => htmlentities($r->gid),
+      'user_id' => htmlentities($r->uid) 
+    ]);
+
+    if ($model) {
+      $data = Response::pretty(200, 'Success', 'Data berhasil dibuat', $model);
+    } else {
+      $data = Response::pretty(500, 'Failed', 'Internal Server Error', null);
+    }
+
+    return response()->json($data);
+  }
+
+  public function kick(Request $r) {
+    $data = [];
+    $model = GroupMember::where([
+      'group_id' => htmlentities($r->gid),
+      'user_id' => htmlentities($r->uid) 
+    ]);
+
+    if ($model->delete()) {
+      $data = Response::pretty(200, 'Success', 'Data berhasil dihapus', $model);
+    } else {
+      $data = Response::pretty(500, 'Failed', 'Internal Server Error', null);
+    }
+
+    return response()->json($data);
+  }
 }
