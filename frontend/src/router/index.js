@@ -149,7 +149,7 @@ const routes = [
     name: 'Read News',
     component: NewsView,
     meta: {
-      middleware: "guest",
+      middleware: "all",
       breadcrumb: { text: 'News' }
     }
   },
@@ -176,6 +176,8 @@ router.beforeEach(async (to, from, next) => {
     }
 
     next('/dashboard')
+  } else if (to.meta.middleware == "all") {
+    next()
   } else {
     if (store.state.auth.authenticated) {
       next()
