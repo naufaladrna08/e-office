@@ -123,6 +123,7 @@ Route::group(['prefix' => 'group', 'middleware' => 'auth:sanctum'], function() {
   Route::get('list', [App\Http\Controllers\GroupController::class, 'index']);
   Route::get('list-user-outside', [App\Http\Controllers\GroupController::class, 'outside']);
   Route::get('list-user-inside', [App\Http\Controllers\GroupController::class, 'inside']);
+  Route::get('dropdown', [App\Http\Controllers\GroupController::class, 'dropdown']);
   Route::post('create', [App\Http\Controllers\GroupController::class, 'create']);
   Route::post('assign', [App\Http\Controllers\GroupController::class, 'assign']);
   Route::post('exit', [App\Http\Controllers\GroupController::class, 'kick']);

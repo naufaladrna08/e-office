@@ -136,4 +136,26 @@ class GroupController extends Controller {
 
     return response()->json($data);
   }
+
+  public function dropdown(Request $r) {
+    $data = [];
+
+    $query = DB::table('groups')
+      ->select('id', 'name');
+
+    if (!is_null($r->search)) {
+      $query = $query->where('name', 'like', '%'.$r->search.'%');
+    }
+
+    $dataall = $query->get();
+
+    foreach ($dataall as $val) {
+      $data[] = [
+        'text' => $val->name,
+        'id' => $val->id
+      ];
+    }
+
+    return response()->json($data);
+  }
 }
