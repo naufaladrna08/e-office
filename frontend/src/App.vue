@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="user == false">
+    <div v-if="user == false && isNewsPage()">
       <nav class="navbar navbar-light py-4 bg-light">
         <div class="container">
           <a class="navbar-brand" href="/"> E-Office </a>
@@ -193,6 +193,9 @@ export default {
         }
         
       })
+    },
+    isNewsPage() {
+      return this.$route.name === 'Read News'
     }
   },
   watch:{
