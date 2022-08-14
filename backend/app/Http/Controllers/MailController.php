@@ -17,48 +17,48 @@ use File;
 class MailController extends Controller {
   public function create(Request $r) {
     $data = [];
-    
-    /* Receiver */
-    foreach ($r->options['send_to'] as $each) {
-      $relation = new Relation();
-      $relation->type = 'RECEIVER';
-      $relation->item = $r->options['mailNumber'];
-      $relation->from = auth()->user()->id;
-      $relation->to   = $each['uid'];
-      $relation->save();
+
+    DB::beginTransaction(); 
+
+    try {
+      /* Groups */
+      foreach ($r->options['group'] as $each) {
+        $relation = new Relation();
+        $relation->type = 'M_GROUP'; // Mail Group
+        $relation->item = $r->options['mailNumber'];
+        $relation->from = auth()->user()->id;
+        $relation->to   = $each['gid'];
+        $relation->save();
+      }
+
+      $mail = Mail::create([
+        'mail_number' => $r->options['mailNumber'],
+        'subject' => $r->options['subject'],
+        'description' => $r->description,
+        'is_active' => true,
+        'status' => MAIL::TERKIRIM,
+        'priority' => $r->options['prioritas'],
+        'type' => $r->options['jenisSurat'],
+        'klasifikasi' => $r->options['klasifikasi'],
+        'created_by' => auth()->user()->id,
+      ]);
+
+      $log = Log::insert(
+        'mail', 
+        $mail->id,
+        auth()->user()->id . ' membuat surat ' . $mail->mail_number,
+        'CREATED'
+      );
+
+      $data = $mail;
+
+      DB::commit();
+    } catch (Exception $e) {
+      DB::rollback();
+      $data = Response::pretty(500, 'Failed', 'Internal Server Error', null);
     }
 
-    /* Carbon copy */
-    foreach ($r->options['cc'] as $each) {
-      $relation = new Relation();
-      $relation->type = 'CC';
-      $relation->item = $r->options['mailNumber'];
-      $relation->from = auth()->user()->id;
-      $relation->to   = $each['uid'];
-      $relation->save();
-    }
-
-    $mail = Mail::create([
-      'mail_number' => $r->options['mailNumber'],
-      'subject' => $r->options['subject'],
-      'description' => $r->description,
-      'is_active' => true,
-      'status' => MAIL::TERKIRIM,
-      'priority' => $r->options['prioritas'],
-      'type' => $r->options['jenisSurat'],
-      'klasifikasi' => $r->options['klasifikasi'],
-      'klasifikasi_masalah' => $r->options['klasifikasiMasalah'],
-      'created_by' => auth()->user()->id,
-    ]);
-
-    $log = Log::insert(
-      'mail', 
-      $mail->id,
-      auth()->user()->id . ' membuat surat ' . $mail->mail_number,
-      'CREATED'
-    );
-
-    return Response::pretty(200, 'Success', 'Data has been created', $mail);
+    return Response::pretty(200, 'Success', 'Data has been created', $data);
   }
 
   public function read(Request $r) {
