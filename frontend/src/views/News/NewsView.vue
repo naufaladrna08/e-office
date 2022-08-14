@@ -7,13 +7,13 @@
       >
 
       </div>
-      <div class="col-3"> &nbsp; </div>
-      <div class="col-6"> 
+      <div class="col-sm-12 col-md-3"> &nbsp; </div>
+      <div class="col-sm-12 col-md-6 p-4"> 
         <h1> {{ news.news.title }} </h1>
         <p> Dibuat oleh {{ news.user.username }} </p>
         <p class="lead" v-html="news.news.description"></p>
       </div>
-      <div class="col-3"> &nbsp; </div>
+      <div class="col-sm-12 col-sm-3"> &nbsp; </div>
     </div>
   </div>
 </template>
