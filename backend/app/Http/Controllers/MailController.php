@@ -72,13 +72,9 @@ class MailController extends Controller {
         'mails.created_at', 
         'mails.updated_at', 
         'mails.subject', 
-        DB::raw('km.name AS KLASIFIKASI_MASALAH'),
         DB::raw('pr.name AS PRIORITAS'),
         DB::raw('kl.name AS KLASIFIKASI')
       )
-      ->leftJoin('parameter AS km', function ($join) {
-        $join->on("km.type", '=', DB::raw("'klasifikasi_masalah'"))->on('km.code', 'mails.klasifikasi_masalah');
-      })
       ->leftJoin('parameter AS pr', function ($join) {
         $join->on("pr.type", '=', DB::raw("'prioritas'"))->on('pr.code', 'mails.priority');
       })

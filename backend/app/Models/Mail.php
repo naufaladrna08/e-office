@@ -11,7 +11,7 @@ class Mail extends Model {
 
   protected $fillable = [
     'mail_number', 'subject', 'description', 'is_active', 'status', 'type',
-    'priority', 'klasifikasi', 'klasifikasi_masalah', 'created_by',
+    'priority', 'klasifikasi', 't_to', 't_tembusan', 't_lampiran', 'created_by',
   ];
 
   /* Status */
