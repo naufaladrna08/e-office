@@ -21,6 +21,9 @@ return new class extends Migration {
       $table->string('type');
       $table->string('priority');
       $table->string('klasifikasi');
+      $table->string('t_to');
+      $table->string('t_tembusan');
+      $table->string('t_lampiran');
       $table->integer('created_by');
       $table->timestamps();
     });
