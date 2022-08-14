@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Mail;
 use App\Models\Relation;
 use App\Models\Log;
+use App\Models\GroupMember;
 use App\Classes\Response;
 use Validator;
 use App\Http\Resources\SentResource;
@@ -152,10 +153,18 @@ class MailController extends Controller {
     $orderField = ['asc', 'desc'];
 
     $ids = null;
-    $relation = Relation::where('to', auth()->user()->id)->get();
+    /* Get groups of the user */
+    $groups = GroupMember::where('user_id', auth()->user()->id)->get();
 
-    foreach ($relation as $each) {
-      $ids[] = $each['item'];
+    /* Get mail from relation */
+    foreach ($groups as $group) {
+      $relation = Relation::where('to', $group->group_id)->where('type', 'M_GROUP')->get();
+
+      if ($relation != false) {
+        foreach ($relation as $each) {
+          $ids[] = $each['item'];
+        }
+      }
     }
 
     $query = DB::table('mails')
