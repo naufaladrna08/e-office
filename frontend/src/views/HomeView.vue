@@ -52,27 +52,17 @@
       <div class="container text-center" >
         <h1 class="font-weight-300"> Berita </h1>
 
-        <div class="row text-align-left my-4">
-          <div class="col">
-            <img src="https://images.unsplash.com/photo-1645193601259-63ad87c0b4a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" class="img-thumbnail">
-            <h5 class="mt-2"> Office | 27 August 2022 </h5>
-            <p class="lead">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, expedita?
-            </p>
-          </div>
-          <div class="col">
-            <img src="https://images.unsplash.com/photo-1645193601259-63ad87c0b4a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" class="img-thumbnail">
-            <h5 class="mt-2"> Office | 27 August 2022 </h5>
-            <p class="lead">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, expedita?
-            </p>
-          </div>
-          <div class="col">
-            <img src="https://images.unsplash.com/photo-1645193601259-63ad87c0b4a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" class="img-thumbnail">
-            <h5 class="mt-2"> Office | 27 August 2022 </h5>
-            <p class="lead">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, expedita?
-            </p>
+        <div class="row my-4">
+          <div v-for="(data) in news" :key="data.id" class="col-4">
+            <img :src="data.cover" class="img-thumbnail my-4" style="height: 200px;">
+            <div>
+              <b> {{ data.title }} </b>
+              <p class="lead mt-2">
+                {{ data.description }}
+              </p>
+            </div>
+            
+            <a class="btn btn-primary my-4" :href="'news/read/' + data.id"> Continue Reading </a>
           </div>
         </div>
       </div>
@@ -270,7 +260,8 @@ export default {
       },
       visi: null,
       misi: null,
-      pageFooter: null
+      pageFooter: null,
+      news: null
     }
   },
   created() {
@@ -287,6 +278,11 @@ export default {
     /* Get misi */
     axios.get('/parameter/fetch?type=misi').then((resp) => {
       this.misi = resp.data.data.description
+    })
+
+    /* Get misi */
+    axios.get('/news/landing_page').then((resp) => {
+      this.news = resp.data.data
     })
   }
 }
