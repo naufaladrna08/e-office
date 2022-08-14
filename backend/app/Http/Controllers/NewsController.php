@@ -44,13 +44,18 @@ class NewsController extends Controller {
   }
 
   public function read(Request $r) {
-    $news = News::where('id', $r->id)
+    $news = News::where('id', intval($r->id))
       ->where('is_active', true)
-      ->firstOrFail();
+      ->first();
 
-    $user = User::where('id', $news->created_by)->firstOrFail();
-
-    $news['cover'] = url('storage/' . $news['cover']);
+    if ($news) {
+      $user = User::where('id', $news->created_by)->first();
+      $news['cover'] = url('storage/' . $news['cover']);
+    } else {
+      $user = null;
+      $user = null;
+    }
+    
 
     return Response::pretty(200, 'Success', 'Data available', [ 
       'news' => $news,

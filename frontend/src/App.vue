@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div v-if="user == false">
+      <nav class="navbar navbar-light py-4 bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="/"> E-Office </a>
+        </div>
+      </nav>
+    </div>
+
     <div v-if="user">
       <div class="sidebar d-flex flex-column flex-shrink-0 bg-light" style="width: 4.5rem;">
         <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
@@ -193,24 +201,28 @@ export default {
       this.currentRoute = this.$route.name
       this.crumbs[0] = this.$route.name
       
-      axios.get('/profile/userdata').then((resp) => {
-        this.userdata = resp.data.data
-      })
+      if (this.user) {
+        axios.get('/profile/userdata').then((resp) => {
+          this.userdata = resp.data.data
+        })
+      }
     }
   },
   created() {
-    axios.get('/profile/userdata').then((resp) => {
-      this.userdata = resp.data.data
-    
-      if (this.userdata.password_changed == false) {
-        this.modal = new Modal(this.$refs.passwordModal)
-        this.modal.show()
-      }
-    })
+    if (this.user) {
+      axios.get('/profile/userdata').then((resp) => {
+        this.userdata = resp.data.data
+      
+        if (this.userdata.password_changed == false) {
+          this.modal = new Modal(this.$refs.passwordModal)
+          this.modal.show()
+        }
+      })
 
-    axios.get('/parameter/fetch?type=page_footer').then((resp) => {
-      this.pageFooter = resp.data.data.description
-    })
+      axios.get('/parameter/fetch?type=page_footer').then((resp) => {
+        this.pageFooter = resp.data.data.description
+      })
+    }
   },
 }
 </script>

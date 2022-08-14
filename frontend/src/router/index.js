@@ -148,6 +148,10 @@ const routes = [
     path: '/news/read/:id',
     name: 'Read News',
     component: NewsView,
+    meta: {
+      middleware: "guest",
+      breadcrumb: { text: 'News' }
+    }
   },
 ]
 

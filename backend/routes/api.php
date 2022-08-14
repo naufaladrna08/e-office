@@ -37,7 +37,6 @@ Route::group(['prefix' => 'mail', 'middleware' => ['auth:sanctum']], function() 
 
 Route::group(['prefix' => 'news', 'middleware' => ['auth:sanctum']], function() {
   Route::post('create', [App\Http\Controllers\NewsController::class, 'create']);
-  Route::get ('read/{id}', [App\Http\Controllers\NewsController::class, 'read']);
   Route::get ('list', [App\Http\Controllers\NewsController::class, 'readAll']);
   Route::post('update', [App\Http\Controllers\NewsController::class, 'update']);
   Route::post('delete', [App\Http\Controllers\NewsController::class, 'delete']);
@@ -134,3 +133,6 @@ Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login'])
 Route::post('/validate-login', [App\Http\Controllers\API\AuthController::class, 'validate_login']);
 Route::middleware('auth:sanctum')->post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
 // Route::post('/guest/create', [App\Http\Controllers\API\AuthController::class, 'register']);
+
+/* Guest news */
+Route::get('news/read/{id}', [App\Http\Controllers\NewsController::class, 'read']);
