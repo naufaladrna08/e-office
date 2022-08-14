@@ -24,6 +24,9 @@
         </div>
         <div class="col-md-12">
           <div class="form-group my-2">
+            <input type="file" name="aimage" id="aimage" style="position:absolute; left: -9999px;" @change="applyImage(event)" />
+            <button class="btn btn-primary mb-4 btn-sm" @click="addImage()"> <i class="fa fa-image"> </i></button>
+            <button class="btn btn-primary mb-4 mx-2 btn-sm"> <i class="fa fa-play"></i> </button>
             <ckeditor 
               :editor="editor" 
               v-model="editorData" 
@@ -91,6 +94,24 @@ export default {
             text: 'Something went wrong! Please try again later.'
           })
         }
+      })
+    },
+    addImage() {
+      const el = document.getElementById('aimage')
+      el.click()
+    },
+    applyImage(event) {
+      event = event || window.event;
+      const data = event.target.files
+      const formData = new FormData()
+      formData.append('file', data[0])
+    
+      axios.post('photo/store', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((resp) => {
+        this.editorData += '<img src="' + resp.data.data.url + '"/>'
       })
     }
   }
