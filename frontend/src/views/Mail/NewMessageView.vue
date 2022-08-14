@@ -295,7 +295,7 @@ export default {
           'Content-Type': 'multipart/form-data'
         }
       }).then((resp) => {
-        this.editorData += '<img src="' + resp.data.data.url + '"/>'
+        this.editorData += '<img class="img-fw" src="' + resp.data.data.url + '"/>'
       })
     }
   },
