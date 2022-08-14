@@ -107,4 +107,21 @@ class NewsController extends Controller {
       return Response::pretty(500, 'Failed', 'Data available', null);
     }
   }
+
+  public function landingPage(Request $r) {
+    $news = News::where('is_active', true)->orderBy('created_at', 'desc')->take(3)->get();
+
+    foreach ($news as $each) {
+      $description = strip_tags($each['description']);
+
+      if (strlen($description) > 255) {
+        $description = substr($description, 0, 255) . ' ...';
+      }
+
+      $each['description'] = $description;
+      $each['cover'] = config('app.url') . '/storage/' . $each['cover'];
+    }
+
+    return Response::pretty(200, 'Success', 'Data available', $news);
+  }
 }

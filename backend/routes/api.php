@@ -136,3 +136,4 @@ Route::middleware('auth:sanctum')->post('/logout', [App\Http\Controllers\API\Aut
 
 /* Guest news */
 Route::get('news/read/{id}', [App\Http\Controllers\NewsController::class, 'read']);
+Route::get('news/landing_page', [App\Http\Controllers\NewsController::class, 'landingPage']);
