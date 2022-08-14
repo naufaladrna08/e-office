@@ -41,6 +41,9 @@ class MailController extends Controller {
         'priority' => $r->options['prioritas'],
         'type' => $r->options['jenisSurat'],
         'klasifikasi' => $r->options['klasifikasi'],
+        't_to' => $r->options['t_to'],
+        't_tembusan' => $r->options['t_tembusan'],
+        't_lampiran' => $r->options['t_lampiran'],
         'created_by' => auth()->user()->id,
       ]);
 
@@ -72,6 +75,9 @@ class MailController extends Controller {
         'mails.created_at', 
         'mails.updated_at', 
         'mails.subject', 
+        'mails.t_to', 
+        'mails.t_tembusan', 
+        'mails.t_lampiran', 
         DB::raw('pr.name AS PRIORITAS'),
         DB::raw('kl.name AS KLASIFIKASI')
       )
