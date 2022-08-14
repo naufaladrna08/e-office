@@ -21,19 +21,11 @@
           </div>
         </div>
         <div class="row mb-2">
-          <div class="col-4">
-            Klasifikasi Masalah
-          </div>
-          <div class="col-8">
-            <b> : {{ data.klasifikasi_masalah }} </b>
-          </div>
-        </div>
-        <div class="row mb-2">
           <div class="col-2">
             Lampiran
           </div>
           <div class="col-2">
-            <b> : {{ data.type }} </b>
+            <b> : {{ data.t_lampiran }} </b>
           </div>
           <div class="col-2">
             Prioritas
@@ -52,20 +44,16 @@
       <div class="col-6 lead">
         <div class="row mb-2">
           <div class="col-md-12">
-            <p class="lead"> <b> Penerima : </b> </p>
+            <p class="lead"> <b> Kepada : </b> </p>
     
-            <ul v-for="(item) in userdata.receiver" v-bind:key="item">
-              <li> {{ item.name }} </li>
-            </ul>
+            <p class="lead"> {{ data.t_to }} </p>
           </div>
         </div>
         <div class="row mb-2">
           <div class="col-md-12">
-            <p class="lead"> <b> CC : </b> </p>
-
-            <ul v-for="(item) in userdata.cc" v-bind:key="item">
-              <li> {{ item.name }} </li>
-            </ul>
+            <p class="lead"> <b> Tembusan : </b> </p>
+    
+            <p class="lead"> {{ data.t_tembusan }} </p>
           </div>
         </div>
       </div>
@@ -119,6 +107,11 @@ export default {
 <style>
 #body {
   width: 100%;
+}
+
+img {
+  width: 100%;
+  border-radius: 8px;
 }
 
 #log {

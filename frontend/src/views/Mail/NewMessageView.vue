@@ -32,7 +32,7 @@
             
             <div class="row mt-2">
               <div class="col">
-                <input type="text" placeholder="" class="form-control" id="lampiran" name="lampiran">
+                <input type="text" v-model="formData.t_lampiran" placeholder="" class="form-control" id="lampiran" name="lampiran">
               </div>
               <div class="col">
                 <SelectComponent 
@@ -72,12 +72,12 @@
           <p class="lead"> * Penerima </p>
 
           <div class="form-group my-2">
-            <label for="" class="fw-bolder mb-2"> Kepada </label>
-            <textarea name="" id="" cols="30" rows="4" class="form-control"></textarea>
+            <label for="t_to" class="fw-bolder mb-2"> Kepada </label>
+            <textarea name="t_to" id="t_to" v-model="formData.t_to" cols="30" rows="4" class="form-control"></textarea>
           </div>
           <div class="form-group my-2">
-            <label for="" class="fw-bolder mb-2"> Tembusan </label>
-            <textarea name="" id="" cols="30" rows="4" class="form-control"></textarea>
+            <label for="t_tembusan" class="fw-bolder mb-2"> Tembusan </label>
+            <textarea name="t_tembusan" id="t_tembusan" v-model="formData.t_tembusan" cols="30" rows="4" class="form-control"></textarea>
           </div>
           <div class="form-group my-2">
             <label class="fw-bolder mb-2"> Tembusan (Jabatan) </label>
@@ -197,6 +197,9 @@ export default {
         klasifikasiMasalah: null,
         prioritas: null,
         klasifikasi: null,
+        t_to: null,
+        t_tembusan: null,
+        t_lampiran: null
       },
       jenisSuratOptions: null,
       prioritasOptions: null,
