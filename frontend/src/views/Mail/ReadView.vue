@@ -65,7 +65,7 @@
       </div>
     </div>
 
-    <div id="log" class="card mt-4">
+    <div id="log" class="card mt-4" width="100%">
       <div class="card-body p-4">
         <ul v-for="(item, id) in logs" v-bind:key="id">
           <li> {{ item.description }} </li>
@@ -74,6 +74,18 @@
     </div>
   </div>
 </template>
+
+<style>
+  .img-fw {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  #log {
+    color: #fff;
+    background: #2d3436
+  }
+</style>
 
 <script>
 import axios from 'axios'
@@ -103,19 +115,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-#body {
-  width: 100%;
-}
-
-img {
-  width: 100%;
-  border-radius: 8px;
-}
-
-#log {
-  color: #fff;
-  background: #2d3436
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row">
+    <div class="row p-0 m-0">
       <div v-if="news != null">
         <div 
           class="col-md-12 cover my-4"
