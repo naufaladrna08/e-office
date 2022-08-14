@@ -113,6 +113,8 @@
             <button class="btn btn-primary mx-2" @click="getTemplate(5)"> Template 5 </button>
             <button class="btn btn-primary mx-2" @click="getTemplate(6)"> Template 6 </button>
             <button class="btn btn-primary mx-2" @click="getTemplate(7)"> Template 7 </button>
+            <button class="btn btn-primary mx-2" @click="addImage()"> <i class="fa fa-image"> </i></button>
+            <input type="file" name="aimage" id="aimage" style="position:absolute; left: -9999px;" @change="applyImage(event)" />
           </div>
           <form @submit.prevent="send">
             <div class="form-group my-2">
@@ -273,6 +275,24 @@ export default {
     addGroup() {
       this.formData.group.push({
         gid: 1
+      })
+    },
+    addImage() {
+      const el = document.getElementById('aimage')
+      el.click()
+    },
+    applyImage(event) {
+      event = event || window.event;
+      const data = event.target.files
+      const formData = new FormData()
+      formData.append('file', data[0])
+    
+      axios.post('photo/store', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((resp) => {
+        this.editorData += '<img src="' + resp.data.data.url + '"/>'
       })
     }
   },
