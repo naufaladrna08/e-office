@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Photo;
 use App\Classes\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -38,13 +39,15 @@ class PhotoController extends Controller {
     ]);
 
     $name = Auth::id() . '-' . time() . '.' . $request->file->getClientOriginalExtension();
-    $path = $request->file('file')->storeAs('files', $name);
+    $path = $request->file('file')->storeAs('public/files', $name);
 
     $model = new Photo;
     $model->path = $path;
     $model->save();
 
-    return Response::pretty(200, 'Success', 'Data has been created', $model);
+    $url = config('app.url') . Storage::url($path);
+
+    return Response::pretty(200, 'Success', 'Data has been created', ['data' => $model, 'url' => $url]);
   }
 
   /**
