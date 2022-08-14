@@ -1,132 +1,120 @@
 <template>
   <div>
     <div class="container">
-      <form @submit.prevent="send">
-        <div class="row">
-          <div class="col-md-6">
-            <p class="lead"> * Kepala Surat </p>
+      <div class="row">
+        <div class="col-md-6">
+          <p class="lead"> * Kepala Surat </p>
 
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Jenis / No / Tanggal </label>
-              
-              <div class="row mt-2">
-                <div class="col">
-                  <SelectComponent 
-                    v-model="formData.jenisSurat" 
-                    :options="jenisSuratOptions"
-                  />
-                </div>
-                <div class="col">
-                  <input type="text" placeholder="Mail Number" class="form-control" v-model="formData.mailNumber">
-                </div>
-                <div class="col">
-                  <input type="text" placeholder="Auto" class="form-control" disabled>
-                </div>
+          <div class="form-group my-2">
+            <label class="fw-bolder mb-2"> Jenis / No / Tanggal </label>
+            
+            <div class="row mt-2">
+              <div class="col">
+                <SelectComponent 
+                  v-model="formData.jenisSurat" 
+                  :options="jenisSuratOptions"
+                />
               </div>
-            </div>
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Perihal </label>
-              <input type="text" class="form-control" name="perihal" id="perihal" v-model="formData.subject">
-            </div>
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Klasifikasi Masalah </label>
-              <SelectComponent 
-                v-model="formData.klasifikasiMasalah" 
-                :options="klasifikasiMasalahOptions"
-              />
-            </div>
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Lampiran </label>
-              
-              <div class="row mt-2">
-                <div class="col">
-                  <input type="text" placeholder="" class="form-control" id="lampiran" name="lampiran">
-                </div>
-                <div class="col">
-                  <SelectComponent 
-                    v-model="formData.prioritas" 
-                    :options="prioritasOptions"
-                  />
-                </div>
-                <div class="col">
-                  <SelectComponent 
-                    v-model="formData.klasifikasi" 
-                    :options="klasifikasiOptions"
-                  />
-                </div>
+              <div class="col">
+                <input type="text" placeholder="Mail Number" class="form-control" v-model="formData.mailNumber">
               </div>
-            </div>
-
-            <p class="lead mt-4"> * Pengirim </p>
-
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Jabatan </label>
-              <input type="text" :value="userdata.nama_jabatan" class="form-control" disabled>
-            </div>
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> NIPP / Nama </label>
-
-              <div class="row mt-2">
-                <div class="col">
-                  <input type="text" :value="userdata.uid" class="form-control" disabled>
-                </div>
-                <div class="col">
-                  <input type="text" :value="userdata.name" class="form-control" disabled>
-                </div>
+              <div class="col">
+                <input type="text" placeholder="Auto" class="form-control" disabled>
               </div>
-            </div>
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Divisi </label>
-              <input type="text" :value="userdata.nama_divisi" class="form-control" disabled>
-            </div>
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Cab / Dir </label>
-              <input type="text" value="Autocomplete" class="form-control" disabled>
             </div>
           </div>
-          <div class="col-md-6">
-            <p class="lead"> * Penerima </p>
-
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Kepada </label>
-              
-              <div class="users" v-for="(user, counter) in formData.send_to" v-bind:key="counter">
+          <div class="form-group my-2">
+            <label class="fw-bolder mb-2"> Perihal </label>
+            <input type="text" class="form-control" name="perihal" id="perihal" v-model="formData.subject">
+          </div>
+          <div class="form-group my-2">
+            <label class="fw-bolder mb-2"> Lampiran / Prioritas / Klasifikasi </label>
+            
+            <div class="row mt-2">
+              <div class="col">
+                <input type="text" placeholder="" class="form-control" id="lampiran" name="lampiran">
+              </div>
+              <div class="col">
                 <SelectComponent 
-                  v-model="user.uid" 
-                  :options="usersOptions"
-                  class="mb-2"
+                  v-model="formData.prioritas" 
+                  :options="prioritasOptions"
                 />
               </div>
-              
-              <div class="btn btn-primary mt-2" @click="addReceiver"> + </div>
+              <div class="col">
+                <SelectComponent 
+                  v-model="formData.klasifikasi" 
+                  :options="klasifikasiOptions"
+                />
+              </div>
             </div>
-            <div class="form-group my-2">
-              <label class="fw-bolder mb-2"> Tembusan </label>
-              
-              <div class="users" v-for="(user, counter) in formData.cc" v-bind:key="counter">
-                <SelectComponent 
-                  v-model="user.uid" 
-                  :options="usersOptions"
-                  class="mb-2"
-                />
-              </div>
+          </div>
 
-              <div class="btn btn-primary mt-2" @click="addCc"> + </div>
+          <p class="lead mt-4"> * Pengirim </p>
+
+          <div class="form-group my-2">
+            <label class="fw-bolder mb-2"> Jabatan </label>
+            <input type="text" :value="userdata.nama_jabatan" class="form-control" disabled>
+          </div>
+          <div class="form-group my-2">
+            <label class="fw-bolder mb-2"> NIPP / Nama </label>
+
+            <div class="row mt-2">
+              <div class="col">
+                <input type="text" :value="userdata.uid" class="form-control" disabled>
+              </div>
+              <div class="col">
+                <input type="text" :value="userdata.name" class="form-control" disabled>
+              </div>
             </div>
           </div>
         </div>
+        <div class="col-md-6">
+          <p class="lead"> * Penerima </p>
 
-        <div class="row mt-4">
-          <div class="col-md-12">
-            <div class="form-group my-2">
-              <button class="btn btn-primary ml-2" @click="getTemplate(1)"> Template 1 </button>
-              <button class="btn btn-primary mx-2" @click="getTemplate(2)"> Template 2 </button>
-              <button class="btn btn-primary mx-2" @click="getTemplate(3)"> Template 3 </button>
-              <button class="btn btn-primary mx-2" @click="getTemplate(4)"> Template 4 </button>
-              <button class="btn btn-primary mx-2" @click="getTemplate(5)"> Template 5 </button>
-              <button class="btn btn-primary mx-2" @click="getTemplate(6)"> Template 6 </button>
-              <button class="btn btn-primary mx-2" @click="getTemplate(7)"> Template 7 </button>
+          <div class="form-group my-2">
+            <label for="" class="fw-bolder mb-2"> Kepada </label>
+            <textarea name="" id="" cols="30" rows="4" class="form-control"></textarea>
+          </div>
+          <div class="form-group my-2">
+            <label for="" class="fw-bolder mb-2"> Tembusan </label>
+            <textarea name="" id="" cols="30" rows="4" class="form-control"></textarea>
+          </div>
+          <div class="form-group my-2">
+            <label class="fw-bolder mb-2"> Tembusan (Jabatan) </label>
+            
+            <div class="users" v-for="(group, counter) in formData.group" v-bind:key="counter">
+              <SelectComponent 
+                v-model="group.gid" 
+                :options="groupsOptions"
+                class="mb-2"
+              />
             </div>
+
+            <div class="btn btn-primary mt-2" @click="addGroup"> + </div>
+          </div>
+
+          <p class="lead mt-4"> * Lampiran </p>
+
+          <div class="users" v-for="(user, counter) in formData.cc" v-bind:key="counter">
+              <input type="file" name="" id="" class="form-control">
+            </div>
+
+            <div class="btn btn-primary mt-2" @click="addCc"> + </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <div class="form-group my-2">
+            <button class="btn btn-primary ml-2" @click="getTemplate(1)"> Template 1 </button>
+            <button class="btn btn-primary mx-2" @click="getTemplate(2)"> Template 2 </button>
+            <button class="btn btn-primary mx-2" @click="getTemplate(3)"> Template 3 </button>
+            <button class="btn btn-primary mx-2" @click="getTemplate(4)"> Template 4 </button>
+            <button class="btn btn-primary mx-2" @click="getTemplate(5)"> Template 5 </button>
+            <button class="btn btn-primary mx-2" @click="getTemplate(6)"> Template 6 </button>
+            <button class="btn btn-primary mx-2" @click="getTemplate(7)"> Template 7 </button>
+          </div>
+          <form @submit.prevent="send">
             <div class="form-group my-2">
               <ckeditor 
                 :editor="editor" 
@@ -134,12 +122,12 @@
                 class="form-control"
                 @ready="onReady"
               />
-            </div>
-          </div>
+            </div> 
+            
+            <button class="btn btn-primary float-right mt-4"> Kirim </button>
+          </form>
         </div>
-
-        <button class="btn btn-primary float-right mt-4"> Kirim </button>
-      </form>
+      </div>
     </div>
 
     <div class="modal fade" ref="confirmTemplate">
@@ -200,28 +188,18 @@ export default {
         "cover_path": null
       },
       formData: {
+        group: [ { gid: 0 } ],
         mailNumber: null,
         subject: null,
         jenisSurat: null,
         klasifikasiMasalah: null,
         prioritas: null,
         klasifikasi: null,
-        send_to: [
-          {
-            uid: 0
-          }
-        ],
-        cc:  [
-          {
-            uid: 0
-          }
-        ],
       },
       jenisSuratOptions: null,
-      klasifikasiMasalahOptions: null,
       prioritasOptions: null,
       klasifikasiOptions: null,
-      usersOptions: null,
+      groupsOptions: null,
       confirmTemplate: null,
       templateChoosed: null
     };
@@ -234,14 +212,32 @@ export default {
       );
     },
     send() {
+      console.log("being called")
       const data = {
         options: this.formData,
         description: this.editorData
       }
 
+      if (this.formData.mailNumber == null || this.formData.subject == null ||
+          this.formData.jenisSurat == null || this.formData.prioritas == null) {
+        this.$swal.fire(
+          'Error!',
+          'Mohon untuk mengisi semua data pada form yang dibutuhkan.',
+          'error'
+        )
+
+        return
+      }
+
       axios.get('/csrf-cookie').then(() => {
         axios.post('/mail/create', data).then((resp) => {
           if (resp.data.code == 200) {
+            this.$swal.fire(
+              'Success!',
+              'Surat terikim.',
+              'success'
+            )
+
             this.$router.push('/dashboard')
           } else {
             this.message = "Internal Server Error"
@@ -274,9 +270,9 @@ export default {
         uid: 1
       })
     },
-    addCc() {
-      this.formData.cc.push({
-        uid: 1
+    addGroup() {
+      this.formData.group.push({
+        gid: 1
       })
     }
   },
@@ -306,8 +302,9 @@ export default {
     })
 
     /* Get users */
-    axios.get('/mail/dropdown-users').then((resp) => {
-      this.usersOptions = resp.data
+    axios.get('/group/dropdown').then((resp) => {
+      this.groupsOptions = resp.data
+      console.log(resp.data)
     })
   },
   mounted() {
