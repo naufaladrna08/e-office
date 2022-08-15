@@ -106,13 +106,16 @@ export default {
       const formData = new FormData()
       formData.append('file', data[0])
     
+      this.$swal.showLoading()
+
       axios.post('photo/store', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       }).then((resp) => {
         this.editorData += '<img class="img-fw" src="' + resp.data.data.url + '"/>'
-      })
+        this.$swal.close()
+     })
     }
   }
 }

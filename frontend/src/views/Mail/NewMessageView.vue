@@ -289,6 +289,8 @@ export default {
       const data = event.target.files
       const formData = new FormData()
       formData.append('file', data[0])
+
+      this.$swal.showLoading()
     
       axios.post('photo/store', formData, {
         headers: {
@@ -296,6 +298,7 @@ export default {
         }
       }).then((resp) => {
         this.editorData += '<img class="img-fw" src="' + resp.data.data.url + '"/>'
+        this.$swal.close()
       })
     }
   },
