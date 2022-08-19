@@ -239,6 +239,7 @@
   }
 
   .f-tiny {
+    text-align: justify;
     font-size: 10pt;
   }
 </style>
