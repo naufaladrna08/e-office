@@ -22,10 +22,8 @@
       <div class="tab-pane fade show active" id="user" role="tabpanel" aria-labelledby="user-tab">
         <div class="my-4">
           <button 
-            class="btn btn-primary" 
-            data-bs-toggle="modal" 
-            data-bs-target="#createUser" 
-            @click.prevent="changeLabels('create', 'users')"
+            class="btn btn-primary"
+            @click.prevent="showUserModal()"
           > 
             Create 
           </button> 
@@ -692,6 +690,11 @@ export default {
       })
       
       this.$refs.groups.fetchData()
+    },
+    showUserModal() {
+      this.ioUserModal.show()
+
+      this.changeLabels('create', 'users')
     }
   }
 }
