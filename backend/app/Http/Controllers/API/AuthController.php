@@ -123,6 +123,7 @@ class AuthController extends Controller {
     }
 
     $model = User::where('id', $r->old_nipp)->delete();
+    $role  = Role::where('model_id', $r->old_nipp)->delete();
 
     return Response::pretty(200, 'Success', 'Data has been deleted', null);
   }
