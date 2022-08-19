@@ -57,7 +57,7 @@
             <img :src="data.cover" class="img-thumbnail my-4" style="height: 200px;">
             <div>
               <b> {{ data.title }} </b>
-              <p class="lead mt-2">
+              <p class="lead mt-2 f-tiny">
                 {{ data.description }}
               </p>
             </div>
@@ -236,6 +236,10 @@
   
   .btn {
     border-radius: 5rem;
+  }
+
+  .f-tiny {
+    font-size: 10pt;
   }
 </style>
 
