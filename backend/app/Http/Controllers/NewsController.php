@@ -10,6 +10,7 @@ use App\Classes\Response;
 use Illuminate\Routing\UrlGenerator;
 use Validator;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller {
   public function create(Request $r) {
@@ -21,26 +22,36 @@ class NewsController extends Controller {
     ]);
 
     if (!$validator->fails()) {
-      // return response()->json($r->hasFile('cover'));
-      $name = Auth::id() . '-' . time() . '.' . $r->cover->getClientOriginalExtension();
-      $path = $r->file('cover')->storeAs('public/files/', $name);
+      DB::beginTransaction();
+    
+      try {
+        $name = Auth::id() . '-' . time() . '.' . $r->cover->getClientOriginalExtension();
+        $path = $r->file('cover')->storeAs('public/files/', $name);
 
-      $model = new Photo;
-      $model->path = 'files/' . $name;
-      $model->save();
-      
-      $news = News::create([
-        'title' => $r->title,
-        'description' => $r->description,
-        'cover' => 'files/' . $name,
-        'created_by' => auth()->user()->id,
-        'is_active' => true
-      ]);
+        $model = new Photo;
+        $model->path = 'files/' . $name;
+        $model->save();
+        
+        $news = News::create([
+          'title' => $r->title,
+          'description' => $r->description,
+          'cover' => 'files/' . $name,
+          'created_by' => auth()->user()->id,
+          'is_active' => true
+        ]);
+        
+        DB::commit();
+
+        $data = Response::pretty(200, 'Success', 'Data berhasil disimpan', $news);
+      } catch (\Exception $e) {
+        DB::rollback();
+        $data = Response::pretty(500, 'Failed', 'Internal Server Error', null);
+      }
     } else {
       return response()->json($validator->errors()); 
     }
 
-    return Response::pretty(200, 'Success', 'Data has been created', $news);
+    return Response::pretty(200, 'Success', 'Data has been created', $data);
   }
 
   public function read(Request $r) {

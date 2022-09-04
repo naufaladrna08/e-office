@@ -128,6 +128,10 @@ Route::group(['prefix' => 'group', 'middleware' => 'auth:sanctum'], function() {
   Route::post('exit', [App\Http\Controllers\GroupController::class, 'kick']);
 });
 
+Route::group(['prefix' => 'attachment', 'middleware' => 'auth:sanctum'], function() {
+  
+});
+
 Route::post('/user/upload', [App\Http\Controllers\API\AuthController::class, 'upload']);
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
 Route::post('/validate-login', [App\Http\Controllers\API\AuthController::class, 'validate_login']);

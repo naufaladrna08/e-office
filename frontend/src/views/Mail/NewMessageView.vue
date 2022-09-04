@@ -95,11 +95,11 @@
 
           <p class="lead mt-4"> * Lampiran </p>
 
-          <div class="users" v-for="(user, counter) in formData.cc" v-bind:key="counter">
-              <input type="file" name="" id="" class="form-control">
+          <div class="attachments mb-2" v-for="(attachment, counter) in attachments" v-bind:key="counter">
+              <input type="file" name="data[]" id="data" @change="onChangedFiles($event, counter)" class="form-control">
             </div>
 
-            <div class="btn btn-primary mt-2" @click="addCc"> + </div>
+            <div class="btn btn-primary mt-2" @click="addAttachment"> + </div>
         </div>
       </div>
 
@@ -189,6 +189,7 @@ export default {
         "profile_path": null,
         "cover_path": null
       },
+      attachments: [],
       formData: {
         group: [ { gid: 0 } ],
         mailNumber: null,
@@ -206,7 +207,8 @@ export default {
       klasifikasiOptions: null,
       groupsOptions: null,
       confirmTemplate: null,
-      templateChoosed: null
+      templateChoosed: null,
+      data: new FormData
     };
   },
   methods: {
@@ -217,10 +219,18 @@ export default {
       );
     },
     send() {
-      console.log("being called")
-      const data = {
-        options: this.formData,
-        description: this.editorData
+      this.data.append('description', this.editorData)
+
+      for (let key in this.formData) {
+        if (key == 'group') {
+          for (let i = 0; i < this.formData[key].length; i++) {
+            for (let each in this.formData[key][i]) {
+              this.data.append('options['+ key +']['+ i +']'+'['+each+']', this.formData[key][i][each])
+            }
+          }
+        } else {
+          this.data.append('options['+ key +']', this.formData[key])
+        }
       }
 
       if (this.formData.mailNumber == null || this.formData.subject == null ||
@@ -235,7 +245,11 @@ export default {
       }
 
       axios.get('/csrf-cookie').then(() => {
-        axios.post('/mail/create', data).then((resp) => {
+        axios.post('/mail/create', this.data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then((resp) => {
           if (resp.data.code == 200) {
             this.$swal.fire(
               'Success!',
@@ -284,6 +298,13 @@ export default {
       const el = document.getElementById('aimage')
       el.click()
     },
+    addAttachment() {
+      this.attachments.push([])
+    },
+    onChangedFiles(event, i) {
+      const file = event.target.files[0]
+      this.data.append('attachments[]', file)
+    },
     applyImage(event) {
       event = event || window.event;
       const data = event.target.files
@@ -330,7 +351,6 @@ export default {
     /* Get users */
     axios.get('/group/dropdown').then((resp) => {
       this.groupsOptions = resp.data
-      console.log(resp.data)
     })
   },
   mounted() {

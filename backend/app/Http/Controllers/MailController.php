@@ -7,6 +7,7 @@ use App\Models\Mail;
 use App\Models\Relation;
 use App\Models\Log;
 use App\Models\GroupMember;
+use App\Models\Attachment;
 use App\Classes\Response;
 use Validator;
 use App\Http\Resources\SentResource;
@@ -22,16 +23,6 @@ class MailController extends Controller {
     DB::beginTransaction(); 
 
     try {
-      /* Groups */
-      foreach ($r->options['group'] as $each) {
-        $relation = new Relation();
-        $relation->type = 'M_GROUP'; // Mail Group
-        $relation->item = $r->options['mailNumber'];
-        $relation->from = auth()->user()->id;
-        $relation->to   = $each['gid'];
-        $relation->save();
-      }
-
       $mail = Mail::create([
         'mail_number' => $r->options['mailNumber'],
         'subject' => $r->options['subject'],
@@ -55,6 +46,35 @@ class MailController extends Controller {
       );
 
       $data = $mail;
+
+      /* Groups */
+      foreach ($r->options['group'] as $each) {
+        $relation = new Relation();
+        $relation->type = 'M_GROUP'; // Mail Group
+        $relation->item = $r->options['mailNumber'];
+        $relation->from = auth()->user()->id;
+        $relation->to   = $each['gid'];
+        $relation->save();
+      }
+
+      /* Attachment */
+      $files = $r->attachments;
+
+      if (count($files) > 0) {
+        foreach ($files as $file) {
+          $ext = $file->getClientOriginalExtension();
+          $name = time().'-'.".".$ext;
+          $upload_path = 'backend/files/';
+          $upload_url = $upload_path . $name;
+          $file->move(public_path($upload_path), $upload_url);
+
+          $attachment = new Attachment;
+          $attachment->parent = 'MAIL';
+          $attachment->parent_id = $mail->id;
+          $attachment->url = $upload_url;
+          $attachment->save();
+        }
+      }
 
       DB::commit();
     } catch (Exception $e) {
