@@ -1,76 +1,78 @@
 <template>
   <div class="container">
-    <div id="header" class="row mb-4">
-      <div class="col-6 lead">
-        <p class="lead"> <b> Kepala Surat </b> </p>
-        
-        <div class="row mb-2">
-          <div class="col-3">
-            Jenis / No / Tgl
+    <div id="element-to-convert">
+      <div id="header" class="row mb-4">
+        <div class="col-6 lead">
+          <p class="lead"> <b> Kepala Surat </b> </p>
+          
+          <div class="row mb-2">
+            <div class="col-3">
+              Jenis / No / Tgl
+            </div>
+            <div class="col-9">
+              <b> : {{ data.type }} / {{ data.mail_number }} / {{ data.updated_at }} </b>
+            </div>
           </div>
-          <div class="col-9">
-            <b> : {{ data.type }} / {{ data.mail_number }} / {{ data.updated_at }} </b>
+          <div class="row mb-2">
+            <div class="col-3">
+              Perihal
+            </div>
+            <div class="col-9">
+              <b> : {{ data.subject }} </b>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3">
+              Klasifikasi
+            </div>
+            <div class="col-9">
+              <b> : {{ data.klasifikasi }} </b>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3">
+              Prioritas
+            </div>
+            <div class="col-9">
+              <b> : {{ data.prioritas }} </b>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3">
+              Lampiran
+            </div>
+            <div class="col-9">
+              <b> : {{ data.t_lampiran }} </b>
+            </div>
           </div>
         </div>
-        <div class="row mb-2">
-          <div class="col-3">
-            Perihal
+        <div class="col-6 lead">
+          <div class="row mb-2">
+            <div class="col-md-12">
+              <p class="lead"> <b> Kepada : </b> </p>
+      
+              <p class="lead"> {{ data.t_to }} </p>
+            </div>
           </div>
-          <div class="col-9">
-            <b> : {{ data.subject }} </b>
+          <div class="row mb-2">
+            <div class="col-md-12">
+              <p class="lead"> <b> Tembusan : </b> </p>
+      
+              <p class="lead"> {{ data.t_tembusan }} </p>
+            </div>
           </div>
-        </div>
-        <div class="row mb-2">
-          <div class="col-3">
-            Klasifikasi
-          </div>
-          <div class="col-9">
-            <b> : {{ data.klasifikasi }} </b>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <div class="col-3">
-            Prioritas
-          </div>
-          <div class="col-9">
-            <b> : {{ data.prioritas }} </b>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <div class="col-3">
-            Lampiran
-          </div>
-          <div class="col-9">
-            <b> : {{ data.t_lampiran }} </b>
+          <div class="row mb-2">
+            <div class="col-md-12">
+              <button class="btn btn-primary" @click="exportToPDF"> Download PDF </button>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-6 lead">
-        <div class="row mb-2">
-          <div class="col-md-12">
-            <p class="lead"> <b> Kepada : </b> </p>
-    
-            <p class="lead"> {{ data.t_to }} </p>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <div class="col-md-12">
-            <p class="lead"> <b> Tembusan : </b> </p>
-    
-            <p class="lead"> {{ data.t_tembusan }} </p>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <div class="col-md-12">
-            <button class="btn btn-primary"> Download PDF </button>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div id="body" class="card"> 
-      <div class="card-body" v-html="data.description">
-        
+      <div id="body" class="card"> 
+        <div class="card-body" v-html="data.description">
+          
+        </div>
       </div>
     </div>
 
@@ -109,6 +111,7 @@
 
 <script>
 import axios from 'axios'
+import html2pdf from "html2pdf.js"
 
 export default { 
   name: 'ReadView',
@@ -137,6 +140,14 @@ export default {
     axios.get('/mail/receiver-cc?item=' + this.id).then((resp) => {
       this.userdata = resp.data.data
     }) 
+  },
+  methods: {
+    exportToPDF() {
+      html2pdf(document.getElementById("element-to-convert"), {
+        margin: 1,
+        filename: "download.pdf",
+      })
+    }
   }
 }
 </script>
