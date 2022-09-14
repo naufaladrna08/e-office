@@ -28,6 +28,7 @@ Route::group(['prefix' => 'mail', 'middleware' => ['auth:sanctum']], function() 
   Route::post('delete', [App\Http\Controllers\MailController::class, 'delete']);
   
   Route::get('get_log', [App\Http\Controllers\MailController::class, 'getLog']);
+  Route::get('get_attachments', [App\Http\Controllers\MailController::class, 'getAttachments']);
   Route::get('sent', [App\Http\Controllers\MailController::class, 'readAll']);
   Route::get('inbox', [App\Http\Controllers\MailController::class, 'readInbox']);
   Route::get('template', [App\Http\Controllers\MailController::class, 'readTemplate']);
@@ -136,7 +137,7 @@ Route::post('/user/upload', [App\Http\Controllers\API\AuthController::class, 'up
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
 Route::post('/validate-login', [App\Http\Controllers\API\AuthController::class, 'validate_login']);
 Route::middleware('auth:sanctum')->post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
-// Route::post('/guest/create', [App\Http\Controllers\API\AuthController::class, 'register']);
+Route::post('/guest/create', [App\Http\Controllers\API\AuthController::class, 'register']);
 
 /* Guest news */
 Route::get('news/read/{id}', [App\Http\Controllers\NewsController::class, 'read']);

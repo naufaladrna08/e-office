@@ -315,4 +315,20 @@ class MailController extends Controller {
 
     return response()->json($data);
   }
+
+  public function getAttachments(Request $r) {
+    $data = DB
+      ::table('attachments')
+      ->select('*')
+      ->where('parent', 'MAIL')
+      ->where('parent_id', $r->id)
+      ->get();
+
+    foreach ($data as $each) {
+      $each->name = str_replace("backend/files/", "", $each->url); 
+      $each->url = asset($each->url);
+    }
+
+    return response()->json($data);
+  }
 }

@@ -74,7 +74,15 @@
       </div>
     </div>
 
-    <div id="log" class="card mt-4" width="100%">
+    <div id="attachments" class="card my-4">
+      <div class="card-body">
+        <div v-for="(item, id) in attachments" v-bind:key="id">
+          <a :href="item.url" class="btn btn-secondary btn-sm"> {{ item.name }} </a>
+        </div>
+      </div>
+    </div>
+
+    <div id="log" class="card my-4" width="100%">
       <div class="card-body p-4">
         <ul v-for="(item, id) in logs" v-bind:key="id">
           <li> {{ item.description }} </li>
@@ -106,7 +114,8 @@ export default {
       id: this.$route.params.id,
       data: null,
       userdata: null,
-      logs: null
+      logs: null,
+      attachments: null
     }
   },
   created() {
@@ -115,7 +124,11 @@ export default {
       
       axios.get('/mail/get_log?id=' + this.data.id).then((resp) => {
         this.logs = resp.data
-      })   
+      })
+
+      axios.get('/mail/get_attachments?id=' + this.data.id).then((resp) => {
+        this.attachments = resp.data
+      })
     })
 
     axios.get('/mail/receiver-cc?item=' + this.id).then((resp) => {
