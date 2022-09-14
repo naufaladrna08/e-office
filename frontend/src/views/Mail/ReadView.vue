@@ -1,43 +1,47 @@
 <template>
   <div class="container">
-    <div id="header" class="row">
+    <div id="header" class="row mb-4">
       <div class="col-6 lead">
         <p class="lead"> <b> Kepala Surat </b> </p>
         
         <div class="row mb-2">
-          <div class="col-4">
+          <div class="col-3">
             Jenis / No / Tgl
           </div>
-          <div class="col-8">
+          <div class="col-9">
             <b> : {{ data.type }} / {{ data.mail_number }} / {{ data.updated_at }} </b>
           </div>
         </div>
         <div class="row mb-2">
-          <div class="col-4">
+          <div class="col-3">
             Perihal
           </div>
-          <div class="col-8">
+          <div class="col-9">
             <b> : {{ data.subject }} </b>
           </div>
         </div>
         <div class="row mb-2">
-          <div class="col-2">
-            Lampiran
-          </div>
-          <div class="col-2">
-            <b> : {{ data.t_lampiran }} </b>
-          </div>
-          <div class="col-2">
-            Prioritas
-          </div>
-          <div class="col-2">
-            <b> : {{ data.prioritas }} </b>
-          </div>
-          <div class="col-2">
+          <div class="col-3">
             Klasifikasi
           </div>
-          <div class="col-2">
+          <div class="col-9">
             <b> : {{ data.klasifikasi }} </b>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-3">
+            Prioritas
+          </div>
+          <div class="col-9">
+            <b> : {{ data.prioritas }} </b>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-3">
+            Lampiran
+          </div>
+          <div class="col-9">
+            <b> : {{ data.t_lampiran }} </b>
           </div>
         </div>
       </div>
@@ -54,6 +58,11 @@
             <p class="lead"> <b> Tembusan : </b> </p>
     
             <p class="lead"> {{ data.t_tembusan }} </p>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-12">
+            <button class="btn btn-primary"> Download PDF </button>
           </div>
         </div>
       </div>
