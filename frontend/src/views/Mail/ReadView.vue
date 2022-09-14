@@ -76,9 +76,12 @@
 
     <div id="attachments" class="card my-4">
       <div class="card-body">
-        <div v-for="(item, id) in attachments" v-bind:key="id">
-          <a :href="item.url" class="btn btn-secondary btn-sm"> {{ item.name }} </a>
+        <div v-if="attachments">
+          <div v-for="(item, id) in attachments" v-bind:key="id">
+            <a :href="item.url" class="btn btn-secondary btn-sm"> <i class="fa fa-file"></i> {{ item.name }} </a>
+          </div>
         </div>
+        <div v-else> No attachment </div>
       </div>
     </div>
 
