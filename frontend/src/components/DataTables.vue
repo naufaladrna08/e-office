@@ -98,6 +98,9 @@
             <a @click.prevent="handleOpenButton(data)" class="btn btn-primary mx-2 my-2"> 
               <i class="fa fa-tasks"></i> Open
             </a>
+            <a @click.prevent="handleDeleteClicked(data)" class="btn btn-danger"> 
+              <i class="fa fa-trash"></i> Delete
+            </a>
           </template>
         </tr>
       </tbody>
